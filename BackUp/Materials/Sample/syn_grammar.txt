@@ -1,0 +1,69 @@
+S:start
+start:external_declaration start
+start:$
+primary_expression:ID
+primary_expression:number
+primary_expression:( expression )
+operator:+
+operator:-
+operator:*
+operator:/
+operator:%
+operator:<
+operator:>
+arithmetic_expression:operator
+arithmetic_expression:primary_expression arithmetic_expression
+arithmetic_expression:operator primary_expression arithmetic_expression
+arithmetic_expression:$
+constant_expression:primary_expression arithmetic_expression
+assignment_operator:=
+assignment_operator:+ =
+assignment_operator:- =
+assignment_operator:* =
+assignment_operator:/ =
+assignment_operator:% =
+assignment_expression:ID assignment_operator expression
+assignment_expression_profix:, assignment_expression assignment_expression_profix
+assignment_expression_profix:$
+assignment_expression_list:assignment_expression assignment_expression_profix
+assignment_expression_list:$
+function_expression:function ID ( expression_list )
+expression:constant_expression
+expression:function_expression
+expression_profix:, expression expression_profix
+expression_profix:$
+expression_list:expression expression_profix
+expression_list:$
+type_specifier:char
+type_specifier:int
+type_specifier:double
+declaration_assign:= expression
+declaration_assign:$
+declaration_init:ID declaration_assign
+declaration_init_list:, declaration_init declaration_init_list
+declaration_init_list:$
+declaration:type_specifier declaration_init declaration_init_list ;
+function_declaration:type_specifier ID
+function_declaration_suffix:, function_declaration function_declaration_suffix
+function_declaration_suffix:$
+function_declaration_list:function_declaration function_declaration_suffix
+function_declaration_list:$
+function_definition:function type_specifier ID ( function_declaration_list ) compound_statement
+statement:expression_statement
+statement:jump_statement
+statement:selection_statement
+statement:iteration_statement
+statement:compound_statement
+statement:declaration
+statement_list:statement statement_list
+statement_list:$
+expression_statement:assignment_expression_list ;
+jump_statement:continue ;
+jump_statement:break ;
+jump_statement:return expression ;
+selection_statement:if ( expression ) statement else statement
+iteration_statement:while ( expression ) statement
+iteration_statement:for ( declaration expression ; assignment_expression ) statement
+compound_statement:{ statement_list }
+external_declaration:function_definition
+external_declaration:declaration

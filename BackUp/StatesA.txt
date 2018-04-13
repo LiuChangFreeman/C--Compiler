@@ -1,0 +1,1195 @@
+S->@start ,['#']
+declaration->@type_specifier declaration_init declaration_init_list ; ,['#','char','double','function','int']
+external_declaration->@declaration ,['#','char','double','function','int']
+external_declaration->@function_definition ,['#','char','double','function','int']
+function_definition->@function type_specifier ID ( function_declaration_list ) compound_statement ,['#','char','double','function','int']
+start->@$ ,['#']
+start->@external_declaration start ,['#']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+S->start @,['#']
+
+declaration->@type_specifier declaration_init declaration_init_list ; ,['#','char','double','function','int']
+external_declaration->@declaration ,['#','char','double','function','int']
+external_declaration->@function_definition ,['#','char','double','function','int']
+function_definition->@function type_specifier ID ( function_declaration_list ) compound_statement ,['#','char','double','function','int']
+start->@$ ,['#']
+start->@external_declaration start ,['#']
+start->external_declaration @start ,['#']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+external_declaration->function_definition @,['#','char','double','function','int']
+
+external_declaration->declaration @,['#','char','double','function','int']
+
+declaration->type_specifier @declaration_init declaration_init_list ; ,['#','char','double','function','int']
+declaration_init->@ID declaration_assign ,[',',';']
+
+type_specifier->double @,['ID']
+
+type_specifier->char @,['ID']
+
+type_specifier->int @,['ID']
+
+function_definition->function @type_specifier ID ( function_declaration_list ) compound_statement ,['#','char','double','function','int']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+start->external_declaration start @,['#']
+
+declaration_assign->@$ ,[',',';']
+declaration_assign->@= expression ,[',',';']
+declaration_init->ID @declaration_assign ,[',',';']
+
+declaration->type_specifier declaration_init @declaration_init_list ; ,['#','char','double','function','int']
+declaration_init_list->@$ ,[';']
+declaration_init_list->@, declaration_init declaration_init_list ,[';']
+
+function_definition->function type_specifier @ID ( function_declaration_list ) compound_statement ,['#','char','double','function','int']
+
+constant_expression->@primary_expression arithmetic_expression ,[',',';']
+declaration_assign->= @expression ,[',',';']
+expression->@constant_expression ,[',',';']
+expression->@function_expression ,[',',';']
+function_expression->@function ID ( expression_list ) ,[',',';']
+primary_expression->@( expression ) ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+primary_expression->@ID ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+primary_expression->@number ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+
+declaration_init->ID declaration_assign @,[',',';']
+
+declaration->type_specifier declaration_init declaration_init_list @; ,['#','char','double','function','int']
+
+declaration_init->@ID declaration_assign ,[',',';']
+declaration_init_list->, @declaration_init declaration_init_list ,[';']
+
+function_definition->function type_specifier ID @( function_declaration_list ) compound_statement ,['#','char','double','function','int']
+
+primary_expression->ID @,['%','(','*','+',',','-','/',';','<','>','ID','number']
+
+expression->constant_expression @,[',',';']
+
+expression->function_expression @,[',',';']
+
+function_expression->function @ID ( expression_list ) ,[',',';']
+
+constant_expression->@primary_expression arithmetic_expression ,[')']
+expression->@constant_expression ,[')']
+expression->@function_expression ,[')']
+function_expression->@function ID ( expression_list ) ,[')']
+primary_expression->( @expression ) ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+primary_expression->@( expression ) ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+','-','/','<','>','ID','number']
+
+arithmetic_expression->@$ ,[',',';']
+arithmetic_expression->@operator ,[',',';']
+arithmetic_expression->@operator primary_expression arithmetic_expression ,[',',';']
+arithmetic_expression->@primary_expression arithmetic_expression ,[',',';']
+constant_expression->primary_expression @arithmetic_expression ,[',',';']
+operator->@% ,['(',',',';','ID','number']
+operator->@* ,['(',',',';','ID','number']
+operator->@+ ,['(',',',';','ID','number']
+operator->@- ,['(',',',';','ID','number']
+operator->@/ ,['(',',',';','ID','number']
+operator->@< ,['(',',',';','ID','number']
+operator->@> ,['(',',',';','ID','number']
+primary_expression->@( expression ) ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+primary_expression->@ID ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+primary_expression->@number ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+
+declaration_assign->= expression @,[',',';']
+
+primary_expression->number @,['%','(','*','+',',','-','/',';','<','>','ID','number']
+
+declaration->type_specifier declaration_init declaration_init_list ; @,['#','char','double','function','int']
+
+declaration_init_list->, declaration_init @declaration_init_list ,[';']
+declaration_init_list->@$ ,[';']
+declaration_init_list->@, declaration_init declaration_init_list ,[';']
+
+function_declaration->@type_specifier ID ,[')',',']
+function_declaration_list->@$ ,[')']
+function_declaration_list->@function_declaration function_declaration_suffix ,[')']
+function_definition->function type_specifier ID ( @function_declaration_list ) compound_statement ,['#','char','double','function','int']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+function_expression->function ID @( expression_list ) ,[',',';']
+
+primary_expression->ID @,['%','(',')','*','+','-','/','<','>','ID','number']
+
+expression->constant_expression @,[')']
+
+primary_expression->( expression @) ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+
+expression->function_expression @,[')']
+
+function_expression->function @ID ( expression_list ) ,[')']
+
+constant_expression->@primary_expression arithmetic_expression ,[')']
+expression->@constant_expression ,[')']
+expression->@function_expression ,[')']
+function_expression->@function ID ( expression_list ) ,[')']
+primary_expression->( @expression ) ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@( expression ) ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+','-','/','<','>','ID','number']
+
+arithmetic_expression->@$ ,[')']
+arithmetic_expression->@operator ,[')']
+arithmetic_expression->@operator primary_expression arithmetic_expression ,[')']
+arithmetic_expression->@primary_expression arithmetic_expression ,[')']
+constant_expression->primary_expression @arithmetic_expression ,[')']
+operator->@% ,['(',')','ID','number']
+operator->@* ,['(',')','ID','number']
+operator->@+ ,['(',')','ID','number']
+operator->@- ,['(',')','ID','number']
+operator->@/ ,['(',')','ID','number']
+operator->@< ,['(',')','ID','number']
+operator->@> ,['(',')','ID','number']
+primary_expression->@( expression ) ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+','-','/','<','>','ID','number']
+
+primary_expression->number @,['%','(',')','*','+','-','/','<','>','ID','number']
+
+constant_expression->primary_expression arithmetic_expression @,[',',';']
+
+operator->> @,['(',',',';','ID','number']
+
+operator->- @,['(',',',';','ID','number']
+
+arithmetic_expression->@$ ,[',',';']
+arithmetic_expression->@operator ,[',',';']
+arithmetic_expression->@operator primary_expression arithmetic_expression ,[',',';']
+arithmetic_expression->@primary_expression arithmetic_expression ,[',',';']
+arithmetic_expression->primary_expression @arithmetic_expression ,[',',';']
+operator->@% ,['(',',',';','ID','number']
+operator->@* ,['(',',',';','ID','number']
+operator->@+ ,['(',',',';','ID','number']
+operator->@- ,['(',',',';','ID','number']
+operator->@/ ,['(',',',';','ID','number']
+operator->@< ,['(',',',';','ID','number']
+operator->@> ,['(',',',';','ID','number']
+primary_expression->@( expression ) ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+primary_expression->@ID ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+primary_expression->@number ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+
+operator->% @,['(',',',';','ID','number']
+
+operator->+ @,['(',',',';','ID','number']
+
+operator->/ @,['(',',',';','ID','number']
+
+arithmetic_expression->operator @primary_expression arithmetic_expression ,[',',';']
+primary_expression->@( expression ) ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+primary_expression->@ID ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+primary_expression->@number ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+
+arithmetic_expression->operator @,[',',';']
+
+operator->< @,['(',',',';','ID','number']
+
+operator->* @,['(',',',';','ID','number']
+
+declaration_init_list->, declaration_init declaration_init_list @,[';']
+
+function_declaration->type_specifier @ID ,[')',',']
+
+function_definition->function type_specifier ID ( function_declaration_list @) compound_statement ,['#','char','double','function','int']
+
+function_declaration_list->function_declaration @function_declaration_suffix ,[')']
+function_declaration_suffix->@$ ,[')']
+function_declaration_suffix->@, function_declaration function_declaration_suffix ,[')']
+
+constant_expression->@primary_expression arithmetic_expression ,[')',',']
+expression->@constant_expression ,[')',',']
+expression->@function_expression ,[')',',']
+expression_list->@$ ,[')']
+expression_list->@expression expression_profix ,[')']
+function_expression->@function ID ( expression_list ) ,[')',',']
+function_expression->function ID ( @expression_list ) ,[',',';']
+primary_expression->@( expression ) ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+
+primary_expression->( expression ) @,['%','(','*','+',',','-','/',';','<','>','ID','number']
+
+function_expression->function ID @( expression_list ) ,[')']
+
+primary_expression->( expression @) ,['%','(',')','*','+','-','/','<','>','ID','number']
+
+constant_expression->primary_expression arithmetic_expression @,[')']
+
+operator->> @,['(',')','ID','number']
+
+operator->- @,['(',')','ID','number']
+
+arithmetic_expression->@$ ,[')']
+arithmetic_expression->@operator ,[')']
+arithmetic_expression->@operator primary_expression arithmetic_expression ,[')']
+arithmetic_expression->@primary_expression arithmetic_expression ,[')']
+arithmetic_expression->primary_expression @arithmetic_expression ,[')']
+operator->@% ,['(',')','ID','number']
+operator->@* ,['(',')','ID','number']
+operator->@+ ,['(',')','ID','number']
+operator->@- ,['(',')','ID','number']
+operator->@/ ,['(',')','ID','number']
+operator->@< ,['(',')','ID','number']
+operator->@> ,['(',')','ID','number']
+primary_expression->@( expression ) ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+','-','/','<','>','ID','number']
+
+operator->% @,['(',')','ID','number']
+
+operator->+ @,['(',')','ID','number']
+
+operator->/ @,['(',')','ID','number']
+
+arithmetic_expression->operator @primary_expression arithmetic_expression ,[')']
+primary_expression->@( expression ) ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+','-','/','<','>','ID','number']
+
+arithmetic_expression->operator @,[')']
+
+operator->< @,['(',')','ID','number']
+
+operator->* @,['(',')','ID','number']
+
+arithmetic_expression->primary_expression arithmetic_expression @,[',',';']
+
+arithmetic_expression->@$ ,[',',';']
+arithmetic_expression->@operator ,[',',';']
+arithmetic_expression->@operator primary_expression arithmetic_expression ,[',',';']
+arithmetic_expression->@primary_expression arithmetic_expression ,[',',';']
+arithmetic_expression->operator primary_expression @arithmetic_expression ,[',',';']
+operator->@% ,['(',',',';','ID','number']
+operator->@* ,['(',',',';','ID','number']
+operator->@+ ,['(',',',';','ID','number']
+operator->@- ,['(',',',';','ID','number']
+operator->@/ ,['(',',',';','ID','number']
+operator->@< ,['(',',',';','ID','number']
+operator->@> ,['(',',',';','ID','number']
+primary_expression->@( expression ) ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+primary_expression->@ID ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+primary_expression->@number ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+
+function_declaration->type_specifier ID @,[')',',']
+
+compound_statement->@{ statement_list } ,['#','char','double','function','int']
+function_definition->function type_specifier ID ( function_declaration_list ) @compound_statement ,['#','char','double','function','int']
+
+function_declaration->@type_specifier ID ,[')',',']
+function_declaration_suffix->, @function_declaration function_declaration_suffix ,[')']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+function_declaration_list->function_declaration function_declaration_suffix @,[')']
+
+primary_expression->ID @,['%','(',')','*','+',',','-','/','<','>','ID','number']
+
+expression->constant_expression @,[')',',']
+
+function_expression->function @ID ( expression_list ) ,[')',',']
+
+function_expression->function ID ( expression_list @) ,[',',';']
+
+expression->function_expression @,[')',',']
+
+constant_expression->@primary_expression arithmetic_expression ,[')']
+expression->@constant_expression ,[')']
+expression->@function_expression ,[')']
+function_expression->@function ID ( expression_list ) ,[')']
+primary_expression->( @expression ) ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@( expression ) ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+','-','/','<','>','ID','number']
+
+arithmetic_expression->@$ ,[')',',']
+arithmetic_expression->@operator ,[')',',']
+arithmetic_expression->@operator primary_expression arithmetic_expression ,[')',',']
+arithmetic_expression->@primary_expression arithmetic_expression ,[')',',']
+constant_expression->primary_expression @arithmetic_expression ,[')',',']
+operator->@% ,['(',')',',','ID','number']
+operator->@* ,['(',')',',','ID','number']
+operator->@+ ,['(',')',',','ID','number']
+operator->@- ,['(',')',',','ID','number']
+operator->@/ ,['(',')',',','ID','number']
+operator->@< ,['(',')',',','ID','number']
+operator->@> ,['(',')',',','ID','number']
+primary_expression->@( expression ) ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+
+primary_expression->number @,['%','(',')','*','+',',','-','/','<','>','ID','number']
+
+expression_list->expression @expression_profix ,[')']
+expression_profix->@$ ,[')']
+expression_profix->@, expression expression_profix ,[')']
+
+constant_expression->@primary_expression arithmetic_expression ,[')',',']
+expression->@constant_expression ,[')',',']
+expression->@function_expression ,[')',',']
+expression_list->@$ ,[')']
+expression_list->@expression expression_profix ,[')']
+function_expression->@function ID ( expression_list ) ,[')',',']
+function_expression->function ID ( @expression_list ) ,[')']
+primary_expression->@( expression ) ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+
+primary_expression->( expression ) @,['%','(',')','*','+','-','/','<','>','ID','number']
+
+arithmetic_expression->primary_expression arithmetic_expression @,[')']
+
+arithmetic_expression->@$ ,[')']
+arithmetic_expression->@operator ,[')']
+arithmetic_expression->@operator primary_expression arithmetic_expression ,[')']
+arithmetic_expression->@primary_expression arithmetic_expression ,[')']
+arithmetic_expression->operator primary_expression @arithmetic_expression ,[')']
+operator->@% ,['(',')','ID','number']
+operator->@* ,['(',')','ID','number']
+operator->@+ ,['(',')','ID','number']
+operator->@- ,['(',')','ID','number']
+operator->@/ ,['(',')','ID','number']
+operator->@< ,['(',')','ID','number']
+operator->@> ,['(',')','ID','number']
+primary_expression->@( expression ) ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+','-','/','<','>','ID','number']
+
+arithmetic_expression->operator primary_expression arithmetic_expression @,[',',';']
+
+assignment_expression->@ID assignment_operator expression ,[',',';']
+assignment_expression_list->@$ ,[';']
+assignment_expression_list->@assignment_expression assignment_expression_profix ,[';']
+compound_statement->@{ statement_list } ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+compound_statement->{ @statement_list } ,['#','char','double','function','int']
+declaration->@type_specifier declaration_init declaration_init_list ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+expression_statement->@assignment_expression_list ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+iteration_statement->@for ( declaration expression ; assignment_expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+iteration_statement->@while ( expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@break ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@continue ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@return expression ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+selection_statement->@if ( expression ) statement else statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@compound_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@declaration ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@expression_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@iteration_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@jump_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@selection_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement_list->@$ ,['}']
+statement_list->@statement statement_list ,['}']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+function_definition->function type_specifier ID ( function_declaration_list ) compound_statement @,['#','char','double','function','int']
+
+function_declaration_suffix->, function_declaration @function_declaration_suffix ,[')']
+function_declaration_suffix->@$ ,[')']
+function_declaration_suffix->@, function_declaration function_declaration_suffix ,[')']
+
+function_expression->function ID @( expression_list ) ,[')',',']
+
+function_expression->function ID ( expression_list ) @,[',',';']
+
+primary_expression->( expression @) ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+
+constant_expression->primary_expression arithmetic_expression @,[')',',']
+
+operator->> @,['(',')',',','ID','number']
+
+operator->- @,['(',')',',','ID','number']
+
+arithmetic_expression->@$ ,[')',',']
+arithmetic_expression->@operator ,[')',',']
+arithmetic_expression->@operator primary_expression arithmetic_expression ,[')',',']
+arithmetic_expression->@primary_expression arithmetic_expression ,[')',',']
+arithmetic_expression->primary_expression @arithmetic_expression ,[')',',']
+operator->@% ,['(',')',',','ID','number']
+operator->@* ,['(',')',',','ID','number']
+operator->@+ ,['(',')',',','ID','number']
+operator->@- ,['(',')',',','ID','number']
+operator->@/ ,['(',')',',','ID','number']
+operator->@< ,['(',')',',','ID','number']
+operator->@> ,['(',')',',','ID','number']
+primary_expression->@( expression ) ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+
+operator->% @,['(',')',',','ID','number']
+
+operator->+ @,['(',')',',','ID','number']
+
+operator->/ @,['(',')',',','ID','number']
+
+arithmetic_expression->operator @primary_expression arithmetic_expression ,[')',',']
+primary_expression->@( expression ) ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+
+arithmetic_expression->operator @,[')',',']
+
+operator->< @,['(',')',',','ID','number']
+
+operator->* @,['(',')',',','ID','number']
+
+expression_list->expression expression_profix @,[')']
+
+constant_expression->@primary_expression arithmetic_expression ,[')',',']
+expression->@constant_expression ,[')',',']
+expression->@function_expression ,[')',',']
+expression_profix->, @expression expression_profix ,[')']
+function_expression->@function ID ( expression_list ) ,[')',',']
+primary_expression->@( expression ) ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+
+function_expression->function ID ( expression_list @) ,[')']
+
+arithmetic_expression->operator primary_expression arithmetic_expression @,[')']
+
+declaration->type_specifier @declaration_init declaration_init_list ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+declaration_init->@ID declaration_assign ,[',',';']
+
+selection_statement->if @( expression ) statement else statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+statement->expression_statement @,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+jump_statement->break @; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+expression_statement->assignment_expression_list @; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+statement->iteration_statement @,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+assignment_expression->@ID assignment_operator expression ,[',',';']
+assignment_expression_list->@$ ,[';']
+assignment_expression_list->@assignment_expression assignment_expression_profix ,[';']
+compound_statement->@{ statement_list } ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+compound_statement->{ @statement_list } ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+declaration->@type_specifier declaration_init declaration_init_list ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+expression_statement->@assignment_expression_list ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+iteration_statement->@for ( declaration expression ; assignment_expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+iteration_statement->@while ( expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@break ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@continue ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@return expression ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+selection_statement->@if ( expression ) statement else statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@compound_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@declaration ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@expression_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@iteration_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@jump_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@selection_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement_list->@$ ,['}']
+statement_list->@statement statement_list ,['}']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+iteration_statement->while @( expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+jump_statement->continue @; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+statement->compound_statement @,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+statement->declaration @,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+iteration_statement->for @( declaration expression ; assignment_expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+assignment_expression->ID @assignment_operator expression ,[',',';']
+assignment_operator->@% = ,['(','ID','function','number']
+assignment_operator->@* = ,['(','ID','function','number']
+assignment_operator->@+ = ,['(','ID','function','number']
+assignment_operator->@- = ,['(','ID','function','number']
+assignment_operator->@/ = ,['(','ID','function','number']
+assignment_operator->@= ,['(','ID','function','number']
+
+compound_statement->{ statement_list @} ,['#','char','double','function','int']
+
+statement->selection_statement @,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+statement->jump_statement @,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+assignment_expression_list->assignment_expression @assignment_expression_profix ,[';']
+assignment_expression_profix->@$ ,[';']
+assignment_expression_profix->@, assignment_expression assignment_expression_profix ,[';']
+
+constant_expression->@primary_expression arithmetic_expression ,[';']
+expression->@constant_expression ,[';']
+expression->@function_expression ,[';']
+function_expression->@function ID ( expression_list ) ,[';']
+jump_statement->return @expression ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+primary_expression->@( expression ) ,['%','(','*','+','-','/',';','<','>','ID','number']
+primary_expression->@ID ,['%','(','*','+','-','/',';','<','>','ID','number']
+primary_expression->@number ,['%','(','*','+','-','/',';','<','>','ID','number']
+
+assignment_expression->@ID assignment_operator expression ,[',',';']
+assignment_expression_list->@$ ,[';']
+assignment_expression_list->@assignment_expression assignment_expression_profix ,[';']
+compound_statement->@{ statement_list } ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+declaration->@type_specifier declaration_init declaration_init_list ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+expression_statement->@assignment_expression_list ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+iteration_statement->@for ( declaration expression ; assignment_expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+iteration_statement->@while ( expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@break ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@continue ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@return expression ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+selection_statement->@if ( expression ) statement else statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@compound_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@declaration ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@expression_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@iteration_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@jump_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@selection_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement_list->@$ ,['}']
+statement_list->@statement statement_list ,['}']
+statement_list->statement @statement_list ,['}']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+function_declaration_suffix->, function_declaration function_declaration_suffix @,[')']
+
+constant_expression->@primary_expression arithmetic_expression ,[')',',']
+expression->@constant_expression ,[')',',']
+expression->@function_expression ,[')',',']
+expression_list->@$ ,[')']
+expression_list->@expression expression_profix ,[')']
+function_expression->@function ID ( expression_list ) ,[')',',']
+function_expression->function ID ( @expression_list ) ,[')',',']
+primary_expression->@( expression ) ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+
+primary_expression->( expression ) @,['%','(',')','*','+',',','-','/','<','>','ID','number']
+
+arithmetic_expression->primary_expression arithmetic_expression @,[')',',']
+
+arithmetic_expression->@$ ,[')',',']
+arithmetic_expression->@operator ,[')',',']
+arithmetic_expression->@operator primary_expression arithmetic_expression ,[')',',']
+arithmetic_expression->@primary_expression arithmetic_expression ,[')',',']
+arithmetic_expression->operator primary_expression @arithmetic_expression ,[')',',']
+operator->@% ,['(',')',',','ID','number']
+operator->@* ,['(',')',',','ID','number']
+operator->@+ ,['(',')',',','ID','number']
+operator->@- ,['(',')',',','ID','number']
+operator->@/ ,['(',')',',','ID','number']
+operator->@< ,['(',')',',','ID','number']
+operator->@> ,['(',')',',','ID','number']
+primary_expression->@( expression ) ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+
+expression_profix->, expression @expression_profix ,[')']
+expression_profix->@$ ,[')']
+expression_profix->@, expression expression_profix ,[')']
+
+function_expression->function ID ( expression_list ) @,[')']
+
+declaration->type_specifier declaration_init @declaration_init_list ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+declaration_init_list->@$ ,[';']
+declaration_init_list->@, declaration_init declaration_init_list ,[';']
+
+constant_expression->@primary_expression arithmetic_expression ,[')']
+expression->@constant_expression ,[')']
+expression->@function_expression ,[')']
+function_expression->@function ID ( expression_list ) ,[')']
+primary_expression->@( expression ) ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+','-','/','<','>','ID','number']
+selection_statement->if ( @expression ) statement else statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+jump_statement->break ; @,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+expression_statement->assignment_expression_list ; @,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+compound_statement->{ statement_list @} ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+constant_expression->@primary_expression arithmetic_expression ,[')']
+expression->@constant_expression ,[')']
+expression->@function_expression ,[')']
+function_expression->@function ID ( expression_list ) ,[')']
+iteration_statement->while ( @expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+primary_expression->@( expression ) ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+','-','/','<','>','ID','number']
+
+jump_statement->continue ; @,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+declaration->@type_specifier declaration_init declaration_init_list ; ,['(','ID','function','number']
+iteration_statement->for ( @declaration expression ; assignment_expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+assignment_operator->/ @= ,['(','ID','function','number']
+
+assignment_operator->* @= ,['(','ID','function','number']
+
+assignment_operator->% @= ,['(','ID','function','number']
+
+assignment_expression->ID assignment_operator @expression ,[',',';']
+constant_expression->@primary_expression arithmetic_expression ,[',',';']
+expression->@constant_expression ,[',',';']
+expression->@function_expression ,[',',';']
+function_expression->@function ID ( expression_list ) ,[',',';']
+primary_expression->@( expression ) ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+primary_expression->@ID ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+primary_expression->@number ,['%','(','*','+',',','-','/',';','<','>','ID','number']
+
+assignment_operator->+ @= ,['(','ID','function','number']
+
+assignment_operator->- @= ,['(','ID','function','number']
+
+assignment_operator->= @,['(','ID','function','number']
+
+compound_statement->{ statement_list } @,['#','char','double','function','int']
+
+assignment_expression_list->assignment_expression assignment_expression_profix @,[';']
+
+assignment_expression->@ID assignment_operator expression ,[',',';']
+assignment_expression_profix->, @assignment_expression assignment_expression_profix ,[';']
+
+primary_expression->ID @,['%','(','*','+','-','/',';','<','>','ID','number']
+
+expression->constant_expression @,[';']
+
+jump_statement->return expression @; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+function_expression->function @ID ( expression_list ) ,[';']
+
+expression->function_expression @,[';']
+
+constant_expression->@primary_expression arithmetic_expression ,[')']
+expression->@constant_expression ,[')']
+expression->@function_expression ,[')']
+function_expression->@function ID ( expression_list ) ,[')']
+primary_expression->( @expression ) ,['%','(','*','+','-','/',';','<','>','ID','number']
+primary_expression->@( expression ) ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+','-','/','<','>','ID','number']
+
+arithmetic_expression->@$ ,[';']
+arithmetic_expression->@operator ,[';']
+arithmetic_expression->@operator primary_expression arithmetic_expression ,[';']
+arithmetic_expression->@primary_expression arithmetic_expression ,[';']
+constant_expression->primary_expression @arithmetic_expression ,[';']
+operator->@% ,['(',';','ID','number']
+operator->@* ,['(',';','ID','number']
+operator->@+ ,['(',';','ID','number']
+operator->@- ,['(',';','ID','number']
+operator->@/ ,['(',';','ID','number']
+operator->@< ,['(',';','ID','number']
+operator->@> ,['(',';','ID','number']
+primary_expression->@( expression ) ,['%','(','*','+','-','/',';','<','>','ID','number']
+primary_expression->@ID ,['%','(','*','+','-','/',';','<','>','ID','number']
+primary_expression->@number ,['%','(','*','+','-','/',';','<','>','ID','number']
+
+primary_expression->number @,['%','(','*','+','-','/',';','<','>','ID','number']
+
+statement_list->statement statement_list @,['}']
+
+function_expression->function ID ( expression_list @) ,[')',',']
+
+arithmetic_expression->operator primary_expression arithmetic_expression @,[')',',']
+
+expression_profix->, expression expression_profix @,[')']
+
+declaration->type_specifier declaration_init declaration_init_list @; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+selection_statement->if ( expression @) statement else statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+compound_statement->{ statement_list } @,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+iteration_statement->while ( expression @) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+declaration->type_specifier @declaration_init declaration_init_list ; ,['(','ID','function','number']
+declaration_init->@ID declaration_assign ,[',',';']
+
+constant_expression->@primary_expression arithmetic_expression ,[';']
+expression->@constant_expression ,[';']
+expression->@function_expression ,[';']
+function_expression->@function ID ( expression_list ) ,[';']
+iteration_statement->for ( declaration @expression ; assignment_expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+primary_expression->@( expression ) ,['%','(','*','+','-','/',';','<','>','ID','number']
+primary_expression->@ID ,['%','(','*','+','-','/',';','<','>','ID','number']
+primary_expression->@number ,['%','(','*','+','-','/',';','<','>','ID','number']
+
+assignment_operator->/ = @,['(','ID','function','number']
+
+assignment_operator->* = @,['(','ID','function','number']
+
+assignment_operator->% = @,['(','ID','function','number']
+
+assignment_expression->ID assignment_operator expression @,[',',';']
+
+assignment_operator->+ = @,['(','ID','function','number']
+
+assignment_operator->- = @,['(','ID','function','number']
+
+assignment_expression_profix->, assignment_expression @assignment_expression_profix ,[';']
+assignment_expression_profix->@$ ,[';']
+assignment_expression_profix->@, assignment_expression assignment_expression_profix ,[';']
+
+jump_statement->return expression ; @,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+function_expression->function ID @( expression_list ) ,[';']
+
+primary_expression->( expression @) ,['%','(','*','+','-','/',';','<','>','ID','number']
+
+constant_expression->primary_expression arithmetic_expression @,[';']
+
+operator->> @,['(',';','ID','number']
+
+operator->- @,['(',';','ID','number']
+
+arithmetic_expression->@$ ,[';']
+arithmetic_expression->@operator ,[';']
+arithmetic_expression->@operator primary_expression arithmetic_expression ,[';']
+arithmetic_expression->@primary_expression arithmetic_expression ,[';']
+arithmetic_expression->primary_expression @arithmetic_expression ,[';']
+operator->@% ,['(',';','ID','number']
+operator->@* ,['(',';','ID','number']
+operator->@+ ,['(',';','ID','number']
+operator->@- ,['(',';','ID','number']
+operator->@/ ,['(',';','ID','number']
+operator->@< ,['(',';','ID','number']
+operator->@> ,['(',';','ID','number']
+primary_expression->@( expression ) ,['%','(','*','+','-','/',';','<','>','ID','number']
+primary_expression->@ID ,['%','(','*','+','-','/',';','<','>','ID','number']
+primary_expression->@number ,['%','(','*','+','-','/',';','<','>','ID','number']
+
+operator->% @,['(',';','ID','number']
+
+operator->+ @,['(',';','ID','number']
+
+operator->/ @,['(',';','ID','number']
+
+arithmetic_expression->operator @primary_expression arithmetic_expression ,[';']
+primary_expression->@( expression ) ,['%','(','*','+','-','/',';','<','>','ID','number']
+primary_expression->@ID ,['%','(','*','+','-','/',';','<','>','ID','number']
+primary_expression->@number ,['%','(','*','+','-','/',';','<','>','ID','number']
+
+arithmetic_expression->operator @,[';']
+
+operator->< @,['(',';','ID','number']
+
+operator->* @,['(',';','ID','number']
+
+function_expression->function ID ( expression_list ) @,[')',',']
+
+declaration->type_specifier declaration_init declaration_init_list ; @,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+assignment_expression->@ID assignment_operator expression ,[',',';']
+assignment_expression_list->@$ ,[';']
+assignment_expression_list->@assignment_expression assignment_expression_profix ,[';']
+compound_statement->@{ statement_list } ,['else']
+declaration->@type_specifier declaration_init declaration_init_list ; ,['else']
+expression_statement->@assignment_expression_list ; ,['else']
+iteration_statement->@for ( declaration expression ; assignment_expression ) statement ,['else']
+iteration_statement->@while ( expression ) statement ,['else']
+jump_statement->@break ; ,['else']
+jump_statement->@continue ; ,['else']
+jump_statement->@return expression ; ,['else']
+selection_statement->@if ( expression ) statement else statement ,['else']
+selection_statement->if ( expression ) @statement else statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@compound_statement ,['else']
+statement->@declaration ,['else']
+statement->@expression_statement ,['else']
+statement->@iteration_statement ,['else']
+statement->@jump_statement ,['else']
+statement->@selection_statement ,['else']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+assignment_expression->@ID assignment_operator expression ,[',',';']
+assignment_expression_list->@$ ,[';']
+assignment_expression_list->@assignment_expression assignment_expression_profix ,[';']
+compound_statement->@{ statement_list } ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+declaration->@type_specifier declaration_init declaration_init_list ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+expression_statement->@assignment_expression_list ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+iteration_statement->@for ( declaration expression ; assignment_expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+iteration_statement->@while ( expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+iteration_statement->while ( expression ) @statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@break ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@continue ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@return expression ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+selection_statement->@if ( expression ) statement else statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@compound_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@declaration ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@expression_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@iteration_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@jump_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@selection_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+declaration->type_specifier declaration_init @declaration_init_list ; ,['(','ID','function','number']
+declaration_init_list->@$ ,[';']
+declaration_init_list->@, declaration_init declaration_init_list ,[';']
+
+iteration_statement->for ( declaration expression @; assignment_expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+assignment_expression_profix->, assignment_expression assignment_expression_profix @,[';']
+
+constant_expression->@primary_expression arithmetic_expression ,[')',',']
+expression->@constant_expression ,[')',',']
+expression->@function_expression ,[')',',']
+expression_list->@$ ,[')']
+expression_list->@expression expression_profix ,[')']
+function_expression->@function ID ( expression_list ) ,[')',',']
+function_expression->function ID ( @expression_list ) ,[';']
+primary_expression->@( expression ) ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+',',','-','/','<','>','ID','number']
+
+primary_expression->( expression ) @,['%','(','*','+','-','/',';','<','>','ID','number']
+
+arithmetic_expression->primary_expression arithmetic_expression @,[';']
+
+arithmetic_expression->@$ ,[';']
+arithmetic_expression->@operator ,[';']
+arithmetic_expression->@operator primary_expression arithmetic_expression ,[';']
+arithmetic_expression->@primary_expression arithmetic_expression ,[';']
+arithmetic_expression->operator primary_expression @arithmetic_expression ,[';']
+operator->@% ,['(',';','ID','number']
+operator->@* ,['(',';','ID','number']
+operator->@+ ,['(',';','ID','number']
+operator->@- ,['(',';','ID','number']
+operator->@/ ,['(',';','ID','number']
+operator->@< ,['(',';','ID','number']
+operator->@> ,['(',';','ID','number']
+primary_expression->@( expression ) ,['%','(','*','+','-','/',';','<','>','ID','number']
+primary_expression->@ID ,['%','(','*','+','-','/',';','<','>','ID','number']
+primary_expression->@number ,['%','(','*','+','-','/',';','<','>','ID','number']
+
+declaration->type_specifier @declaration_init declaration_init_list ; ,['else']
+declaration_init->@ID declaration_assign ,[',',';']
+
+selection_statement->if @( expression ) statement else statement ,['else']
+
+statement->expression_statement @,['else']
+
+jump_statement->break @; ,['else']
+
+expression_statement->assignment_expression_list @; ,['else']
+
+statement->iteration_statement @,['else']
+
+assignment_expression->@ID assignment_operator expression ,[',',';']
+assignment_expression_list->@$ ,[';']
+assignment_expression_list->@assignment_expression assignment_expression_profix ,[';']
+compound_statement->@{ statement_list } ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+compound_statement->{ @statement_list } ,['else']
+declaration->@type_specifier declaration_init declaration_init_list ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+expression_statement->@assignment_expression_list ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+iteration_statement->@for ( declaration expression ; assignment_expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+iteration_statement->@while ( expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@break ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@continue ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@return expression ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+selection_statement->@if ( expression ) statement else statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@compound_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@declaration ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@expression_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@iteration_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@jump_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@selection_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement_list->@$ ,['}']
+statement_list->@statement statement_list ,['}']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+iteration_statement->while @( expression ) statement ,['else']
+
+jump_statement->continue @; ,['else']
+
+statement->compound_statement @,['else']
+
+statement->declaration @,['else']
+
+selection_statement->if ( expression ) statement @else statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+iteration_statement->for @( declaration expression ; assignment_expression ) statement ,['else']
+
+statement->selection_statement @,['else']
+
+statement->jump_statement @,['else']
+
+constant_expression->@primary_expression arithmetic_expression ,[';']
+expression->@constant_expression ,[';']
+expression->@function_expression ,[';']
+function_expression->@function ID ( expression_list ) ,[';']
+jump_statement->return @expression ; ,['else']
+primary_expression->@( expression ) ,['%','(','*','+','-','/',';','<','>','ID','number']
+primary_expression->@ID ,['%','(','*','+','-','/',';','<','>','ID','number']
+primary_expression->@number ,['%','(','*','+','-','/',';','<','>','ID','number']
+
+iteration_statement->while ( expression ) statement @,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+declaration->type_specifier declaration_init declaration_init_list @; ,['(','ID','function','number']
+
+assignment_expression->@ID assignment_operator expression ,[')']
+iteration_statement->for ( declaration expression ; @assignment_expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+function_expression->function ID ( expression_list @) ,[';']
+
+arithmetic_expression->operator primary_expression arithmetic_expression @,[';']
+
+declaration->type_specifier declaration_init @declaration_init_list ; ,['else']
+declaration_init_list->@$ ,[';']
+declaration_init_list->@, declaration_init declaration_init_list ,[';']
+
+constant_expression->@primary_expression arithmetic_expression ,[')']
+expression->@constant_expression ,[')']
+expression->@function_expression ,[')']
+function_expression->@function ID ( expression_list ) ,[')']
+primary_expression->@( expression ) ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+','-','/','<','>','ID','number']
+selection_statement->if ( @expression ) statement else statement ,['else']
+
+jump_statement->break ; @,['else']
+
+expression_statement->assignment_expression_list ; @,['else']
+
+compound_statement->{ statement_list @} ,['else']
+
+constant_expression->@primary_expression arithmetic_expression ,[')']
+expression->@constant_expression ,[')']
+expression->@function_expression ,[')']
+function_expression->@function ID ( expression_list ) ,[')']
+iteration_statement->while ( @expression ) statement ,['else']
+primary_expression->@( expression ) ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+','-','/','<','>','ID','number']
+
+jump_statement->continue ; @,['else']
+
+assignment_expression->@ID assignment_operator expression ,[',',';']
+assignment_expression_list->@$ ,[';']
+assignment_expression_list->@assignment_expression assignment_expression_profix ,[';']
+compound_statement->@{ statement_list } ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+declaration->@type_specifier declaration_init declaration_init_list ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+expression_statement->@assignment_expression_list ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+iteration_statement->@for ( declaration expression ; assignment_expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+iteration_statement->@while ( expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@break ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@continue ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@return expression ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+selection_statement->@if ( expression ) statement else statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+selection_statement->if ( expression ) statement else @statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@compound_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@declaration ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@expression_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@iteration_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@jump_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@selection_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+declaration->@type_specifier declaration_init declaration_init_list ; ,['(','ID','function','number']
+iteration_statement->for ( @declaration expression ; assignment_expression ) statement ,['else']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+jump_statement->return expression @; ,['else']
+
+declaration->type_specifier declaration_init declaration_init_list ; @,['(','ID','function','number']
+
+iteration_statement->for ( declaration expression ; assignment_expression @) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+assignment_expression->ID @assignment_operator expression ,[')']
+assignment_operator->@% = ,['(','ID','function','number']
+assignment_operator->@* = ,['(','ID','function','number']
+assignment_operator->@+ = ,['(','ID','function','number']
+assignment_operator->@- = ,['(','ID','function','number']
+assignment_operator->@/ = ,['(','ID','function','number']
+assignment_operator->@= ,['(','ID','function','number']
+
+function_expression->function ID ( expression_list ) @,[';']
+
+declaration->type_specifier declaration_init declaration_init_list @; ,['else']
+
+selection_statement->if ( expression @) statement else statement ,['else']
+
+compound_statement->{ statement_list } @,['else']
+
+iteration_statement->while ( expression @) statement ,['else']
+
+selection_statement->if ( expression ) statement else statement @,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+constant_expression->@primary_expression arithmetic_expression ,[';']
+expression->@constant_expression ,[';']
+expression->@function_expression ,[';']
+function_expression->@function ID ( expression_list ) ,[';']
+iteration_statement->for ( declaration @expression ; assignment_expression ) statement ,['else']
+primary_expression->@( expression ) ,['%','(','*','+','-','/',';','<','>','ID','number']
+primary_expression->@ID ,['%','(','*','+','-','/',';','<','>','ID','number']
+primary_expression->@number ,['%','(','*','+','-','/',';','<','>','ID','number']
+
+jump_statement->return expression ; @,['else']
+
+assignment_expression->@ID assignment_operator expression ,[',',';']
+assignment_expression_list->@$ ,[';']
+assignment_expression_list->@assignment_expression assignment_expression_profix ,[';']
+compound_statement->@{ statement_list } ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+declaration->@type_specifier declaration_init declaration_init_list ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+expression_statement->@assignment_expression_list ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+iteration_statement->@for ( declaration expression ; assignment_expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+iteration_statement->@while ( expression ) statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+iteration_statement->for ( declaration expression ; assignment_expression ) @statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@break ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@continue ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+jump_statement->@return expression ; ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+selection_statement->@if ( expression ) statement else statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@compound_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@declaration ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@expression_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@iteration_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@jump_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+statement->@selection_statement ,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+assignment_expression->ID assignment_operator @expression ,[')']
+constant_expression->@primary_expression arithmetic_expression ,[')']
+expression->@constant_expression ,[')']
+expression->@function_expression ,[')']
+function_expression->@function ID ( expression_list ) ,[')']
+primary_expression->@( expression ) ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@ID ,['%','(',')','*','+','-','/','<','>','ID','number']
+primary_expression->@number ,['%','(',')','*','+','-','/','<','>','ID','number']
+
+declaration->type_specifier declaration_init declaration_init_list ; @,['else']
+
+assignment_expression->@ID assignment_operator expression ,[',',';']
+assignment_expression_list->@$ ,[';']
+assignment_expression_list->@assignment_expression assignment_expression_profix ,[';']
+compound_statement->@{ statement_list } ,['else']
+declaration->@type_specifier declaration_init declaration_init_list ; ,['else']
+expression_statement->@assignment_expression_list ; ,['else']
+iteration_statement->@for ( declaration expression ; assignment_expression ) statement ,['else']
+iteration_statement->@while ( expression ) statement ,['else']
+jump_statement->@break ; ,['else']
+jump_statement->@continue ; ,['else']
+jump_statement->@return expression ; ,['else']
+selection_statement->@if ( expression ) statement else statement ,['else']
+selection_statement->if ( expression ) @statement else statement ,['else']
+statement->@compound_statement ,['else']
+statement->@declaration ,['else']
+statement->@expression_statement ,['else']
+statement->@iteration_statement ,['else']
+statement->@jump_statement ,['else']
+statement->@selection_statement ,['else']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+assignment_expression->@ID assignment_operator expression ,[',',';']
+assignment_expression_list->@$ ,[';']
+assignment_expression_list->@assignment_expression assignment_expression_profix ,[';']
+compound_statement->@{ statement_list } ,['else']
+declaration->@type_specifier declaration_init declaration_init_list ; ,['else']
+expression_statement->@assignment_expression_list ; ,['else']
+iteration_statement->@for ( declaration expression ; assignment_expression ) statement ,['else']
+iteration_statement->@while ( expression ) statement ,['else']
+iteration_statement->while ( expression ) @statement ,['else']
+jump_statement->@break ; ,['else']
+jump_statement->@continue ; ,['else']
+jump_statement->@return expression ; ,['else']
+selection_statement->@if ( expression ) statement else statement ,['else']
+statement->@compound_statement ,['else']
+statement->@declaration ,['else']
+statement->@expression_statement ,['else']
+statement->@iteration_statement ,['else']
+statement->@jump_statement ,['else']
+statement->@selection_statement ,['else']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+iteration_statement->for ( declaration expression @; assignment_expression ) statement ,['else']
+
+iteration_statement->for ( declaration expression ; assignment_expression ) statement @,[';','ID','break','char','continue','double','for','if','int','return','while','{','}']
+
+assignment_expression->ID assignment_operator expression @,[')']
+
+selection_statement->if ( expression ) statement @else statement ,['else']
+
+iteration_statement->while ( expression ) statement @,['else']
+
+assignment_expression->@ID assignment_operator expression ,[')']
+iteration_statement->for ( declaration expression ; @assignment_expression ) statement ,['else']
+
+assignment_expression->@ID assignment_operator expression ,[',',';']
+assignment_expression_list->@$ ,[';']
+assignment_expression_list->@assignment_expression assignment_expression_profix ,[';']
+compound_statement->@{ statement_list } ,['else']
+declaration->@type_specifier declaration_init declaration_init_list ; ,['else']
+expression_statement->@assignment_expression_list ; ,['else']
+iteration_statement->@for ( declaration expression ; assignment_expression ) statement ,['else']
+iteration_statement->@while ( expression ) statement ,['else']
+jump_statement->@break ; ,['else']
+jump_statement->@continue ; ,['else']
+jump_statement->@return expression ; ,['else']
+selection_statement->@if ( expression ) statement else statement ,['else']
+selection_statement->if ( expression ) statement else @statement ,['else']
+statement->@compound_statement ,['else']
+statement->@declaration ,['else']
+statement->@expression_statement ,['else']
+statement->@iteration_statement ,['else']
+statement->@jump_statement ,['else']
+statement->@selection_statement ,['else']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+iteration_statement->for ( declaration expression ; assignment_expression @) statement ,['else']
+
+selection_statement->if ( expression ) statement else statement @,['else']
+
+assignment_expression->@ID assignment_operator expression ,[',',';']
+assignment_expression_list->@$ ,[';']
+assignment_expression_list->@assignment_expression assignment_expression_profix ,[';']
+compound_statement->@{ statement_list } ,['else']
+declaration->@type_specifier declaration_init declaration_init_list ; ,['else']
+expression_statement->@assignment_expression_list ; ,['else']
+iteration_statement->@for ( declaration expression ; assignment_expression ) statement ,['else']
+iteration_statement->@while ( expression ) statement ,['else']
+iteration_statement->for ( declaration expression ; assignment_expression ) @statement ,['else']
+jump_statement->@break ; ,['else']
+jump_statement->@continue ; ,['else']
+jump_statement->@return expression ; ,['else']
+selection_statement->@if ( expression ) statement else statement ,['else']
+statement->@compound_statement ,['else']
+statement->@declaration ,['else']
+statement->@expression_statement ,['else']
+statement->@iteration_statement ,['else']
+statement->@jump_statement ,['else']
+statement->@selection_statement ,['else']
+type_specifier->@char ,['ID']
+type_specifier->@double ,['ID']
+type_specifier->@int ,['ID']
+
+iteration_statement->for ( declaration expression ; assignment_expression ) statement @,['else']

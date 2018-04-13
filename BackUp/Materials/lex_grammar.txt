@@ -1,0 +1,78 @@
+digit:0|1|2|3|4|5|6|7|8|9
+nozero_digit:1|2|3|4|5|6|7|8|9
+alphabet:a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z
+key_word:int|double|char|float|const|auto|break|case|continue|do|while|if|else|switch|enum|for|do|long|short|static|struct|typedef|unsigned|void|return|break|scanf|print|function
+start:$ identifier
+start:$ limiter
+start:$ operator
+start:$ string
+start:$ number
+limiter:,
+limiter:;
+limiter:[
+limiter:]
+limiter:(
+limiter:)
+limiter:{
+limiter:}
+operator:+
+operator:-
+operator:*
+operator:/
+operator:!
+operator:%
+operator:^
+operator:&
+operator:=
+operator:~
+operator:"
+operator:<<
+operator:>>
+operator:++
+operator:--
+operator:>
+operator:<
+identifier:_
+identifier:alphabet
+identifier:_ identifier_tail
+identifier:alphabet identifier_tail
+identifier_tail:_
+identifier_tail:digit
+identifier_tail:alphabet
+identifier_tail:_ identifier_tail
+identifier_tail:digit identifier_tail
+identifier_tail:alphabet identifier_tail
+number:digit
+number:nozero_digit number_tail
+number_tail:digit
+number_tail:digit number_tail
+number_tail:e number_tail
+string:" string_tail
+string_tail:, string_tail
+string_tail:; string_tail
+string_tail:[ string_tail
+string_tail:] string_tail
+string_tail:( string_tail
+string_tail:) string_tail
+string_tail:{ string_tail
+string_tail:} string_tail
+string_tail:. string_tail
+string_tail:+ string_tail
+string_tail:- string_tail
+string_tail:* string_tail
+string_tail:/ string_tail
+string_tail:! string_tail
+string_tail:% string_tail
+string_tail:^ string_tail
+string_tail:& string_tail
+string_tail:= string_tail
+string_tail:~ string_tail
+string_tail:" string_tail
+string_tail:" string_tail
+string_tail:< string_tail
+string_tail:> string_tail
+string_tail:_ string_tail
+string_tail:# string_tail
+string_tail:digit string_tail
+string_tail:alphabet string_tail
+string_tail:"

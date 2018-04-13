@@ -1,0 +1,274 @@
+primary_expression
+         : id
+         | char
+         | int
+         | float
+         | string
+         | '(' expression ')'
+         ;
+
+postfix_expression
+         : primary_expression
+         | postfix_expression '[' expression ']'
+         | postfix_expression '(' ')'
+         | postfix_expression '(' argument_expression_list ')'
+         | postfix_expression '++'
+         | postfix_expression '--'
+         ;
+
+argument_expression_list
+         : assignment_expression
+         | argument_expression_list ',' assignment_expression
+         ;
+
+unary_expression
+         : postfix_expression
+         | '++' unary_expression
+         | '--' unary_expression
+         | unary_operator unary_expression
+         ;
+
+unary_operator
+         : '&'
+         | '*'
+         | '+'
+         | '-'
+         | '~'
+         | '!'
+         ;
+
+multiplicative_expression
+         : unary_expression
+         | multiplicative_expression '*' unary_expression
+         | multiplicative_expression '/' unary_expression
+         | multiplicative_expression '%' unary_expression
+         ;
+
+additive_expression
+         : multiplicative_expression
+         | additive_expression '+' multiplicative_expression
+         | additive_expression '-' multiplicative_expression
+         ;
+
+shift_expression
+         : additive_expression
+         | shift_expression '<<' additive_expression
+         | shift_expression '>>' additive_expression
+         ;
+
+relational_expression
+         : shift_expression
+         | relational_expression '<' shift_expression
+         | relational_expression '>' shift_expression
+         | relational_expression '<=' shift_expression
+         | relational_expression '>=' shift_expression
+         ;
+
+equality_expression
+         : relational_expression
+         | equality_expression '==' relational_expression
+         | equality_expression '!=' relational_expression
+         ;
+
+and_expression
+         : equality_expression
+         | and_expression '&' equality_expression
+         ;
+
+exclusive_or_expression
+         : and_expression
+         | exclusive_or_expression '^' and_expression
+         ;
+
+inclusive_or_expression
+         : exclusive_or_expression
+         | inclusive_or_expression '|' exclusive_or_expression
+         ;
+
+logical_and_expression
+         : inclusive_or_expression
+         | logical_and_expression '&&' inclusive_or_expression
+         ;
+
+logical_or_expression
+         : logical_and_expression
+         | logical_or_expression '||' logical_and_expression
+         ;
+
+conditional_expression
+         : logical_or_expression
+         | logical_or_expression '?' expression ':' conditional_expression
+         ;
+
+assignment_expression
+         : conditional_expression
+         | unary_expression assignment_operator assignment_expression
+         ;
+
+assignment_operator
+         : '='
+         | '*='
+         | '/='
+         | '%='
+         | '+='
+         | '-='
+         | '<<='
+         | '>>='
+         | '&='
+         | '^='
+         | '|='
+         ;
+
+expression
+         : assignment_expression
+         | expression ',' assignment_expression
+         ;
+
+declaration_specifiers
+         | type_specifier
+         | type_specifier declaration_specifiers
+         ;
+
+init_declarator_list
+         : init_declarator
+         | init_declarator_list ',' init_declarator
+         ;
+
+init_declarator
+         : declarator
+         | declarator '=' initializer
+         ;
+
+type_specifier
+         : VOID
+         | CHAR
+         | INT
+         | FLOAT
+         | STRING
+         ;
+
+specifier_qualifier_list
+         : type_specifier specifier_qualifier_list
+         | type_specifier
+         ;
+
+declarator
+         : id
+         | '(' declarator ')'
+         | declarator '[' conditional_expression ']'
+         | declarator '[' ']'
+         | declarator '(' parameter_list ')'
+         | declarator '(' id_list ')'
+         | declarator '(' ')'
+         ;
+
+parameter_list
+         : parameter_declaration
+         | parameter_list ',' parameter_declaration
+         ;
+
+parameter_declaration
+         : declaration_specifiers declarator
+         | declaration_specifiers abstract_declarator
+         | declaration_specifiers
+         ;
+
+id_list
+         : id
+         | id_list ',' id
+         ;
+
+type_name
+         : specifier_qualifier_list
+         | specifier_qualifier_list abstract_declarator
+         ;
+
+abstract_declarator
+         : '(' abstract_declarator ')'
+         | '[' ']'
+         | '[' conditional_expression ']'
+         | abstract_declarator '[' ']'
+         | abstract_declarator '[' conditional_expression ']'
+         | '(' ')'
+         | '(' parameter_list ')'
+         | abstract_declarator '(' ')'
+         | abstract_declarator '(' parameter_list ')'
+         ;
+
+initializer
+         : assignment_expression
+         | '{' initializer_list '}'
+         | '{' initializer_list ',' '}'
+         ;
+
+initializer_list
+         : initializer
+         | initializer_list ',' initializer
+         ;
+
+statement
+         : labeled_statement
+         | compound_statement
+         | expression_statement
+         | selection_statement
+         | iteration_statement
+         | jump_statement
+         ;
+
+labeled_statement
+         : id ':' statement
+         | CASE conditional_expression ':' statement
+         | DEFAULT ':' statement
+         ;
+
+compound_statement
+         : '{' '}'
+         | '{' statement_list '}'
+         | '{' declaration_list '}'
+         | '{' declaration_list statement_list '}'
+         ;
+
+declaration_list
+         : declaration
+         | declaration_list declaration
+         ;
+
+statement_list
+         : statement
+         | statement_list statement
+         ;
+
+expression_statement
+         : ';'
+         | expression ';'
+         ;
+
+selection_statement
+         : IF '(' expression ')' statement
+         | IF '(' expression ')' statement ELSE statement
+         | SWITCH '(' expression ')' statement
+         ;
+
+iteration_statement
+         : WHILE '(' expression ')' statement
+         | DO statement WHILE '(' expression ')' ';'
+         | FOR '(' expression_statement expression_statement ')' statement
+         | FOR '(' expression_statement expression_statement expression ')' statement
+         ;
+
+declaration
+         : declaration_specifiers ';'
+         | declaration_specifiers init_declarator_list ';'
+         ;
+
+jump_statement
+         : GOTO id ';'
+         | CONTINUE ';'
+         | BREAK ';'
+         | RETURN ';'
+         | RETURN expression ';'
+         ;
+
+function_definition
+         : type_specifier declarator compound_statement
+         ;
