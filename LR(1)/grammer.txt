@@ -1,287 +1,161 @@
+S
+    : start
+    ;
+
+start
+    : external_declaration start
+    | '$'
+    ;
+
 primary_expression
-         : id
-         | char
-         | int
-         | float
-         | string
-         | '(' expression ')'
-         ;
+     : id
+     | number
+     | '(' expression ')'
+     ;
 
-postfix_expression
-         : primary_expression
-         | postfix_expression '[' expression ']'
-         | postfix_expression '(' ')'
-         | postfix_expression '(' argument_expression_list ')'
-         | postfix_expression '++'
-         | postfix_expression '--'
-         ;
+operator
+    : '+'
+    | '-'
+    | '*'
+    | '/'
+    | '%'
+    | '<'
+    | '>'
+    ;
 
-argument_expression_list
-         : assignment_expression
-         | argument_expression_list ',' assignment_expression
-         ;
+arithmetic_expression
+    : operator
+    | primary_expression arithmetic_expression
+    | operator primary_expression arithmetic_expression
+    | '$'
+    ;
 
-unary_expression
-         : postfix_expression
-         | '++' unary_expression
-         | '--' unary_expression
-         | unary_operator unary_expression
-         ;
-
-unary_operator
-         : '&'
-         | '*'
-         | '+'
-         | '-'
-         | '~'
-         | '!'
-         ;
-
-multiplicative_expression
-         : unary_expression
-         | multiplicative_expression '*' unary_expression
-         | multiplicative_expression '/' unary_expression
-         | multiplicative_expression '%' unary_expression
-         ;
-
-additive_expression
-         : multiplicative_expression
-         | additive_expression '+' multiplicative_expression
-         | additive_expression '-' multiplicative_expression
-         ;
-
-shift_expression
-         : additive_expression
-         | shift_expression '<<' additive_expression
-         | shift_expression '>>' additive_expression
-         ;
-
-relational_expression
-         : shift_expression
-         | relational_expression '<' shift_expression
-         | relational_expression '>' shift_expression
-         | relational_expression '<=' shift_expression
-         | relational_expression '>=' shift_expression
-         ;
-
-equality_expression
-         : relational_expression
-         | equality_expression '==' relational_expression
-         | equality_expression '!=' relational_expression
-         ;
-
-and_expression
-         : equality_expression
-         | and_expression '&' equality_expression
-         ;
-
-exclusive_or_expression
-         : and_expression
-         | exclusive_or_expression '^' and_expression
-         ;
-
-inclusive_or_expression
-         : exclusive_or_expression
-         | inclusive_or_expression '|' exclusive_or_expression
-         ;
-
-logical_and_expression
-         : inclusive_or_expression
-         | logical_and_expression '&&' inclusive_or_expression
-         ;
-
-logical_or_expression
-         : logical_and_expression
-         | logical_or_expression '||' logical_and_expression
-         ;
-
-conditional_expression
-         : logical_or_expression
-         | logical_or_expression '?' expression ':' conditional_expression
-         ;
-
-assignment_expression
-         : conditional_expression
-         | unary_expression assignment_operator assignment_expression
-         ;
+constant_expression
+    : primary_expression arithmetic_expression
+    ;
 
 assignment_operator
-         : '='
-         | '*='
-         | '/='
-         | '%='
-         | '+='
-         | '-='
-         | '<<='
-         | '>>='
-         | '&='
-         | '^='
-         | '|='
-         ;
+    : '='
+    | '+' '='
+    | '-' '='
+    | '*' '='
+    | '/' '='
+    | '%' '='
+    ;
+
+assignment_expression
+    :id assignment_operator expression
+    ;
+
+assignment_expression_profix
+    : ',' assignment_expression assignment_expression_profix
+    | '$'
+    ;
+
+assignment_expression_list
+    : assignment_expression assignment_expression_profix
+    | '$'
+    ;
+
+function_expression
+    : function id '(' expression_list ')'
+    ;
 
 expression
-         : assignment_expression
-         | expression ',' assignment_expression
-         ;
+    : constant_expression
+    | function_expression
+    ;
 
-declaration
-         : declaration_specifiers ';'
-         | declaration_specifiers init_declarator_list ';'
-         ;
+expression_profix
+    : ',' expression expression_profix
+    | '$'
+    ;
 
-declaration_specifiers
-         | type_specifier
-         | type_specifier declaration_specifiers
-         ;
-
-init_declarator_list
-         : init_declarator
-         | init_declarator_list ',' init_declarator
-         ;
-
-init_declarator
-         : declarator
-         | declarator '=' initializer
-         ;
+expression_list
+    : expression expression_profix
+    | '$'
+    ;
 
 type_specifier
-         : VOID
-         | CHAR
-         | INT
-         | FLOAT
-         | STRING
-         ;
+    : double
+    | char
+    | int
+    ;
 
-specifier_qualifier_list
-         : type_specifier specifier_qualifier_list
-         | type_specifier
-         ;
+declaration_assign
+    : '=' expression
+    | '$'
+    ;
 
-declarator
-         : id
-         | '(' declarator ')'
-         | declarator '[' conditional_expression ']'
-         | declarator '[' ']'
-         | declarator '(' parameter_list ')'
-         | declarator '(' id_list ')'
-         | declarator '(' ')'
-         ;
+declaration_init
+    : id declaration_assign
+    ;
 
-parameter_list
-         : parameter_declaration
-         | parameter_list ',' parameter_declaration
-         ;
+declaration_init_list
+    : ',' declaration_init declaration_init_list
+    | '$'
+    ;
 
-parameter_declaration
-         : declaration_specifiers declarator
-         | declaration_specifiers abstract_declarator
-         | declaration_specifiers
-         ;
+declaration
+    : type_specifier declaration_init declaration_init_list ';'
+    ;
 
-id_list
-         : id
-         | id_list ',' id
-         ;
+function_declaration
+    : type_specifier id
+    ;
 
-type_name
-         : specifier_qualifier_list
-         | specifier_qualifier_list abstract_declarator
-         ;
+function_declaration_suffix
+    : ',' function_declaration function_declaration_suffix
+    | '$'
+    ;
 
-abstract_declarator
-         : '(' abstract_declarator ')'
-         | '[' ']'
-         | '[' conditional_expression ']'
-         | abstract_declarator '[' ']'
-         | abstract_declarator '[' conditional_expression ']'
-         | '(' ')'
-         | '(' parameter_list ')'
-         | abstract_declarator '(' ')'
-         | abstract_declarator '(' parameter_list ')'
-         ;
-
-initializer
-         : assignment_expression
-         | '{' initializer_list '}'
-         | '{' initializer_list ',' '}'
-         ;
-
-initializer_list
-         : initializer
-         | initializer_list ',' initializer
-         ;
-
-statement
-         : labeled_statement
-         | compound_statement
-         | expression_statement
-         | selection_statement
-         | iteration_statement
-         | jump_statement
-         ;
-
-labeled_statement
-         : id ':' statement
-         | CASE conditional_expression ':' statement
-         | DEFAULT ':' statement
-         ;
-
-compound_statement
-         : '{' '}'
-         | '{' statement_list '}'
-         | '{' declaration_list '}'
-         | '{' declaration_list statement_list '}'
-         ;
-
-declaration_list
-         : declaration
-         | declaration_list declaration
-         ;
-
-statement_list
-         : statement
-         | statement_list statement
-         ;
-
-expression_statement
-         : ';'
-         | expression ';'
-         ;
-
-selection_statement
-         : IF '(' expression ')' statement
-         | IF '(' expression ')' statement ELSE statement
-         | SWITCH '(' expression ')' statement
-         ;
-
-iteration_statement
-         : WHILE '(' expression ')' statement
-         | DO statement WHILE '(' expression ')' ';'
-         | FOR '(' expression_statement expression_statement ')' statement
-         | FOR '(' expression_statement expression_statement expression ')' statement
-         ;
-
-jump_statement
-         : GOTO id ';'
-         | CONTINUE ';'
-         | BREAK ';'
-         | RETURN ';'
-         | RETURN expression ';'
-         ;
-
-translation_unit
-         : external_declaration
-         | translation_unit external_declaration
-         ;
-
-external_declaration
-         : function_definition
-         | declaration
-         ;
+function_declaration_list
+    : function_declaration function_declaration_suffix
+    | '$'
+    ;
 
 function_definition
-         : declaration_specifiers declarator declaration_list compound_statement
-         | declaration_specifiers declarator compound_statement
-         | declarator declaration_list compound_statement
-         | declarator compound_statement
-         ;
+    : function type_specifier id '(' function_declaration_list ')' compound_statement
+    ;
+
+statement
+    : expression_statement
+    : jump_statement
+    : selection_statement
+    : iteration_statement
+    : compound_statement
+    : declaration
+    ;
+
+statement_list
+    : statement statement_list
+    | '$'
+    ;
+
+expression_statement
+    : assignment_expression_list ';'
+    ;
+
+jump_statement
+    : continue ';'
+    | break ';'
+    | return expression ';'
+    ;
+
+selection_statement
+    : if '(' expression ')' statement else statement
+    ;
+
+iteration_statement
+    : while '(' expression ')' statement
+    | for '(' declaration expression ';' assignment_expression ')' statement
+    ;
+
+compound_statement
+    : '{' statement_list '}'
+    ;
+
+external_declaration
+    : function_definition
+    | declaration
+    ;

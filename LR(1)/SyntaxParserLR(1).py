@@ -12,30 +12,30 @@ regexs=[
     ,'++|+|>>=|<<=|>>|<<|--|-|+=|-=|*|*=|%|%=|->|||||||=|/|/=|>|<|>=|<=|==|!=|^=|=|!|~|&&|&|&='#操作符
 ]
 class Production():
-    def __init__(self, NonterminalSymbol, RightExpression, DotPosition=0, TerminalTail=None):
-        self.NonterminalSymbol=NonterminalSymbol
-        self.RightExpression=RightExpression
-        self.DotPosition=DotPosition
-        self.TerminalTail=TerminalTail
+    def __init__(self, left, right, position=0, terminals=None):
+        self.left=left
+        self.right=right
+        self.position=position
+        self.terminals=terminals
     def Next(self):
-        return Production(self.NonterminalSymbol,
-                          self.RightExpression,
-                          self.DotPosition + 1,
-                          self.TerminalTail)
-    def ToString(self):
-        result=self.NonterminalSymbol+'->'
+        return Production(self.left,
+                          self.right,
+                          self.position + 1,
+                          self.terminals)
+    def to_string(self):
+        result=self.left+'->'
         position=1
-        for data in self.RightExpression:
-            if position==self.DotPosition:
+        for data in self.right:
+            if position==self.position:
                 result += '@'
             result += data['value']+' '
             position += 1
-        if position == self.DotPosition:
+        if position == self.position:
             result += '@'
         result += ',['
-        if self.TerminalTail!=None:
-            if len(self.TerminalTail)>0:
-                for item in sorted(self.TerminalTail):
+        if self.terminals!=None:
+            if len(self.terminals)>0:
+                for item in sorted(self.terminals):
                     result += '\''+item+'\''+','
                 result= result[:-1]
         result += ']'
@@ -43,20 +43,18 @@ class Production():
 class State():
     def __init__(self,name):
         self.name=name
-        self.Productions=[]
+        self.productions=[]
         self.string=[]
-    def AddProduction(self,P):
-        self.Productions.append(P)
-    def ToString(self):
-        for Production in self.Productions:
-            if Production.ToString() not in self.string:
-                self.string.append(Production.ToString())
+    def to_string(self):
+        for Production in self.productions:
+            if Production.to_string() not in self.string:
+                self.string.append(Production.to_string())
         return "\n".join(sorted(self.string))
-    def GetItem(self):
+    def get_item(self):
         result=[]
-        for production in self.Productions:
-            expression = production.RightExpression
-            position = production.DotPosition
+        for production in self.productions:
+            expression = production.right
+            position = production.position
             if position < len(expression) + 1:
                 node = expression[position - 1]
                 if node not in result:
@@ -66,215 +64,30 @@ class DFA(object):
     def __init__(self):
         self.state=[]
         self.edge=[]
-    def AddState(self,Ix):
+    def add_state(self, Ix):
         self.state.append(Ix)
-    def AddEdge(self,Ia,t,Ib):
+    def add_edge(self, Ia, t, Ib):
         self.edge.append((Ia,t,Ib))
-def GenerateGrammer(file):
+def ReadGrammer(file):
     global ProductionGroup
     global TerminalSymbolGroup
-    global NonterminalSymbolGroup
-    global StartProduction
-    NonterminalSymbolGroup.append('S')
-    TerminalSymbolGroup.append({'class':'T', 'value': '#'})
-    StartProduction = Production('S',[{'class': 'NT', 'value': 'function_definition'}],1,['#'])
-    ProductionGroup.append(StartProduction)
-    blocks=open(file).read().split('\n\n')
-    Reflector={Reserved[x]:x for x in Reserved.keys()}
-    NonterminalSymbolGroup=[x.split('\n')[0] for x in blocks]
-    # Compact = {}
-    # for lable in NonterminalSymbolGroup:
-    #     code = ""
-    #     codes = lable.split('_')
-    #     for item in codes:
-    #         code += item[0]
-    #     if not code in Compact.values():
-    #         Compact[lable] = code
-    #     elif not code + 't' in Compact.values():
-    #         Compact[lable] = code + 't'
-    #     else:
-    #         Compact[lable] = code + 'a'
-    for block in blocks:
-        lines=block.split('\n')
-        NonterminalSymbol=lines[0]
-        Expressions=[x.strip(' ')[1:] for x in lines[1:-1]]
-        for expression in Expressions:
-            RightExpression=[]
-            items=expression.strip(' ').split(' ')
-            for item in items:
-                data={}
-                match=re.match("\'(.+?)\'",item)
-                if match:#界符或者操作符
-                    for i in range(2):
-                        if match.groups()[0] in regexs[i]:
-                            data={'class':'T','type':type[i],'value':match.groups()[0]}
-                            break
-                    if data=={}:
-                        data = {'class': 'T', 'value': '$'}
-                elif item in type:#基本类型
-                    data ={'class':'T','type': item, 'value': item.upper()}
-                elif item in Reserved.values():#保留字
-                    data ={'class':'T','type': item, 'value': item.lower()}
-                else:#非终结符
-                     data ={'class':'NT','value':item}
-                RightExpression.append(data)
-                if not data in TerminalSymbolGroup and data['class']!='NT':
-                    TerminalSymbolGroup.append(data)
-            ProductionGroup.append(Production(NonterminalSymbol, RightExpression, TerminalTail=['#']))
-    return
-def GenerateCompactGrammer(file):
-    global ProductionGroup
-    global TerminalSymbolGroup
-    global NonterminalSymbolGroup
-    global StartProduction
-    NonterminalSymbolGroup.append('N')
-    TerminalSymbolGroup.append({'class':'T', 'value': '#'})
-    StartProduction = Production('N',[{'class': 'NT', 'value': 'S'}],1,['#'])
-    ProductionGroup.append(StartProduction)
-    blocks=open(file).read().split('\n\n')
-    NonterminalSymbolGroup=[x.split('\n')[0] for x in blocks]
-    for block in blocks:
-        lines=block.split('\n')
-        NonterminalSymbol=lines[0]
-        Expressions=[x.strip(' ')[1:] for x in lines[1:-1]]
-        for expression in Expressions:
-            RightExpression=[]
-            items=expression.strip(' ').split(' ')
-            for item in items:
-                match=re.match("\'(.+?)\'",item)
-                if match:
-                    data ={'class':'T', 'value': match.groups()[0]}
-                else:#非终结符
-                    data ={'class':'NT','value':item}
-                RightExpression.append(data)
-                if not data in TerminalSymbolGroup and data['class']!='NT':
-                    TerminalSymbolGroup.append(data)
-            ProductionGroup.append(Production(NonterminalSymbol, RightExpression, TerminalTail=['#']))
-    return
-# def GenerateOriGrammer(file):
-#     global ProductionGroup
-#     global TerminalSymbolGroup
-#     global NonterminalSymbolGroup
-#     global StartProduction
-#     NonterminalSymbolGroup.append('S')
-#     TerminalSymbolGroup.append({'class':'T', 'value': '#'})
-#     StartProduction = Production('S',[{'class': 'NT', 'value': 'fd'}],1,'#')
-#     ProductionGroup.append(StartProduction)
-#     blocks=open(file).read().split('\n\n')
-#     Reflector={Reserved[x]:x for x in Reserved.keys()}
-#     NonterminalSymbolGroup=[x.split('\n')[0] for x in blocks]
-#     temp=NonterminalSymbolGroup
-#     Compact = {}
-#     for lable in NonterminalSymbolGroup:
-#         code = ""
-#         codes = lable.split('_')
-#         for item in codes:
-#             code += item[0]
-#         while True:
-#             if not code in Compact.values():
-#                 Compact[lable] = code
-#                 break
-#             else:
-#                 code += 'a'
-#     for block in blocks:
-#         lines=block.split('\n')
-#         NonterminalSymbol=lines[0]
-#         Expressions=[x.strip(' ')[1:] for x in lines[1:-1]]
-#         for expression in Expressions:
-#             RightExpression=[]
-#             items=expression.strip(' ').split(' ')
-#             for item in items:
-#                 data={}
-#                 match=re.match("\'(.+?)\'",item)
-#                 if match:#界符或者操作符
-#                     for i in range(2):
-#                         if match.groups()[0] in regexs[i]:
-#                             data={'class':'T','type':type[i],'value':match.groups()[0]}
-#                             break
-#                 elif item in type:#基本类型
-#                     data ={'class':'T','type': item, 'value': item.upper()}
-#                 elif item in Reflector.keys():#保留字
-#                     data ={'class':'T','type': item, 'value': Reflector[item]}
-#                 else:#非终结符
-#                      data ={'class':'NT','value':Compact[item]}
-#                 RightExpression.append(data)
-#                 if not data in TerminalSymbolGroup and data['class']!='NT':
-#                     TerminalSymbolGroup.append(data)
-#             ProductionGroup.append(Production(Compact[NonterminalSymbol], RightExpression, TerminalTail='#'))
-#     NonterminalSymbolGroup=Compact.values()
-#     return
-# def GenerateFullGrammer(file):
-#     global ProductionGroup
-#     global TerminalSymbolGroup
-#     global NonterminalSymbolGroup
-#     global StartProduction
-#     NonterminalSymbolGroup.append('S')
-#     TerminalSymbolGroup.append({'class':'T', 'value': '#'})
-#     StartProduction = Production('S',[{'class': 'NT', 'value': 'fd'}],1,'#')
-#     ProductionGroup.append(StartProduction)
-#     blocks=open(file).read().split('\n\n')
-#     Reflector={Reserved[x]:x for x in Reserved.keys()}
-#     NonterminalSymbolGroup=[x.split('\n')[0] for x in blocks]
-#     temp=NonterminalSymbolGroup
-#     Compact = {}
-#     for lable in NonterminalSymbolGroup:
-#         code = ""
-#         codes = lable.split('_')
-#         for item in codes:
-#             code += item[0]
-#         while True:
-#             if not code in Compact.values():
-#                 Compact[lable] = code
-#                 break
-#             else:
-#                 code += 'a'
-#     for block in blocks:
-#         lines=block.split('\n')
-#         NonterminalSymbol=lines[0]
-#         Expressions=[x.strip(' ')[1:] for x in lines[1:-1]]
-#         for expression in Expressions:
-#             RightExpression=[]
-#             items=expression.strip(' ').split(' ')
-#             for item in items:
-#                 data={}
-#                 match=re.match("\'(.+?)\'",item)
-#                 if match:#界符或者操作符
-#                     for i in range(2):
-#                         if match.groups()[0] in regexs[i]:
-#                             data={'class':'T','type':type[i],'value':match.groups()[0]}
-#                             break
-#                 elif item in type:#基本类型
-#                     data ={'class':'T','type': item, 'value': item.upper()}
-#                 elif item in Reflector.keys():#保留字
-#                     data ={'class':'T','type': item, 'value': Reflector[item]}
-#                 else:#非终结符
-#                      data ={'class':'NT','value':Compact[item]}
-#                 RightExpression.append(data)
-#                 if not data in TerminalSymbolGroup and data['class']!='NT':
-#                     TerminalSymbolGroup.append(data)
-#             ProductionGroup.append(Production(Compact[NonterminalSymbol], RightExpression, TerminalTail='#'))
-#     NonterminalSymbolGroup=Compact.values()
-#     return
-def GenerateNewGrammer(file):
-    global ProductionGroup
-    global TerminalSymbolGroup
-    global NonterminalSymbolGroup
+    global LeftGroup
     global StartProduction
     type = [
         'seperator', 'operator', 'id', 'STRING', 'CHAR', 'INT', 'FLOAT'
     ]
-    NonterminalSymbolGroup.append('S')
+    LeftGroup.append('S')
     TerminalSymbolGroup.append({'class':'T', 'value': '#'})
-    StartProduction = Production('S',[{'class': 'NT', 'value': 'start'}],1, TerminalTail=['#'])
+    StartProduction = Production('S',[{'class': 'NT', 'value': 'start'}],1, terminals=['#'])
     ProductionGroup.append(StartProduction)
     blocks=open(file).read().split('\n\n')
-    NonterminalSymbolGroup=[x.split('\n')[0] for x in blocks]
+    LeftGroup=[x.split('\n')[0] for x in blocks]
     for block in blocks:
         lines=block.split('\n')
-        NonterminalSymbol=lines[0]
-        Expressions=[x.strip(' ')[1:] for x in lines[1:-1]]
-        for expression in Expressions:
-            RightExpression=[]
+        left=lines[0]
+        expressions=[x.strip(' ')[1:] for x in lines[1:-1]]
+        for expression in expressions:
+            right=[]
             items=expression.strip(' ').split(' ')
             for item in items:
                 data={}
@@ -292,54 +105,52 @@ def GenerateNewGrammer(file):
                     data ={'class':'T','type': item, 'value': item}
                 else:#非终结符
                      data ={'class':'NT','value':item}
-                RightExpression.append(data)
+                right.append(data)
                 if not data in TerminalSymbolGroup and data['class']!='NT':
                     TerminalSymbolGroup.append(data)
-    #         ProductionGroup.append(Production(Compact[NonterminalSymbol], RightExpression,TerminalSymbol='#'))
-    # NonterminalSymbolGroup=Compact.values()
-            ProductionGroup.append(Production(NonterminalSymbol, RightExpression, TerminalTail=['#']))
+            ProductionGroup.append(Production(left, right, terminals=['#']))
     return
 def PrintGrammer(ProductionGroup):
     for Production in ProductionGroup:
-        print(Production.ToString())
-def AddDot(P):
+        print(Production.to_string())
+def AddDotToproductions(production):
     result=[]
-    if len(P.RightExpression)==1 and P.RightExpression[0]['value']=='$':
-        result.append(Production(P.NonterminalSymbol,P.RightExpression,1))
+    if len(production.right)==1 and production.right[0]['value']== '$':
+        result.append(Production(production.left, production.right, 1))
     else:
-        temp=[Production(P.NonterminalSymbol,P.RightExpression,i+1)
-              for i in range(len(P.RightExpression)+1)]
+        temp=[Production(production.left, production.right, i + 1)
+              for i in range(len(production.right) + 1)]
         for item in temp:
             result.append(item)
     return result
-def GenerateDoted():
+def GenerateDotedproductions():
     global DotedProductionGroup
     for P in ProductionGroup:
-        for item in AddDot(P):
+        for item in AddDotToproductions(P):
             DotedProductionGroup.append(item)
 def FindProduction(NT):
     result=[]
     for Production in DotedProductionGroup:
-        if Production.NonterminalSymbol==NT:
+        if Production.left==NT:
             result.append(Production)
     return result
-def CLOSURE(Productions):
-    def Expand(production):
+def CLOSURE(productions):
+    def ExpandProduction(production):
         data=[]
-        right = production.RightExpression
-        position = production.DotPosition
-        terminal = production.TerminalTail
-        def GetFirstSet(node):
+        right = production.right
+        position = production.position
+        terminal = production.terminals
+        def get_first_set(node):
             if node['class'] == 'NT':
                 return FIRST[next['value']]
             else:
-                return First(next['value'])
+                return GetFirstSet(next['value'])
         if position < len(right) + 1 and right[position - 1]['class'] == 'NT':
             first=[]
-            Flag=True
+            flag=True
             for i in range(position, len(right)):
                 next=right[i]
-                firstset=copy.deepcopy(GetFirstSet(next))
+                firstset=copy.deepcopy(get_first_set(next))
                 eps={'class':'T','value':'$'}
                 if eps in firstset:
                     firstset.remove(eps)
@@ -350,80 +161,80 @@ def CLOSURE(Productions):
                     for item in firstset:
                         if not item in first:
                             first.append(item)
-                    Flag =False
+                    flag =False
                     break
-            if Flag:
+            if flag:
                 for item in terminal:
                     if not item in first:
                         first.append({'class':'T','value':item})
             productions = FindProduction(right[position - 1]['value'])
             for item in productions:
-                if item.DotPosition == 1:
+                if item.position == 1:
                     temp = copy.deepcopy(item)
-                    temp.TerminalTail =[item['value'] for item in first]
+                    temp.terminals =[item['value'] for item in first]
                     data.append(temp)
         return data
-    cache=[p.ToString() for p in Productions]
-    result=[p for p in Productions]
-    procession=[p for p in Productions]
+    cache=[p.to_string() for p in productions]
+    result=[p for p in productions]
+    procession=[p for p in productions]
     while len(procession)>0:
         production=procession.pop()
-        data=Expand(production)
+        data=ExpandProduction(production)
         for item in data:
-            if item.ToString() not in cache:
+            if item.to_string() not in cache:
                 result.append(item)
-                cache.append(item.ToString())
+                cache.append(item.to_string())
                 procession.append(item)
     return result
 def GO(I,item):
-    Params=[]
-    for production in I.Productions:
-        expression=production.RightExpression
-        position=production.DotPosition
+    params=[]
+    for production in I.productions:
+        expression=production.right
+        position=production.position
         if position<len(expression)+1:
             node=expression[position-1]
             if node['value']=='$' and len(expression)==1:
                 continue
-            if node==item and production.Next() not in Params:
-                Params.append(production.Next())
-    return CLOSURE(Params)
-def First(Symbol):
+            if node==item and production.Next() not in params:
+                params.append(production.Next())
+    return CLOSURE(params)
+def GetFirstSet(symbol):
     global FIRST
     result=[]
-    Productions=[P for P in ProductionGroup if P.NonterminalSymbol== Symbol]
-    if len(Productions)==0:
-        return [{'class':'T','value':Symbol}]
-    EndSymbol={'class':'T','value':'$'}
-    for P in Productions:
-        right=P.RightExpression
-        if right==[EndSymbol] and EndSymbol not in result:
-            result.append(EndSymbol)
+    productions=[production for production in ProductionGroup if production.left == symbol]
+    if len(productions)==0:
+        return [{'class':'T','value':symbol}]
+    end_symbol={'class':'T','value':'$'}
+    for production in productions:
+        right=production.right
+        if right==[end_symbol] and end_symbol not in result:
+            result.append(end_symbol)
         else:
             cnt = len(right)
             if right[0]['class']=='T' and right[0] not in result:
                 result.append(right[0])
                 continue
             else:
-                if right[0]['value']!=Symbol:
-                    TempFirst=right[0]
-                    if TempFirst not in result:
-                        result.append(TempFirst)
+                if right[0]['value']!=symbol:
+                    temp_first=right[0]
+                    if temp_first not in result:
+                        result.append(temp_first)
             if cnt>1:
                 previous=right[0]
                 for i in range(1,cnt):
-                    if previous['value']!=Symbol:
-                        if not EndSymbol in First(previous['value']):
+                    if previous['value']!=symbol:
+                        if not end_symbol in GetFirstSet(previous['value']):
                             break
                         else:
-                            if right[i]['value']!=Symbol:
-                                TempFirst = First(right[i]['value'])
-                                if TempFirst not in result:
-                                    result.append(TempFirst[0])
+                            if right[i]['value']!=symbol:
+                                temp_first = GetFirstSet(right[i]['value'])
+                                if temp_first not in result:
+                                    result.append(temp_first[0])
                                 previous=right[i]
-    FIRST[Symbol]=result
+    FIRST[symbol]=result
     return result
 def MakeUpFirst():
-    def IsFirstComplete(key):
+    def IsFirstSetComplete(key):
         first = FIRST[key]
         for item in first:
             if item['class'] == 'NT':
@@ -436,44 +247,37 @@ def MakeUpFirst():
             first = FIRST[key]
             for item in first:
                 if item['class'] == 'NT':
-                    if IsFirstComplete(item['value']):
+                    if IsFirstSetComplete(item['value']):
                         for value in FIRST[item['value']]:
                             if value not in first:
                                 first.append(value)
                         first.remove(item)
-            if IsFirstComplete(key):
+            if IsFirstSetComplete(key):
                 procession.remove(key)
     return
 def GenerateFirst():
-    for Nonterminal in NonterminalSymbolGroup:
-        First(Nonterminal)
+    for Nonterminal in LeftGroup:
+        GetFirstSet(Nonterminal)
     MakeUpFirst()
-    def PrintFirst():
-        for key in FIRST.keys():
-            item=FIRST[key]
-            print(key,end='->')
-            for value in item:
-                print(value['value'],end=' ')
-            print('')
     return
 def GenerateDFA():
     global DFA
-    def Merge(Productions):
+    def Merge(productions):
         result=[]
         table={}
         reversed={}
-        for p in Productions:
-            temp=Production(p.NonterminalSymbol,p.RightExpression,p.DotPosition)
-            teiminals = p.TerminalTail
-            if not temp.ToString() in table.keys():
-                table[temp.ToString()]=teiminals
-                reversed[temp.ToString()]=temp
+        for p in productions:
+            temp=Production(p.left,p.right,p.position)
+            teiminals = p.terminals
+            if not temp.to_string() in table.keys():
+                table[temp.to_string()]=teiminals
+                reversed[temp.to_string()]=temp
             else:
                 for t in teiminals:
-                    table[temp.ToString()].append(t)
+                    table[temp.to_string()].append(t)
         for key in table.keys():
             temp=reversed[key]
-            temp.TerminalTail=table[key]
+            temp.terminals=table[key]
             result.append(temp)
         return result
     StateTable={}
@@ -482,23 +286,19 @@ def GenerateDFA():
     States=[]
     Procession=[]
     I=State('I'+str(CurrentState))
-    I.Productions=CLOSURE([StartProduction])
-    StateTable[I.name]=I.ToString()
+    I.productions=CLOSURE([StartProduction])
+    StateTable[I.name]=I.to_string()
     Procession.append(I)
     DFA.add_state(I)
     States.append(I)
     CurrentState+=1
     while len(Procession)>0:
         I=Procession.pop(0)
-        # print(I.ToString(),end='\n\n')
-        Items=I.GetItem()
-        # for p in I.Productions:
-        for item in Items:
+        items=I.get_item()
+        for item in items:
             temp=State('I'+str(CurrentState))
-            temp.Productions = Merge(GO(I, item))
-            # temp.Productions=[p]
-            # temp.Productions =Merge(GO(temp,item))
-            string=temp.ToString()
+            temp.productions = Merge(GO(I, item))
+            string=temp.to_string()
             if string=='':
                 continue
             if string not in StateTable.values():
@@ -531,29 +331,27 @@ def GenerateTable():
     global Reduce
     global Shift
     ProductionStringGroup =copy.deepcopy(ProductionGroup)
-    ProductionStringGroup[0].DotPosition=0
-    ProductionStringGroup=[p.ToString() for p in ProductionStringGroup]
+    ProductionStringGroup[0].position=0
+    ProductionStringGroup=[p.to_string() for p in ProductionStringGroup]
     states=DFA.state
     edges=DFA.edge
     StateIndexTable = {states[i].name:i for i in range(len(states))}
     TerminalIndexTable = {TerminalSymbolGroup[i]["value"]:i for i in range(len(TerminalSymbolGroup))}
-    NonterminalIndexTable = {NonterminalSymbolGroup[i]:i for i in range(len(NonterminalSymbolGroup))}
+    NonterminalIndexTable = {LeftGroup[i]:i for i in range(len(LeftGroup))}
     ACTION=[["" for x in range(len(TerminalSymbolGroup))] for y in range(len(states))]
-    GOTO=[["" for x in range(len(NonterminalSymbolGroup))] for y in range(len(states))]
+    GOTO=[["" for x in range(len(LeftGroup))] for y in range(len(states))]
     for state in states:
-        #print(states.index(state))
         x = StateIndexTable[state.name]
         EndProduction = copy.deepcopy(StartProduction)
-        EndProduction.DotPosition += 1
-        LableGroup=[p.ToString() for p in state.Productions]
-        if EndProduction.ToString() in LableGroup:
+        EndProduction.position += 1
+        LableGroup=[p.to_string() for p in state.productions]
+        if EndProduction.to_string() in LableGroup:
             y = TerminalIndexTable["#"]
             ACTION[x][y] = 'acc'
             continue
-        for production in state.Productions:
-            expression = production.RightExpression
-            position = production.DotPosition
-            eps={'calss':'T','value':'$'}
+        for production in state.productions:
+            expression = production.right
+            position = production.position
             if position < len(expression) + 1:
                 node = expression[position - 1]
                 if node['class'] == 'T':
@@ -565,47 +363,46 @@ def GenerateTable():
                             print("{}包含shift-reduce冲突".format(state.name))
                             print(index, end='->')
                             print(ACTION[x][y])
-                            print(state.ToString())
+                            print(state.to_string())
                             print('-------------')
                         ACTION[x][y] = index
                         temp = copy.deepcopy(production)
-                        temp.DotPosition = 0
-                        temp.TerminalTail = ('#')
+                        temp.position = 0
+                        temp.terminals = ('#')
                         Shift[index] = temp
                     else:
-                        for i in range(len(production.TerminalTail)):
-                            y = TerminalIndexTable[production.TerminalTail[i]]
+                        for i in range(len(production.terminals)):
+                            y = TerminalIndexTable[production.terminals[i]]
                             temp = copy.deepcopy(production)
-                            temp.DotPosition = 0
-                            temp.TerminalTail = ('#')
-                            index = 'r' + str(ProductionStringGroup.index(temp.ToString()))
+                            temp.position = 0
+                            temp.terminals = ('#')
+                            index = 'r' + str(ProductionStringGroup.index(temp.to_string()))
                             if ACTION[x][y] != "" and ACTION[x][y] != index:
                                 print("{}包含shift-reduce冲突".format(state.name))
                                 print(index, end='->')
                                 print(ACTION[x][y])
-                                print(state.ToString())
-                                print(temp.ToString())
+                                print(state.to_string())
+                                print(temp.to_string())
                                 print('-------------')
                             ACTION[x][y] = index
                             Reduce[index] = temp
 
             elif position == len(expression) + 1:
-                for i in range(len(production.TerminalTail)):
-                    y = TerminalIndexTable[production.TerminalTail[i]]
+                for i in range(len(production.terminals)):
+                    y = TerminalIndexTable[production.terminals[i]]
                     temp=copy.deepcopy(production)
-                    temp.DotPosition=0
-                    temp.TerminalTail=('#')
-                    index= 'r'+str(ProductionStringGroup.index(temp.ToString()))
+                    temp.position=0
+                    temp.terminals=('#')
+                    index= 'r'+str(ProductionStringGroup.index(temp.to_string()))
                     if ACTION[x][y]!="" and ACTION[x][y]!=index:
                         print("{}包含shift-reduce冲突".format(state.name))
                         print(index,end='->')
                         print(ACTION[x][y])
-                        print(state.ToString())
-                        print(temp.ToString())
+                        print(state.to_string())
+                        print(temp.to_string())
                         print('-------------')
                     ACTION[x][y] =index
                     Reduce[index] = temp
-    temp=[(tuple[0].name,tuple[1]['value'],tuple[2].name)for tuple in edges]
     for tuple in edges:
         From,item,To=tuple
         if item['class']=='NT':
@@ -621,8 +418,8 @@ def PrintTable():
     title=[""]
     for i in range(len(TerminalSymbolGroup)):
         title.append(TerminalSymbolGroup[i]['value'])
-    for i in range(len(NonterminalSymbolGroup)):
-        title.append(NonterminalSymbolGroup[i])
+    for i in range(len(LeftGroup)):
+        title.append(LeftGroup[i])
     temp=title
     title.sort()
     x = PrettyTable(title)
@@ -630,7 +427,7 @@ def PrintTable():
         row=[DFA.state[i].name]
         for j in range(len(TerminalSymbolGroup)):
             row.append(ACTION[i][j])
-        for j in range(len(NonterminalSymbolGroup)):
+        for j in range(len(LeftGroup)):
             row.append(GOTO[i][j])
         x.add_row(row)
     print(x)
@@ -656,6 +453,8 @@ def MakeSyntacticAnalyse(Tokens):
         x = StateIndexTable[CurrentState.name]
         y = TerminalIndexTable[Token['value']]
         Action=ACTION[x][y]
+        if Action=='':
+            pass
         if Action=='acc':
             step+=1
             OpStackColumn=""
@@ -693,15 +492,15 @@ def MakeSyntacticAnalyse(Tokens):
             table.add_row(row)
         elif Action[0]=='r':
             production=Reduce[Action]
-            cnt=len(production.RightExpression)
-            if cnt==1 and production.RightExpression[0]['value'] == '$':
-                des = {'class': 'NT', 'value': production.NonterminalSymbol}
+            cnt=len(production.right)
+            if cnt==1 and production.right[0]['value'] == '$':
+                des = {'class': 'NT', 'value': production.left}
                 CurrentState = StateStack[-1]
                 StateStack.append(SearchGoToState(CurrentState, des))
                 OpStack.append(des)
                 continue
             for i in range(cnt):
-                    item=production.RightExpression[cnt-i-1]
+                    item=production.right[cnt-i-1]
                     back = OpStack[-1]
                     if item['class'] != back['class'] and item['value'] != back['value']:
                         print("error")
@@ -709,7 +508,7 @@ def MakeSyntacticAnalyse(Tokens):
                         OpStack.pop(-1)
                         StateStack.pop(-1)
             CurrentState = StateStack[-1]
-            NT=production.NonterminalSymbol
+            NT=production.left
             x = StateIndexTable[CurrentState.name]
             y = NonterminalIndexTable[NT]
             NextState=FindStateByName(GOTO[x][y])
@@ -725,17 +524,12 @@ def MakeSyntacticAnalyse(Tokens):
             if len([x['value'] for x in Tokens]) > 5:
                 TokensColumn += " ......"
             temp=copy.deepcopy(production)
-            temp.DotPosition=0
-            Operation="reduce({})".format(temp.ToString())
+            temp.position=0
+            Operation="reduce({})".format(temp.to_string())
             StateStackColumn=" ".join([x.name for x in StateStack])
             row=[str(step),OpStackColumn,TokensColumn,Operation,StateStackColumn,Action,NextState.name]
             table.add_row(row)
     return
-def ExecSimple(code):
-    Tokens=[]
-    for letter in code:
-         Tokens.append({'class': 'T', 'value': letter})
-    MakeSyntacticAnalyse(Tokens)
 def DrawGraph():
     class Graph(object):
         def __init__(self):
@@ -749,10 +543,8 @@ def DrawGraph():
                 result += "[constraint = True,\n\t\tlabel = \"{}\",\n\t\tlabelfloat = True];\n".format(edge[2])
             result += "}"
             return result
-    States=DFA.state
-    Edges=DFA.edge
     GraphView = Graph()
-    for tuple in Edges:
+    for tuple in DFA.state:
         From,item,To=tuple
         GraphView.add_edge((From.name,To.name,item['value']))
     with open("temp.dot","w") as f:
@@ -762,7 +554,7 @@ def DrawGraph():
 ProductionGroup=[]
 DotedProductionGroup=[]
 TerminalSymbolGroup=[]
-NonterminalSymbolGroup=[]
+LeftGroup=[]
 StateIndexTable={}
 TerminalIndexTable={}
 NonterminalIndexTable={}
@@ -775,15 +567,13 @@ Shift={}
 FIRST={}
 FOLLOW={}
 if __name__=='__main__':
-    GenerateNewGrammer("grammer.txt")
-    #GenerateGrammer("grammer_compact.txt")
-    #GenerateCompactGrammer('grammer_simple.txt')
-    GenerateDoted()
+    ReadGrammer("grammer.txt")
+    GenerateDotedproductions()
     #PrintGrammer(ProductionGroup)
     GenerateFirst()
     GenerateDFA()
-    DrawGraph()
+    #DrawGraph()
     GenerateTable()
     PrintTable()
-    Tokens=main('source.cc')
-    MakeSyntacticAnalyse(Tokens)
+    tokens=main('source.cc')
+    MakeSyntacticAnalyse(tokens)
