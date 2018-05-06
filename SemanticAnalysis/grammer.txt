@@ -1,0 +1,166 @@
+S
+    : start
+    ;
+
+start
+    : external_declaration start
+    | '$'
+    ;
+
+primary_expression
+     : id
+     | number
+     | '(' expression ')'
+     ;
+
+operator
+    : '+'
+    | '-'
+    | '*'
+    | '/'
+    | '%'
+    | '<'
+    | '>'
+    | '=' '='
+    | '!' '='
+    ;
+
+arithmetic_expression
+    : operator primary_expression arithmetic_expression
+    | '$'
+    ;
+
+constant_expression
+    : primary_expression arithmetic_expression
+    ;
+
+assignment_operator
+    : '='
+    | '+' '='
+    | '-' '='
+    | '*' '='
+    | '/' '='
+    | '%' '='
+    ;
+
+assignment_expression
+    :id assignment_operator expression
+    ;
+
+assignment_expression_profix
+    : ',' assignment_expression assignment_expression_profix
+    | '$'
+    ;
+
+assignment_expression_list
+    : assignment_expression assignment_expression_profix
+    | '$'
+    ;
+
+function_expression
+    : function id '(' expression_list ')'
+    ;
+
+expression
+    : constant_expression
+    | function_expression
+    ;
+
+expression_profix
+    : ',' expression expression_profix
+    | '$'
+    ;
+
+expression_list
+    : expression expression_profix
+    | '$'
+    ;
+
+type_specifier
+    : double
+    | char
+    | int
+    | float
+    ;
+
+declaration_assign
+    : '=' expression
+    | '$'
+    ;
+
+declaration_init
+    : id declaration_assign
+    ;
+
+declaration_init_list
+    : ',' declaration_init declaration_init_list
+    | '$'
+    ;
+
+declaration
+    : type_specifier declaration_init declaration_init_list ';'
+    ;
+
+function_declaration
+    : type_specifier id
+    ;
+
+function_declaration_suffix
+    : ',' function_declaration function_declaration_suffix
+    | '$'
+    ;
+
+function_declaration_list
+    : function_declaration function_declaration_suffix
+    | '$'
+    ;
+
+function_definition
+    : function type_specifier id '(' function_declaration_list ')'
+    ;
+
+function_implement
+    : function_definition compound_statement
+    ;
+
+statement
+    : expression_statement
+    : jump_statement
+    : selection_statement
+    : iteration_statement
+    : compound_statement
+    : declaration
+    ;
+
+statement_list
+    : statement statement_list
+    | '$'
+    ;
+
+expression_statement
+    : assignment_expression_list ';'
+    ;
+
+jump_statement
+    : continue ';'
+    | break ';'
+    | return expression ';'
+    ;
+
+selection_statement
+    : if '(' expression ')' statement else statement
+    ;
+
+iteration_statement
+    : while '(' expression ')' statement
+    | for '(' declaration expression ';' assignment_expression ')' statement
+    ;
+
+compound_statement
+    : '{' statement_list '}'
+    ;
+
+external_declaration
+    : function_implement
+    | declaration
+    ;

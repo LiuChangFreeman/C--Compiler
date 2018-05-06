@@ -1,0 +1,101 @@
+﻿<mui:ModernWindow x:Class="编译器.View.LR1"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  mc:Ignorable="d" 
+                  Width="840" Height="680" MinWidth="840" MinHeight="680"
+                  Title="LR(1)分析表"
+                  Style="{StaticResource BlankWindow}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="Grammer" Width="120" Height="30" Click="Grammer_Click" >查看文法</Button>
+        </Grid>
+        <ScrollViewer x:Name="scrollViewer" Grid.Row="1" PreviewMouseWheel="scrollViewer_PreviewMouseWheel"  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <ListView x:Name="TableView" FontSize="14"  FontFamily="DengXian" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Width="40" Header="  " DisplayMemberBinding="{Binding item0}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header="#" DisplayMemberBinding="{Binding item1}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header="$" DisplayMemberBinding="{Binding item2}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header="ID" DisplayMemberBinding="{Binding item3}"></GridViewColumn>
+                            <GridViewColumn Header="number" DisplayMemberBinding="{Binding item4}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header="(" DisplayMemberBinding="{Binding item5}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header=")" DisplayMemberBinding="{Binding item6}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header="+" DisplayMemberBinding="{Binding item7}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header="-" DisplayMemberBinding="{Binding item8}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header="*" DisplayMemberBinding="{Binding item9}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header="/" DisplayMemberBinding="{Binding item10}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header="%" DisplayMemberBinding="{Binding item11}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header="&lt;" DisplayMemberBinding="{Binding item12}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header=">" DisplayMemberBinding="{Binding item13}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header="==" DisplayMemberBinding="{Binding item14}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header="!=" DisplayMemberBinding="{Binding item15}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header="=" DisplayMemberBinding="{Binding item16}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header="," DisplayMemberBinding="{Binding item17}"></GridViewColumn>
+                            <GridViewColumn Header="function" DisplayMemberBinding="{Binding item18}"></GridViewColumn>
+                            <GridViewColumn Header="double" DisplayMemberBinding="{Binding item19}"></GridViewColumn>
+                            <GridViewColumn Header="char" DisplayMemberBinding="{Binding item20}"></GridViewColumn>
+                            <GridViewColumn Header="int" DisplayMemberBinding="{Binding item21}"></GridViewColumn>
+                            <GridViewColumn Header="float" DisplayMemberBinding="{Binding item22}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header=";" DisplayMemberBinding="{Binding item23}"></GridViewColumn>
+                            <GridViewColumn Header="continue" DisplayMemberBinding="{Binding item24}"></GridViewColumn>
+                            <GridViewColumn Header="break" DisplayMemberBinding="{Binding item25}"></GridViewColumn>
+                            <GridViewColumn Header="return" DisplayMemberBinding="{Binding item26}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header="if" DisplayMemberBinding="{Binding item27}"></GridViewColumn>
+                            <GridViewColumn Header="else" DisplayMemberBinding="{Binding item28}"></GridViewColumn>
+                            <GridViewColumn Header="while" DisplayMemberBinding="{Binding item29}"></GridViewColumn>
+                            <GridViewColumn Header="for" DisplayMemberBinding="{Binding item30}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header=" {" DisplayMemberBinding="{Binding item31}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header="}" DisplayMemberBinding="{Binding item32}"></GridViewColumn>
+                            <GridViewColumn Width="40" Header="S" DisplayMemberBinding="{Binding item33}"></GridViewColumn>
+                            <GridViewColumn Header="start" DisplayMemberBinding="{Binding item34}"></GridViewColumn>
+                            <GridViewColumn Header="primary_expression" DisplayMemberBinding="{Binding item35}"></GridViewColumn>
+                            <GridViewColumn Header="operator" DisplayMemberBinding="{Binding item36}"></GridViewColumn>
+                            <GridViewColumn Header="arithmetic_expression" DisplayMemberBinding="{Binding item37}"></GridViewColumn>
+                            <GridViewColumn Header="constant_expression" DisplayMemberBinding="{Binding item38}"></GridViewColumn>
+                            <GridViewColumn Header="assignment_operator" DisplayMemberBinding="{Binding item39}"></GridViewColumn>
+                            <GridViewColumn Header="assignment_expression" DisplayMemberBinding="{Binding item40}"></GridViewColumn>
+                            <GridViewColumn Header="assignment_expression_profix" DisplayMemberBinding="{Binding item41}"></GridViewColumn>
+                            <GridViewColumn Header="assignment_expression_list" DisplayMemberBinding="{Binding item42}"></GridViewColumn>
+                            <GridViewColumn Header="function_expression" DisplayMemberBinding="{Binding item43}"></GridViewColumn>
+                            <GridViewColumn Header="expression" DisplayMemberBinding="{Binding item44}"></GridViewColumn>
+                            <GridViewColumn Header="expression_profix" DisplayMemberBinding="{Binding item45}"></GridViewColumn>
+                            <GridViewColumn Header="expression_list" DisplayMemberBinding="{Binding item46}"></GridViewColumn>
+                            <GridViewColumn Header="type_specifier" DisplayMemberBinding="{Binding item47}"></GridViewColumn>
+                            <GridViewColumn Header="declaration_assign" DisplayMemberBinding="{Binding item48}"></GridViewColumn>
+                            <GridViewColumn Header="declaration_init" DisplayMemberBinding="{Binding item49}"></GridViewColumn>
+                            <GridViewColumn Header="declaration_init_list" DisplayMemberBinding="{Binding item50}"></GridViewColumn>
+                            <GridViewColumn Header="declaration" DisplayMemberBinding="{Binding item51}"></GridViewColumn>
+                            <GridViewColumn Header="function_declaration" DisplayMemberBinding="{Binding item52}"></GridViewColumn>
+                            <GridViewColumn Header="function_declaration_suffix" DisplayMemberBinding="{Binding item53}"></GridViewColumn>
+                            <GridViewColumn Header="function_declaration_list" DisplayMemberBinding="{Binding item54}"></GridViewColumn>
+                            <GridViewColumn Header="function_definition" DisplayMemberBinding="{Binding item55}"></GridViewColumn>
+                            <GridViewColumn Header="function_implement" DisplayMemberBinding="{Binding item56}"></GridViewColumn>
+                            <GridViewColumn Header="statement" DisplayMemberBinding="{Binding item57}"></GridViewColumn>
+                            <GridViewColumn Header="statement_list" DisplayMemberBinding="{Binding item58}"></GridViewColumn>
+                            <GridViewColumn Header="expression_statement" DisplayMemberBinding="{Binding item59}"></GridViewColumn>
+                            <GridViewColumn Header="jump_statement" DisplayMemberBinding="{Binding item60}"></GridViewColumn>
+                            <GridViewColumn Header="selection_statement" DisplayMemberBinding="{Binding item61}"></GridViewColumn>
+                            <GridViewColumn Header="iteration_statement" DisplayMemberBinding="{Binding item62}"></GridViewColumn>
+                            <GridViewColumn Header="compound_statement" DisplayMemberBinding="{Binding item63}"></GridViewColumn>
+                            <GridViewColumn Header="external_declaration" DisplayMemberBinding="{Binding item64}"></GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
+    </Grid>
+</mui:ModernWindow>

@@ -1,0 +1,136 @@
+call  main
+call  end
+
+f1:
+pop  t1
+pop  t2
+fp=fp-8
+t3=t1>t2
+j>0 t3 l1
+j  l2
+l1:
+v0=t1
+return
+l2:
+v0=t2
+return
+
+f2:
+pop  t4
+pop  t5
+fp=fp-8
+t6=t4<t5
+j>0 t6 l4
+j  l5
+l4:
+v0=t4
+return
+l5:
+v0=t5
+return
+
+f3:
+pop  t7
+fp=fp-4
+t8=t7<1
+j>0 t8 l7
+j  l8
+l7:
+v0=1
+return
+l8:
+sp=sp-8
+store  ra
+store  t7
+t9=t7-1
+fp=fp+4
+push  t9
+call  f3
+load  t7
+load  ra
+sp=sp+8
+t10=v0
+t11=t7*t10
+v0=t11
+return
+
+main:
+sp=sp-4
+store  ra
+fp=fp+4
+push  5
+call  f3
+load  ra
+sp=sp+4
+t14=v0
+t12=t14
+t18=1
+t19=234
+t20=2
+t15=3*4
+t16=t15+5
+t17=t16-6
+t21=1
+t22=1
+l18:
+t23=t22<100
+j>0 t23 l16
+j  l17
+l16:
+t24=t22<50
+j>0 t24 l10
+j  l11
+l10:
+j  l19
+j  l12
+l11:
+t21=t21+t22
+l12:
+t25=t22>98
+j>0 t25 l13
+j  l14
+l13:
+j  l17
+j  l15
+l14:
+t20=t20+t17
+t27=5*4
+t19=t27
+t26=1+1
+t12=t26
+l15:
+l19:
+t22=t22+1
+j  l18
+l17:
+sp=sp-4
+store  ra
+fp=fp+8
+push  t20
+push  t17
+call  f2
+load  ra
+sp=sp+4
+t28=v0
+t30=1*2
+t31=t30+3
+t29=4*8
+t32=t31/t29
+t33=t32-6
+t34=t33+t18
+t35=t34-t19
+t36=t35+t28
+l22:
+t37=t36<40
+j>0 t37 l20
+j  l21
+l20:
+t36=t36+t18
+j  l22
+l21:
+t38=534-23
+t39=t38+423
+t40=t39*23
+t41=t40+t36
+v0=t41
+return
