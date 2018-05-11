@@ -34,24 +34,24 @@ class FunctionSymbol:
         self.type = None
         self.lable = None
         self.params = []
-def FindSymbol(name, function):
+def FindSymbol(name, function):#根据所在函数及标识符，找到符号表中的符号
     for item in SymbolTable:
         if item.name==name and item.function == function:
             return item
     return None
-def UpdateSymbolTable(symbol):
+def UpdateSymbolTable(symbol):#更新或者插入符号表
     global SymbolTable
     for item in SymbolTable:
         if item.name == symbol.name and item.function == symbol.function:
             SymbolTable.remove(item)
             break
     SymbolTable.append(symbol)
-def FindFunctionByName(name):
+def FindFunctionByName(name):#根据函数名找到函数表中的函数
     for item in FunctionTable:
         if item.name==name:
             return item
     return None
-def UpdateFunctionTable(symbol):
+def UpdateFunctionTable(symbol):#更新或者插入函数表
     global FunctionTable
     for item in FunctionTable:
         if item.name == symbol.name:
@@ -120,7 +120,7 @@ class DFA(object):
         self.state.append(Ix)
     def add_edge(self, Ia, t, Ib):
         self.edge.append((Ia,t,Ib))
-def ReadGrammer(file):
+def ReadGrammer(file):#读取LR(1)文法
     global ProductionGroup
     global TerminalSymbolGroup
     global LeftGroup
@@ -162,10 +162,10 @@ def ReadGrammer(file):
                     TerminalSymbolGroup.append(data)
             ProductionGroup.append(Production(left, right, terminals=['#']))
     return
-def PrintGrammer(ProductionGroup):
+def PrintGrammer(ProductionGroup):#打印读取的文法
     for Production in ProductionGroup:
         print(Production.to_string_compact())
-def AddDotToproductions(production):
+def AddDotToproductions(production):#对产生式加点
     result=[]
     if len(production.right)==1 and production.right[0]['type']== '$':
         result.append(Production(production.left, production.right, 1))
@@ -175,18 +175,18 @@ def AddDotToproductions(production):
         for item in temp:
             result.append(item)
     return result
-def GenerateDotedproductions():
+def GenerateDotedproductions():#获得所有加点的产生式
     global DotedProductionGroup
     for P in ProductionGroup:
         for item in AddDotToproductions(P):
             DotedProductionGroup.append(item)
-def FindProduction(NT):
+def FindProduction(NT):#在所有加点的产生式中，找到其中左侧非终结符为NT的
     result=[]
     for Production in DotedProductionGroup:
         if Production.left==NT:
             result.append(Production)
     return result
-def CLOSURE(productions):
+def CLOSURE(productions):#求一个项目集的CLOSURE
     def ExpandProduction(production):
         data=[]
         right = production.right
@@ -238,7 +238,7 @@ def CLOSURE(productions):
                 cache.append(item.to_string())
                 procession.append(item)
     return result
-def GO(I,item):
+def GO(I,item):#求一个项目集对于item的GO
     params=[]
     for production in I.productions:
         expression=production.right
@@ -250,7 +250,7 @@ def GO(I,item):
             if node==item and production.Next() not in params:
                 params.append(production.Next())
     return CLOSURE(params)
-def GetFirstSet(symbol):
+def GetFirstSet(symbol):#初步获取First集
     global FIRST
     result=[]
     productions=[production for production in ProductionGroup if production.left == symbol]
@@ -285,7 +285,7 @@ def GetFirstSet(symbol):
                                 previous=right[i]
     FIRST[symbol]=result
     return result
-def MakeUpFirst():
+def MakeUpFirst():#补全Fisrt集
     def IsFirstSetComplete(key):
         first = FIRST[key]
         for item in first:
@@ -307,12 +307,12 @@ def MakeUpFirst():
             if IsFirstSetComplete(key):
                 procession.remove(key)
     return
-def GenerateFirst():
+def GenerateFirst():#产生First集
     for Nonterminal in LeftGroup:
         GetFirstSet(Nonterminal)
     MakeUpFirst()
     return
-def GenerateDFA():
+def GenerateDFA():#构造LR(1)项目集规范族的DFA
     global DFA
     def Merge(productions):
         result=[]
@@ -368,13 +368,13 @@ def GenerateDFA():
                         Tranfer.append((I.name, item['type'], state.name))
                         break
     return
-def SearchGoToState(I,target):
+def SearchGoToState(I,target):#查找GO(I,X)所到达的项目集
     for tuple in DFA.edge:
         From, item, To = tuple
         if (From,item)==(I,target):
             return To
     return
-def GenerateTable():
+def GenerateTable():#生成LR(1)分析表
     global ACTION
     global GOTO
     global StateIndexTable
@@ -450,7 +450,7 @@ def GenerateTable():
                 pass
             GOTO[x][y]=To.name
     return
-def PrintTable():
+def PrintTable():#将LR(1)分析表写入文件
     title=[""]
     for i in range(len(TerminalSymbolGroup)):
         title.append(TerminalSymbolGroup[i]['type'])
@@ -486,7 +486,7 @@ def AddTableColum(Operation, Action, State):
     row = [str(CurrentStep), OpStackColumn, TokensColumn, Operation, StateStackColumn, Action, State]
     Table.append(row)
     return
-def MakeAnalyse():
+def MakeAnalyse():#进行语法分析
     global OpStack
     global StateStack
     global CurrentProduction
@@ -585,19 +585,19 @@ def DrawGraph():
         f.write(GraphView.to_string())
     os.system("dot -Tpng temp.dot -o temp.png")
     return
-def NewLabel():
+def NewLabel():#生成一个新的lable
     global CurrentLable
     CurrentLable+=1
     return "l"+str(CurrentLable)
-def NewFunction():
+def NewFunction():#生成一个新的函数lable
     global CurrentFunction
     CurrentFunction+=1
     return "f"+str(CurrentFunction)
-def NewTemp():
+def NewTemp():#生成一个新的中间变量lable
     global CurrentTemp
     CurrentTemp+=1
     return "t"+str(CurrentTemp)
-def SemanticAnalysis():
+def SemanticAnalysis():#语义动作子程序
     LeftExpr=CurrentProduction.left
     RightExpr=CurrentProduction.right
     if LeftExpr=='operator':
@@ -1063,7 +1063,7 @@ def SemanticAnalysis():
             NewNode.stack=[]
         SemanticStack.append(NewNode)
     return
-def PrintIntermediateCode(codes):
+def PrintIntermediateCode(codes):#将中间代码写入文件
     fd=open(path+'result.middle','w')
     for code in codes:
         if code[0]==':=':
@@ -1082,7 +1082,7 @@ def PrintIntermediateCode(codes):
             fd.write('{}={}{}{}'.format(code[3], code[1], code[0], code[2]))
         fd.write('\n')
     fd.close()
-def GetReg(temp,codes):
+def GetReg(temp,codes):#为中间变量申请一个寄存器
     global Mips
     global Regs
     if str(temp)[0]!='t':
@@ -1099,7 +1099,7 @@ def GetReg(temp,codes):
                 TempValueStatus[temp]='reg'
                 return key
         FreeReg(codes)
-def FreeReg(codes):
+def FreeReg(codes):#释放寄存器占用
     global Regs
     used=Regs.values()
     if '' in used:
@@ -1135,7 +1135,7 @@ def FreeReg(codes):
                     Regs[key] = ''
                     TempValueStatus[freed]='memory'
                     return
-def GenerateMips(codes):
+def GenerateMips(codes):#翻译中间代码为MIPS
     global TempValueStatus
     remain=codes
     TempValueStatus={x.place:'memory' for x in SymbolTable}
