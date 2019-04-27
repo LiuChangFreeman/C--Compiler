@@ -23,7 +23,7 @@ _active = []
 
 def _cleanup():
     for inst in _active[:]:
-        if inst.poll(_deadstate=sys.maxint) >= 0:
+        if inst.poll(_deadstate=sys.maxsize) >= 0:
             try:
                 _active.remove(inst)
             except ValueError:
@@ -73,7 +73,7 @@ class Popen3:
 
     def __del__(self):
         # In case the child hasn't been waited on, check if it's done.
-        self.poll(_deadstate=sys.maxint)
+        self.poll(_deadstate=sys.maxsize)
         if self.sts < 0:
             if _active is not None:
                 # Child is still running, keep us alive until we can wait on it.

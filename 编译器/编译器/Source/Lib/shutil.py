@@ -45,7 +45,7 @@ except NameError:
 
 def copyfileobj(fsrc, fdst, length=16*1024):
     """copy data from file-like object fsrc to file-like object fdst"""
-    while 1:
+    while True:
         buf = fsrc.read(length)
         if not buf:
             break
@@ -101,7 +101,7 @@ def copystat(src, dst):
     if hasattr(os, 'chflags') and hasattr(st, 'st_flags'):
         try:
             os.chflags(dst, st.st_flags)
-        except OSError, why:
+        except OSError as why:
             for err in 'EOPNOTSUPP', 'ENOTSUP':
                 if hasattr(errno, err) and why.errno == getattr(errno, err):
                     break
@@ -192,13 +192,13 @@ def copytree(src, dst, symlinks=False, ignore=None):
                 copy2(srcname, dstname)
         # catch the Error from the recursive copytree so that we can
         # continue with other files
-        except Error, err:
+        except Error as err:
             errors.extend(err.args[0])
-        except EnvironmentError, why:
+        except EnvironmentError as why:
             errors.append((srcname, dstname, str(why)))
     try:
         copystat(src, dst)
-    except OSError, why:
+    except OSError as why:
         if WindowsError is not None and isinstance(why, WindowsError):
             # Copying file access times may fail on Windows
             pass
@@ -235,7 +235,7 @@ def rmtree(path, ignore_errors=False, onerror=None):
     names = []
     try:
         names = os.listdir(path)
-    except os.error, err:
+    except os.error as err:
         onerror(os.listdir, path, sys.exc_info())
     for name in names:
         fullname = os.path.join(path, name)
@@ -248,7 +248,7 @@ def rmtree(path, ignore_errors=False, onerror=None):
         else:
             try:
                 os.remove(fullname)
-            except os.error, err:
+            except os.error as err:
                 onerror(os.remove, fullname, sys.exc_info())
     try:
         os.rmdir(path)
@@ -471,9 +471,8 @@ def get_archive_formats():
 
     Each element of the returned sequence is a tuple (name, description)
     """
-    formats = [(name, registry[2]) for name, registry in
-               _ARCHIVE_FORMATS.items()]
-    formats.sort()
+    formats = sorted([(name, registry[2]) for name, registry in
+               _ARCHIVE_FORMATS.items()])
     return formats
 
 def register_archive_format(name, function, extra_args=None, description=''):

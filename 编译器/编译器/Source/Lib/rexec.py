@@ -61,7 +61,7 @@ class FileDelegate(FileBase):
         self.name = name
 
     for m in FileBase.ok_file_methods + ('close',):
-        exec TEMPLATE % (m, m)
+        exec(TEMPLATE % (m, m))
 
 
 class RHooks(ihooks.Hooks):
@@ -72,7 +72,7 @@ class RHooks(ihooks.Hooks):
         # new interface is RHooks([verbose])
         verbose = 0
         rexec = None
-        if args and type(args[-1]) == type(0):
+        if args and isinstance(args[-1], type(0)):
             verbose = args[-1]
             args = args[:-1]
         if args and hasattr(args[0], '__class__'):
@@ -261,8 +261,7 @@ class RExec(ihooks._Verbose):
         m.path = map(None, self.ok_path)
         m.exc_info = self.r_exc_info
         m = self.modules['sys']
-        l = self.modules.keys() + list(self.ok_builtin_modules)
-        l.sort()
+        l = sorted(self.modules.keys() + list(self.ok_builtin_modules))
         m.builtin_module_names = tuple(l)
 
     # The copy_* methods copy existing modules with some changes
@@ -313,7 +312,7 @@ class RExec(ihooks._Verbose):
 
         """
         m = self.add_module('__main__')
-        exec code in m.__dict__
+        exec(code, m.__dict__)
 
     def r_eval(self, code):
         """Evaluate code within a restricted environment.
@@ -554,7 +553,7 @@ def test():
     if args and args[0] != '-':
         try:
             fp = open(args[0])
-        except IOError, msg:
+        except IOError as msg:
             print "%s: can't open file %r" % (sys.argv[0], args[0])
             return 1
     if fp.isatty():
@@ -569,7 +568,7 @@ def test():
                 r.s_apply(code.InteractiveConsole.runcode, (self, co))
         try:
             RestrictedConsole(r.modules['__main__'].__dict__).interact()
-        except SystemExit, n:
+        except SystemExit as n:
             return n
     else:
         text = fp.read()
@@ -577,7 +576,7 @@ def test():
         c = compile(text, fp.name, 'exec')
         try:
             r.s_exec(c)
-        except SystemExit, n:
+        except SystemExit as n:
             return n
         except:
             traceback.print_exc()

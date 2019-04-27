@@ -31,6 +31,7 @@ To do:
   option on one of the read calls only
 
 """
+from __future__ import print_function
 
 
 # Imported modules
@@ -238,11 +239,11 @@ class Telnet:
 
         """
         if self.debuglevel > 0:
-            print 'Telnet(%s,%s):' % (self.host, self.port),
+            print('Telnet(%s,%s):' % (self.host, self.port), end=' ')
             if args:
-                print msg % args
+                print(msg % args)
             else:
-                print msg
+                print(msg)
 
     def set_debuglevel(self, debuglevel):
         """Set the debug level.
@@ -586,13 +587,13 @@ class Telnet:
         if sys.platform == "win32":
             self.mt_interact()
             return
-        while 1:
+        while True:
             rfd, wfd, xfd = select.select([self, sys.stdin], [], [])
             if self in rfd:
                 try:
                     text = self.read_eager()
                 except EOFError:
-                    print '*** Connection closed by remote host ***'
+                    print('*** Connection closed by remote host ***')
                     break
                 if text:
                     sys.stdout.write(text)
@@ -607,7 +608,7 @@ class Telnet:
         """Multithreaded version of interact()."""
         import thread
         thread.start_new_thread(self.listener, ())
-        while 1:
+        while True:
             line = sys.stdin.readline()
             if not line:
                 break
@@ -615,11 +616,11 @@ class Telnet:
 
     def listener(self):
         """Helper for mt_interact() -- this executes in the other thread."""
-        while 1:
+        while True:
             try:
                 data = self.read_eager()
             except EOFError:
-                print '*** Connection closed by remote host ***'
+                print('*** Connection closed by remote host ***')
                 return
             if data:
                 sys.stdout.write(data)
@@ -732,7 +733,7 @@ class Telnet:
         if timeout is not None:
             from time import time
             time_start = time()
-        while 1:
+        while True:
             self.process_rawq()
             for i in indices:
                 m = list[i].search(self.cookedq)

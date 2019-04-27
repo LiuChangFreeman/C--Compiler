@@ -133,7 +133,7 @@ SEEK_END = 2
 # Super directory utilities.
 # (Inspired by Eric Raymond; the doc strings are mostly his)
 
-def makedirs(name, mode=0777):
+def makedirs(name, mode=0o777):
     """makedirs(path [, mode=0777])
 
     Super-mkdir; create a leaf directory and all intermediate ones.
@@ -148,7 +148,7 @@ def makedirs(name, mode=0777):
     if head and tail and not path.exists(head):
         try:
             makedirs(head, mode)
-        except OSError, e:
+        except OSError as e:
             # be happy if someone already created the path
             if e.errno != errno.EEXIST:
                 raise
@@ -276,7 +276,7 @@ def walk(top, topdown=True, onerror=None, followlinks=False):
         # Note that listdir and error are globals in this module due
         # to earlier import-*.
         names = listdir(top)
-    except error, err:
+    except error as err:
         if onerror is not None:
             onerror(err)
         return
@@ -380,7 +380,7 @@ def _execvpe(file, args, env=None):
         fullname = path.join(dir, file)
         try:
             func(fullname, *argrest)
-        except error, e:
+        except error as e:
             tb = sys.exc_info()[2]
             if (e.errno != errno.ENOENT and e.errno != errno.ENOTDIR
                 and saved_exc is None):
@@ -544,7 +544,7 @@ if _exists("fork") and not _exists("spawnv") and _exists("execv"):
             # Parent
             if mode == P_NOWAIT:
                 return pid # Caller is responsible for waiting!
-            while 1:
+            while True:
                 wpid, sts = waitpid(pid, 0)
                 if WIFSTOPPED(sts):
                     continue

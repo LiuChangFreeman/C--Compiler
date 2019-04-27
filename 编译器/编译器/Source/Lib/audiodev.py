@@ -249,7 +249,7 @@ def test(fn = None):
     p.setsampwidth(af.getsampwidth())
     p.setnchannels(af.getnchannels())
     BUFSIZ = af.getframerate()/af.getsampwidth()/af.getnchannels()
-    while 1:
+    while True:
         data = af.readframes(BUFSIZ)
         if not data: break
         print len(data)

@@ -139,7 +139,7 @@ def _subst_vars(s, local_vars):
     except KeyError:
         try:
             return s.format(**os.environ)
-        except KeyError, var:
+        except KeyError as var:
             raise AttributeError('{%s}' % var)
 
 def _extend_dict(target_dict, other_dict):
@@ -290,7 +290,7 @@ def _generate_posix_vars():
     makefile = get_makefile_filename()
     try:
         _parse_makefile(makefile, vars)
-    except IOError, e:
+    except IOError as e:
         msg = "invalid Python installation: unable to open %s" % makefile
         if hasattr(e, "strerror"):
             msg = msg + " (%s)" % e.strerror
@@ -301,7 +301,7 @@ def _generate_posix_vars():
     try:
         with open(config_h) as f:
             parse_config_h(f, vars)
-    except IOError, e:
+    except IOError as e:
         msg = "invalid Python installation: unable to open %s" % config_h
         if hasattr(e, "strerror"):
             msg = msg + " (%s)" % e.strerror
@@ -414,8 +414,7 @@ def get_config_h_filename():
 
 def get_scheme_names():
     """Returns a tuple containing the schemes names."""
-    schemes = _INSTALL_SCHEMES.keys()
-    schemes.sort()
+    schemes = sorted(_INSTALL_SCHEMES.keys())
     return tuple(schemes)
 
 def get_path_names():
@@ -590,7 +589,7 @@ def get_platform():
             # bootstrap problem. We use a dict to get an error
             # if some suspicious happens.
             bitness = {2147483647:"32bit", 9223372036854775807:"64bit"}
-            machine += ".%s" % bitness[sys.maxint]
+            machine += ".%s" % bitness[sys.maxsize]
         # fall through to standard osname-release-machine representation
     elif osname[:4] == "irix":              # could be "irix64"!
         return "%s-%s" % (osname, release)

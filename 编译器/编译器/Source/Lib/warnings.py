@@ -62,7 +62,7 @@ def filterwarnings(action, message="", category=Warning, module="", lineno=0,
     assert action in ("error", "ignore", "always", "default", "module",
                       "once"), "invalid action: %r" % (action,)
     assert isinstance(message, basestring), "message must be a string"
-    assert isinstance(category, (type, types.ClassType)), \
+    assert isinstance(category, type), \
            "category must be a class"
     assert issubclass(category, Warning), "category must be a Warning subclass"
     assert isinstance(module, basestring), "module must be a string"
@@ -108,7 +108,7 @@ def _processoptions(args):
     for arg in args:
         try:
             _setoption(arg)
-        except _OptionError, msg:
+        except _OptionError as msg:
             print >>sys.stderr, "Invalid -W option ignored:", msg
 
 # Helper for _processoptions()

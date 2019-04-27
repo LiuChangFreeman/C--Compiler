@@ -2,6 +2,7 @@
 # This module should be kept compatible with Python 2.2, see PEP 291.
 
 from __future__ import generators
+from __future__ import print_function
 import dis
 import imp
 import marshal
@@ -89,11 +90,11 @@ class ModuleFinder:
     def msg(self, level, str, *args):
         if level <= self.debug:
             for i in range(self.indent):
-                print "   ",
-            print str,
+                print("   ", end=' ')
+            print(str, end=' ')
             for arg in args:
-                print repr(arg),
-            print
+                print(repr(arg), end=' ')
+            print()
 
     def msgin(self, *args):
         level = args[0]
@@ -321,7 +322,7 @@ class ModuleFinder:
             return
         try:
             self.import_hook(name, caller, level=level)
-        except ImportError, msg:
+        except ImportError as msg:
             self.msg(2, "ImportError:", str(msg))
             self._add_badmodule(name, caller)
         else:
@@ -332,7 +333,7 @@ class ModuleFinder:
                         continue
                     try:
                         self.import_hook(name, caller, [sub], level=level)
-                    except ImportError, msg:
+                    except ImportError as msg:
                         self.msg(2, "ImportError:", str(msg))
                         fullname = name + "." + sub
                         self._add_badmodule(fullname, caller)
@@ -490,38 +491,35 @@ class ModuleFinder:
         """Print a report to stdout, listing the found modules with their
         paths, as well as modules that are missing, or seem to be missing.
         """
-        print
-        print "  %-25s %s" % ("Name", "File")
-        print "  %-25s %s" % ("----", "----")
+        print()
+        print("  %-25s %s" % ("Name", "File"))
+        print("  %-25s %s" % ("----", "----"))
         # Print modules found
-        keys = self.modules.keys()
-        keys.sort()
+        keys = sorted(self.modules.keys())
         for key in keys:
             m = self.modules[key]
             if m.__path__:
-                print "P",
+                print("P", end=' ')
             else:
-                print "m",
-            print "%-25s" % key, m.__file__ or ""
+                print("m", end=' ')
+            print("%-25s" % key, m.__file__ or "")
 
         # Print missing modules
         missing, maybe = self.any_missing_maybe()
         if missing:
-            print
-            print "Missing modules:"
+            print()
+            print("Missing modules:")
             for name in missing:
-                mods = self.badmodules[name].keys()
-                mods.sort()
-                print "?", name, "imported from", ', '.join(mods)
+                mods = sorted(self.badmodules[name].keys())
+                print("?", name, "imported from", ', '.join(mods))
         # Print modules that may be missing, but then again, maybe not...
         if maybe:
-            print
-            print "Submodules that appear to be missing, but could also be",
-            print "global names in the parent package:"
+            print()
+            print("Submodules that appear to be missing, but could also be", end=' ')
+            print("global names in the parent package:")
             for name in maybe:
-                mods = self.badmodules[name].keys()
-                mods.sort()
-                print "?", name, "imported from", ', '.join(mods)
+                mods = sorted(self.badmodules[name].keys())
+                print("?", name, "imported from", ', '.join(mods))
 
     def any_missing(self):
         """Return a list of modules that appear to be missing. Use
@@ -610,8 +608,8 @@ def test():
     import getopt
     try:
         opts, args = getopt.getopt(sys.argv[1:], "dmp:qx:")
-    except getopt.error, msg:
-        print msg
+    except getopt.error as msg:
+        print(msg)
         return
 
     # Process options
@@ -642,9 +640,9 @@ def test():
     path[0] = os.path.dirname(script)
     path = addpath + path
     if debug > 1:
-        print "path:"
+        print("path:")
         for item in path:
-            print "   ", repr(item)
+            print("   ", repr(item))
 
     # Create the module finder and turn its crank
     mf = ModuleFinder(path, debug, exclude)
@@ -668,4 +666,4 @@ if __name__ == '__main__':
     try:
         mf = test()
     except KeyboardInterrupt:
-        print "\n[interrupt]"
+        print("\n[interrupt]")

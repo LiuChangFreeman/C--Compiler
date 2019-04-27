@@ -156,7 +156,7 @@ class GzipFile(io.BufferedIOBase):
 
     def _init_write(self, filename):
         self.name = filename
-        self.crc = zlib.crc32("") & 0xffffffffL
+        self.crc = zlib.crc32("") & 0xffffffff
         self.size = 0
         self.writebuf = []
         self.bufsize = 0
@@ -188,7 +188,7 @@ class GzipFile(io.BufferedIOBase):
             self.fileobj.write(fname + '\000')
 
     def _init_read(self):
-        self.crc = zlib.crc32("") & 0xffffffffL
+        self.crc = zlib.crc32("") & 0xffffffff
         self.size = 0
 
     def _read_gzip_header(self):
@@ -239,7 +239,7 @@ class GzipFile(io.BufferedIOBase):
 
         if len(data) > 0:
             self.size = self.size + len(data)
-            self.crc = zlib.crc32(data, self.crc) & 0xffffffffL
+            self.crc = zlib.crc32(data, self.crc) & 0xffffffff
             self.fileobj.write( self.compress.compress(data) )
             self.offset += len(data)
 
@@ -333,7 +333,7 @@ class GzipFile(io.BufferedIOBase):
             self._new_member = True
 
     def _add_read_data(self, data):
-        self.crc = zlib.crc32(data, self.crc) & 0xffffffffL
+        self.crc = zlib.crc32(data, self.crc) & 0xffffffff
         offset = self.offset - self.extrastart
         self.extrabuf = self.extrabuf[offset:] + data
         self.extrasize = self.extrasize + len(data)
@@ -352,7 +352,7 @@ class GzipFile(io.BufferedIOBase):
         if crc32 != self.crc:
             raise IOError("CRC check failed %s != %s" % (hex(crc32),
                                                          hex(self.crc)))
-        elif isize != (self.size & 0xffffffffL):
+        elif isize != (self.size & 0xffffffff):
             raise IOError, "Incorrect length of data produced"
 
         # Gzip files can be padded with zeroes and still have archives.
@@ -375,7 +375,7 @@ class GzipFile(io.BufferedIOBase):
             self.fileobj.write(self.compress.flush())
             write32u(self.fileobj, self.crc)
             # self.size may exceed 2GB, or even 4GB
-            write32u(self.fileobj, self.size & 0xffffffffL)
+            write32u(self.fileobj, self.size & 0xffffffff)
             self.fileobj = None
         elif self.mode == READ:
             self.fileobj = None
@@ -453,7 +453,7 @@ class GzipFile(io.BufferedIOBase):
                 self.offset += i - offset
                 return self.extrabuf[offset: i]
 
-            size = sys.maxint
+            size = sys.maxsize
             readsize = self.min_readsize
         else:
             readsize = size

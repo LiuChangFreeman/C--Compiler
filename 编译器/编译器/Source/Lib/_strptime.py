@@ -107,7 +107,7 @@ class LocaleTime(object):
         # magical; just happened to have used it everywhere else where a
         # static date was needed.
         am_pm = []
-        for hour in (01,22):
+        for hour in (0o1,22):
             time_tuple = time.struct_time((1999,3,17,hour,44,55,2,76,0))
             am_pm.append(time.strftime("%p", time_tuple).lower())
         self.am_pm = am_pm
@@ -308,7 +308,7 @@ def _strptime(data_string, format="%a %b %d %H:%M:%S %Y"):
                 format_regex = _TimeRE_cache.compile(format)
             # KeyError raised when a bad format is found; can be specified as
             # \\, in which case it was a stray % but with a space after it
-            except KeyError, err:
+            except KeyError as err:
                 bad_directive = err.args[0]
                 if bad_directive == "\\":
                     bad_directive = "%"

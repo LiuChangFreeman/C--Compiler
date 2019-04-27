@@ -55,7 +55,7 @@ class MozillaCookieJar(FileCookieJar):
                 filename)
 
         try:
-            while 1:
+            while True:
                 line = f.readline()
                 if line == "": break
 

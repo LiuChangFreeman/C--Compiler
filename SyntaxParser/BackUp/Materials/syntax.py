@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
 from nfa_and_dfa import DFA, LRDFANode
 
 
@@ -146,7 +147,7 @@ class SyntaxAnalyze(object):
                         self.lr_analyze_table[old_set_id] = {}
                     for tail in tail_set:
                         if tail in self.lr_analyze_table[old_set_id]:
-                            print 'the grammar is not a LR(1) grammar!!!'
+                            print('the grammar is not a LR(1) grammar!!!')
                             return
                         self.lr_analyze_table[old_set_id][tail] = ('r', pro_id)
                 else:
@@ -183,9 +184,9 @@ class SyntaxAnalyze(object):
         tokens.reverse()
         while not success:
             top = status_stack[-1]
-            print 'token =', tokens[-1]
+            print('token =', tokens[-1])
             # print symbol_stack
-            print symbol_stack
+            print(symbol_stack)
             if tokens[-1] in self.lr_analyze_table[top]:
                 action = self.lr_analyze_table[top][tokens[-1]]
                 if action[0] == 's':
@@ -194,7 +195,7 @@ class SyntaxAnalyze(object):
                     tokens = tokens[:-1]
                 elif action[0] == 'r':
                     if action[1] == 0:
-                        print 'Syntax anaysis successfully!'
+                        print('Syntax anaysis successfully!')
                         success = True
                         break
                     production = self.productions[action[1]]
@@ -211,8 +212,8 @@ class SyntaxAnalyze(object):
                     tokens = tokens[:-1]
                 # print status_stack, symbol_stack
             else:
-                print self.lr_analyze_table[top]
-                print 'Syntax error!\n'
+                print(self.lr_analyze_table[top])
+                print('Syntax error!\n')
                 break
 
     def read_and_analyze(self, fileName):

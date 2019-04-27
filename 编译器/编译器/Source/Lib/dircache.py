@@ -27,8 +27,7 @@ def listdir(path):
         cached_mtime, list = -1, []
     mtime = os.stat(path).st_mtime
     if mtime != cached_mtime:
-        list = os.listdir(path)
-        list.sort()
+        list = sorted(os.listdir(path))
     cache[path] = mtime, list
     return list
 

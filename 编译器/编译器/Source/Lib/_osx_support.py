@@ -488,13 +488,13 @@ def get_platform_osx(_config_vars, osname, release, machine):
             # On OSX the machine type returned by uname is always the
             # 32-bit variant, even if the executable architecture is
             # the 64-bit variant
-            if sys.maxint >= 2**32:
+            if sys.maxsize >= 2**32:
                 machine = 'x86_64'
 
         elif machine in ('PowerPC', 'Power_Macintosh'):
             # Pick a sane name for the PPC architecture.
             # See 'i386' case
-            if sys.maxint >= 2**32:
+            if sys.maxsize >= 2**32:
                 machine = 'ppc64'
             else:
                 machine = 'ppc'

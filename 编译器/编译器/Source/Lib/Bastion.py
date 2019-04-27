@@ -118,7 +118,7 @@ def Bastion(object, filter = lambda name: name[:1] != '_',
         """Internal function for Bastion().  See source comments."""
         if filter(name):
             attribute = getattr(object, name)
-            if type(attribute) == MethodType:
+            if isinstance(attribute, MethodType):
                 return attribute
         raise AttributeError, name
 
@@ -167,7 +167,7 @@ def _test():
     else:
         print "accessible"
     \n"""
-    exec testcode
+    exec(testcode)
     print '='*20, "Using rexec:", '='*20
     import rexec
     r = rexec.RExec()

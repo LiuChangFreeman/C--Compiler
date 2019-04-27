@@ -468,7 +468,7 @@ def test(args = None):
     else:
         try:
             f = open(file, 'r')
-        except IOError, msg:
+        except IOError as msg:
             print file, ":", msg
             sys.exit(1)
 

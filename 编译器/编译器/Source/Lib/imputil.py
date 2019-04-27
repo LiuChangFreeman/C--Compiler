@@ -305,7 +305,7 @@ class Importer:
         # execute the code within the module's namespace
         if not is_module:
             try:
-                exec code in module.__dict__
+                exec(code, module.__dict__)
             except:
                 if fqname in sys.modules:
                     del sys.modules[fqname]
@@ -486,7 +486,7 @@ def _os_path_isdir(pathname):
         s = _os_stat(pathname)
     except OSError:
         return None
-    return (s.st_mode & 0170000) == 0040000
+    return (s.st_mode & 0o170000) == 0o040000
 
 def _timestamp(pathname):
     "Return the file modification time as a Long."
@@ -612,8 +612,7 @@ class DynLoadSuffixImporter:
 ######################################################################
 
 def _print_importers():
-    items = sys.modules.items()
-    items.sort()
+    items = sorted(sys.modules.items())
     for name, module in items:
         if module:
             print name, module.__dict__.get('__importer__', '-- no importer')

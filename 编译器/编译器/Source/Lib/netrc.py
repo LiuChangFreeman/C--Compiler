@@ -1,4 +1,5 @@
 """An object-oriented interface to .netrc files."""
+from __future__ import print_function
 
 # Module and documentation by Eric S. Raymond, 21 Dec 1998
 
@@ -38,7 +39,7 @@ class netrc:
         lexer = shlex.shlex(fp)
         lexer.wordchars += r"""!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"""
         lexer.commenters = lexer.commenters.replace('#', '')
-        while 1:
+        while True:
             # Look for a machine, default, or macdef top-level keyword
             toplevel = tt = lexer.get_token()
             if not tt:
@@ -58,7 +59,7 @@ class netrc:
                 entryname = lexer.get_token()
                 self.macros[entryname] = []
                 lexer.whitespace = ' \t'
-                while 1:
+                while True:
                     line = lexer.instream.readline()
                     if not line or line == '\012':
                         lexer.whitespace = ' \t\r\n'
@@ -73,7 +74,7 @@ class netrc:
             login = ''
             account = password = None
             self.hosts[entryname] = {}
-            while 1:
+            while True:
                 tt = lexer.get_token()
                 if (tt.startswith('#') or
                     tt in {'', 'machine', 'default', 'macdef'}):
@@ -142,4 +143,4 @@ class netrc:
         return rep
 
 if __name__ == '__main__':
-    print netrc()
+    print(netrc())

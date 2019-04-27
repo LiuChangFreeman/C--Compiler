@@ -237,14 +237,14 @@ def pipethrough(input, command, output):
     os.unlink(tempname)
 
 def copyliteral(input, output):
-    while 1:
+    while True:
         line = input.readline()
         if not line: break
         output.write(line)
 
 def copybinary(input, output):
     BUFSIZE = 8192
-    while 1:
+    while True:
         line = input.read(BUFSIZE)
         if not line: break
         output.write(line)

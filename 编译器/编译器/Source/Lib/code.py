@@ -100,7 +100,7 @@ class InteractiveInterpreter:
 
         """
         try:
-            exec code in self.locals
+            exec(code, self.locals)
         except SystemExit:
             raise
         except:
@@ -224,7 +224,7 @@ class InteractiveConsole(InteractiveInterpreter):
         else:
             self.write("%s\n" % str(banner))
         more = 0
-        while 1:
+        while True:
             try:
                 if more:
                     prompt = sys.ps2

@@ -51,7 +51,7 @@ def ScanLine(line):#对一行进行重复扫描，获得一组token
             token['name'] = type[regexs.index(result['regex'])].upper()
             token['data'] = result['data']
             token['type'] = token['name']
-            if (Reserved.has_key(result['data'])):#保留字，对应文法中->不加引号，认定为终结符
+            if (result['data'] in Reserved):#保留字，对应文法中->不加引号，认定为终结符
                 token['name'] = Reserved[result['data']].lower()
                 token['type'] = token['name']
             if (token['name']=="operator".upper() or token['name']=="seperator".upper()):

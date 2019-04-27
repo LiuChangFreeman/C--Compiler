@@ -1,4 +1,5 @@
 """Recognize image file formats based on their first few bytes."""
+from __future__ import print_function
 
 __all__ = ["what"]
 
@@ -142,18 +143,18 @@ def testall(list, recursive, toplevel):
     import os
     for filename in list:
         if os.path.isdir(filename):
-            print filename + '/:',
+            print(filename + '/:', end=' ')
             if recursive or toplevel:
-                print 'recursing down:'
+                print('recursing down:')
                 import glob
                 names = glob.glob(os.path.join(filename, '*'))
                 testall(names, recursive, 0)
             else:
-                print '*** directory (use -r) ***'
+                print('*** directory (use -r) ***')
         else:
-            print filename + ':',
+            print(filename + ':', end=' ')
             sys.stdout.flush()
             try:
-                print what(filename)
+                print(what(filename))
             except IOError:
-                print '*** not found ***'
+                print('*** not found ***')

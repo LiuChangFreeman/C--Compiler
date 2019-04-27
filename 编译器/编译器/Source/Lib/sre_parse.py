@@ -313,7 +313,7 @@ def _parse_sub(source, state, nested=1):
     items = []
     itemsappend = items.append
     sourcematch = source.match
-    while 1:
+    while True:
         itemsappend(_parse(source, state))
         if sourcematch("|"):
             continue
@@ -331,7 +331,7 @@ def _parse_sub(source, state, nested=1):
     subpatternappend = subpattern.append
 
     # check if all items share a common prefix
-    while 1:
+    while True:
         prefix = None
         for item in items:
             if not item:
@@ -399,7 +399,7 @@ def _parse(source, state):
     LOOKBEHINDASSERTCHARS = _LOOKBEHINDASSERTCHARS
     REPEATCODES = _REPEATCODES
 
-    while 1:
+    while True:
 
         if source.next in PATTERNENDERS:
             break # end of subpattern
@@ -412,7 +412,7 @@ def _parse(source, state):
             if this in WHITESPACE:
                 continue
             if this == "#":
-                while 1:
+                while True:
                     this = sourceget()
                     if this in (None, "\n"):
                         break
@@ -431,7 +431,7 @@ def _parse(source, state):
                 setappend((NEGATE, None))
             # check remaining characters
             start = set[:]
-            while 1:
+            while True:
                 this = sourceget()
                 if this == "]" and set != start:
                     break
@@ -546,7 +546,7 @@ def _parse(source, state):
                     if sourcematch("<"):
                         # named group: skip forward to end of name
                         name = ""
-                        while 1:
+                        while True:
                             char = sourceget()
                             if char is None:
                                 raise error, "unterminated name"
@@ -562,7 +562,7 @@ def _parse(source, state):
                     elif sourcematch("="):
                         # named backreference
                         name = ""
-                        while 1:
+                        while True:
                             char = sourceget()
                             if char is None:
                                 raise error, "unterminated name"
@@ -590,7 +590,7 @@ def _parse(source, state):
                     group = 2
                 elif sourcematch("#"):
                     # comment
-                    while 1:
+                    while True:
                         if source.next is None or source.next == ")":
                             break
                         sourceget()
@@ -617,7 +617,7 @@ def _parse(source, state):
                 elif sourcematch("("):
                     # conditional backreference group
                     condname = ""
-                    while 1:
+                    while True:
                         char = sourceget()
                         if char is None:
                             raise error, "unterminated name"
@@ -660,7 +660,7 @@ def _parse(source, state):
                     state.closegroup(group)
                 subpatternappend((SUBPATTERN, (group, p)))
             else:
-                while 1:
+                while True:
                     char = sourceget()
                     if char is None:
                         raise error, "unexpected end of pattern"
@@ -724,11 +724,11 @@ def parse_template(source, pattern):
         else:
             pappend((LITERAL, literal))
     sep = source[:0]
-    if type(sep) is type(""):
+    if isinstance(sep, type("")):
         makechar = chr
     else:
         makechar = unichr
-    while 1:
+    while True:
         this = sget()
         if this is None:
             break # end of replacement string
@@ -738,7 +738,7 @@ def parse_template(source, pattern):
             if c == "g":
                 name = ""
                 if s.match("<"):
-                    while 1:
+                    while True:
                         char = sget()
                         if char is None:
                             raise error, "unterminated group name"

@@ -50,7 +50,7 @@ class Dialect:
     def _validate(self):
         try:
             _Dialect(self)
-        except TypeError, e:
+        except TypeError as e:
             # We do this for compatibility with py2.3
             raise Error(str(e))
 
@@ -87,7 +87,7 @@ class DictReader:
     def fieldnames(self):
         if self._fieldnames is None:
             try:
-                self._fieldnames = self.reader.next()
+                self._fieldnames = next(self.reader)
             except StopIteration:
                 pass
         self.line_num = self.reader.line_num
@@ -105,14 +105,14 @@ class DictReader:
         if self.line_num == 0:
             # Used only for its side effect.
             self.fieldnames
-        row = self.reader.next()
+        row = next(self.reader)
         self.line_num = self.reader.line_num
 
         # unlike the basic reader, we prefer not to return blanks,
         # because we will typically wind up with a dict full of None
         # values
         while row == []:
-            row = self.reader.next()
+            row = next(self.reader)
         d = dict(zip(self.fieldnames, row))
         lf = len(self.fieldnames)
         lr = len(row)
@@ -375,8 +375,7 @@ class Sniffer:
 
         # nothing else indicates a preference, pick the character that
         # dominates(?)
-        items = [(v,k) for (k,v) in delims.items()]
-        items.sort()
+        items = sorted([(v,k) for (k,v) in delims.items()])
         delim = items[-1][1]
 
         skipinitialspace = (data[0].count(delim) ==
@@ -396,7 +395,7 @@ class Sniffer:
 
         rdr = reader(StringIO(sample), self.sniff(sample))
 
-        header = rdr.next() # assume first row is header
+        header = next(rdr) # assume first row is header
 
         columns = len(header)
         columnTypes = {}
@@ -440,7 +439,7 @@ class Sniffer:
         # on whether it's a header
         hasHeader = 0
         for col, colType in columnTypes.items():
-            if type(colType) == type(0): # it's a length
+            if isinstance(colType, type(0)): # it's a length
                 if len(header[col]) != colType:
                     hasHeader += 1
                 else:

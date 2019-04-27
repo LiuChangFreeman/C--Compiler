@@ -45,9 +45,9 @@ def ScanLine(line):#对一行进行重复扫描，获得一组token
             token = {}
             token['class'] = "T"
             token['name'] = type[regexs.index(temp['regex'])]
-            if (Reserved.has_key(temp['data'])):
+            if (temp['data'] in Reserved):
                 token['name'] = Reserved[temp['data']]
-            if (op_table.has_key(temp['data'])):
+            if (temp['data'] in op_table):
                 token['name'] = op_table[temp['data']]
             token['type'] = temp['data']
             token['row'] = currentline

@@ -55,8 +55,8 @@ def _open_terminal():
         pass
     else:
         try:
-            tty_name, master_fd = sgi._getpty(os.O_RDWR, 0666, 0)
-        except IOError, msg:
+            tty_name, master_fd = sgi._getpty(os.O_RDWR, 0o666, 0)
+        except IOError as msg:
             raise os.error, msg
         return master_fd, tty_name
     for x in 'pqrstuvwxyzPQRST':
@@ -160,7 +160,7 @@ def _copy(master_fd, master_read=_read, stdin_read=_read):
 
 def spawn(argv, master_read=_read, stdin_read=_read):
     """Create a spawned process."""
-    if type(argv) == type(''):
+    if isinstance(argv, type('')):
         argv = (argv,)
     pid, master_fd = fork()
     if pid == CHILD:

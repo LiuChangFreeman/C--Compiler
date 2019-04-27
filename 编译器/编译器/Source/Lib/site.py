@@ -149,7 +149,7 @@ def addpackage(sitedir, name, known_paths):
                 continue
             try:
                 if line.startswith(("import ", "import\t")):
-                    exec line
+                    exec(line)
                     continue
                 line = line.rstrip()
                 dir, dircase = makepath(sitedir, line)
@@ -407,7 +407,7 @@ class _Printer(object):
         self.__setup()
         prompt = 'Hit Return for more, or q (and Return) to quit: '
         lineno = 0
-        while 1:
+        while True:
             try:
                 for i in range(lineno, lineno + self.MAXLINES):
                     print self.__lines[i]

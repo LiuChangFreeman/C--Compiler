@@ -191,7 +191,7 @@ def _get_default_tempdir():
             dir = _os.path.normcase(_os.path.abspath(dir))
         # Try only a few names per directory.
         for seq in xrange(100):
-            name = namer.next()
+            name = next(namer)
             filename = _os.path.join(dir, name)
             try:
                 fd = _os.open(filename, flags, 0o600)
@@ -233,13 +233,13 @@ def _mkstemp_inner(dir, pre, suf, flags):
     names = _get_candidate_names()
 
     for seq in xrange(TMP_MAX):
-        name = names.next()
+        name = next(names)
         file = _os.path.join(dir, pre + name + suf)
         try:
-            fd = _os.open(file, flags, 0600)
+            fd = _os.open(file, flags, 0o600)
             _set_cloexec(fd)
             return (fd, _os.path.abspath(file))
-        except OSError, e:
+        except OSError as e:
             if e.errno == _errno.EEXIST:
                 continue # try again
             if _os.name == 'nt' and e.errno == _errno.EACCES:
@@ -327,12 +327,12 @@ def mkdtemp(suffix="", prefix=template, dir=None):
     names = _get_candidate_names()
 
     for seq in xrange(TMP_MAX):
-        name = names.next()
+        name = next(names)
         file = _os.path.join(dir, prefix + name + suffix)
         try:
-            _os.mkdir(file, 0700)
+            _os.mkdir(file, 0o700)
             return file
-        except OSError, e:
+        except OSError as e:
             if e.errno == _errno.EEXIST:
                 continue # try again
             raise
@@ -361,7 +361,7 @@ def mktemp(suffix="", prefix=template, dir=None):
 
     names = _get_candidate_names()
     for seq in xrange(TMP_MAX):
-        name = names.next()
+        name = next(names)
         file = _os.path.join(dir, prefix + name + suffix)
         if not _exists(file):
             return file

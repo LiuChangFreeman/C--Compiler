@@ -258,7 +258,7 @@ class FileInput:
         if i != self._lineno:
             raise RuntimeError, "accessing lines out of order"
         try:
-            return self.next()
+            return next(self)
         except StopIteration:
             raise IndexError, "end of input reached"
 

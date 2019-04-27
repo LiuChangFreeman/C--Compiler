@@ -247,7 +247,7 @@ def _compile(*key):
         raise TypeError, "first argument must be string or compiled pattern"
     try:
         p = sre_compile.compile(pattern, flags)
-    except error, v:
+    except error as v:
         raise error, v # invalid expression
     if not bypass_cache:
         if len(_cache) >= _MAXCACHE:
@@ -269,7 +269,7 @@ def _compile_repl(*key):
     repl, pattern = key
     try:
         p = sre_parse.parse_template(repl, pattern)
-    except error, v:
+    except error as v:
         raise error, v # invalid expression
     if len(_cache_repl) >= _MAXCACHE:
         _cache_repl.clear()
@@ -323,7 +323,7 @@ class Scanner:
         append = result.append
         match = self.scanner.scanner(string).match
         i = 0
-        while 1:
+        while True:
             m = match()
             if not m:
                 break

@@ -241,7 +241,7 @@ class CoverageResults:
                 counts, calledfuncs, callers = \
                         pickle.load(open(self.infile, 'rb'))
                 self.update(self.__class__(counts, calledfuncs, callers))
-            except (IOError, EOFError, ValueError), err:
+            except (IOError, EOFError, ValueError) as err:
                 print >> sys.stderr, ("Skipping counts file %r: %s"
                                       % (self.infile, err))
 
@@ -270,8 +270,7 @@ class CoverageResults:
         if self.calledfuncs:
             print
             print "functions called:"
-            calls = self.calledfuncs.keys()
-            calls.sort()
+            calls = sorted(self.calledfuncs.keys())
             for filename, modulename, funcname in calls:
                 print ("filename: %s, modulename: %s, funcname: %s"
                        % (filename, modulename, funcname))
@@ -279,8 +278,7 @@ class CoverageResults:
         if self.callers:
             print
             print "calling relationships:"
-            calls = self.callers.keys()
-            calls.sort()
+            calls = sorted(self.callers.keys())
             lastfile = lastcfile = ""
             for ((pfile, pmod, pfunc), (cfile, cmod, cfunc)) in calls:
                 if pfile != lastfile:
@@ -339,8 +337,7 @@ class CoverageResults:
                 sums[modulename] = n_lines, percent, modulename, filename
 
         if summary and sums:
-            mods = sums.keys()
-            mods.sort()
+            mods = sorted(sums.keys())
             print "lines   cov%   module   (path)"
             for m in mods:
                 n_lines, percent, modulename, filename = sums[m]
@@ -351,7 +348,7 @@ class CoverageResults:
             try:
                 pickle.dump((self.counts, self.calledfuncs, self.callers),
                             open(self.outfile, 'wb'), 1)
-            except IOError, err:
+            except IOError as err:
                 print >> sys.stderr, "Can't save counts files because %s" % err
 
     def write_results_file(self, path, lines, lnotab, lines_hit):
@@ -359,7 +356,7 @@ class CoverageResults:
 
         try:
             outfile = open(path, "w")
-        except IOError, err:
+        except IOError as err:
             print >> sys.stderr, ("trace: Could not open %r for writing: %s"
                                   "- skipping" % (path, err))
             return 0, 0
@@ -439,7 +436,7 @@ def find_executable_linenos(filename):
     """Return dict where keys are line numbers in the line number table."""
     try:
         prog = open(filename, "rU").read()
-    except IOError, err:
+    except IOError as err:
         print >> sys.stderr, ("Not printing coverage data for %r: %s"
                               % (filename, err))
         return {}
@@ -510,7 +507,7 @@ class Trace:
         if not self.donothing:
             _settrace(self.globaltrace)
         try:
-            exec cmd in globals, locals
+            exec(cmd, globals, locals)
         finally:
             if not self.donothing:
                 _unsettrace()
@@ -670,7 +667,7 @@ def main(argv=None):
                                          "coverdir=", "listfuncs",
                                          "trackcalls", "timing"])
 
-    except getopt.error, msg:
+    except getopt.error as msg:
         sys.stderr.write("%s: %s\n" % (sys.argv[0], msg))
         sys.stderr.write("Try `%s --help' for more information\n"
                          % sys.argv[0])
@@ -805,7 +802,7 @@ def main(argv=None):
                 '__cached__': None,
             }
             t.runctx(code, globs, globs)
-        except IOError, err:
+        except IOError as err:
             _err_exit("Cannot run file %r because: %s" % (sys.argv[0], err))
         except SystemExit:
             pass

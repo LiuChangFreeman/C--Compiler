@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import re
 reserved = {'if' : 'IF','then' : 'THEN','else' : 'ELSE', 'while' : 'WHILE', 'break':'BREAK', 'continue':'CONTINUE', 'for':'FOR', 'double':'DOUBLE',
     'int':'INT','float':'FLOAT', 'long':'LONG', 'short':'SHORT', 'bool':'BOOL', 'switch':'SWITCH', 'case':'CASE', 'return':'RETURN', 'void':'VOID',
@@ -44,7 +45,7 @@ def Scan(line):#经行一次扫描，返回得到的token以及剩余的字符�
                     max=result
                     TargetRegex=regex
     if(match==False):#出错处理
-        print "不认识的字符："+line[0]
+        print("不认识的字符："+line[0])
         return {"data":line[0],"regex":"null","remain":line[1:]}
     else:
         return {"data":max,"regex":TargetRegex,"remain":line[subindex+len(max):]}
@@ -61,7 +62,7 @@ def ScanLine(line):#对一行进行重复扫描，获得一组token
         if (temp['regex'] != "null"):
             token = {}
             token['name'] = type[regexs.index(temp['regex'])]
-            if (reserved.has_key(temp['data'])):
+            if (temp['data'] in reserved):
                 token['name'] = reserved[temp['data']]
             token['type'] = temp['data']
             token['row'] = currentline

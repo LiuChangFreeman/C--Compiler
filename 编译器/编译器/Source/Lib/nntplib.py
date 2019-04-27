@@ -133,7 +133,7 @@ class NNTP:
             except NNTPPermanentError:
                 # error 500, probably 'not implemented'
                 pass
-            except NNTPTemporaryError, e:
+            except NNTPTemporaryError as e:
                 if user and e.response[:3] == '480':
                     # Need authorization before 'mode reader'
                     readermode_afterauth = 1
@@ -245,7 +245,7 @@ class NNTP:
             if resp[:3] not in LONGRESP:
                 raise NNTPReplyError(resp)
             list = []
-            while 1:
+            while True:
                 line = self.getline()
                 if line == '.':
                     break
@@ -565,7 +565,7 @@ class NNTP:
         # Raises error_??? if posting is not allowed
         if resp[0] != '3':
             raise NNTPReplyError(resp)
-        while 1:
+        while True:
             line = f.readline()
             if not line:
                 break
@@ -589,7 +589,7 @@ class NNTP:
         # Raises error_??? if the server already has it
         if resp[0] != '3':
             raise NNTPReplyError(resp)
-        while 1:
+        while True:
             line = f.readline()
             if not line:
                 break

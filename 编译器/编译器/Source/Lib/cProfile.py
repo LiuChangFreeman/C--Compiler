@@ -3,6 +3,7 @@
 """Python interface for the 'lsprof' profiler.
    Compatible with the 'profile' module.
 """
+from __future__ import print_function
 
 __all__ = ["run", "runctx", "help", "Profile"]
 
@@ -58,8 +59,8 @@ def runctx(statement, globals, locals, filename=None, sort=-1):
 
 # Backwards compatibility.
 def help():
-    print "Documentation for the profile/cProfile modules can be found "
-    print "in the Python Library Reference, section 'The Python Profiler'."
+    print("Documentation for the profile/cProfile modules can be found ")
+    print("in the Python Library Reference, section 'The Python Profiler'.")
 
 # ____________________________________________________________
 
@@ -137,7 +138,7 @@ class Profile(_lsprof.Profiler):
     def runctx(self, cmd, globals, locals):
         self.enable()
         try:
-            exec cmd in globals, locals
+            exec(cmd, globals, locals)
         finally:
             self.disable()
         return self

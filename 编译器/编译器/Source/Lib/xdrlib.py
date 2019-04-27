@@ -77,11 +77,11 @@ class Packer:
 
     def pack_uhyper(self, x):
         try:
-            self.pack_uint(x>>32 & 0xffffffffL)
+            self.pack_uint(x>>32 & 0xffffffff)
         except (TypeError, struct.error) as e:
             raise ConversionError(e.args[0])
         try:
-            self.pack_uint(x & 0xffffffffL)
+            self.pack_uint(x & 0xffffffff)
         except (TypeError, struct.error) as e:
             raise ConversionError(e.args[0])
 
@@ -187,8 +187,8 @@ class Unpacker:
 
     def unpack_hyper(self):
         x = self.unpack_uhyper()
-        if x >= 0x8000000000000000L:
-            x = x - 0x10000000000000000L
+        if x >= 0x8000000000000000:
+            x = x - 0x10000000000000000
         return x
 
     def unpack_float(self):
@@ -228,7 +228,7 @@ class Unpacker:
 
     def unpack_list(self, unpack_item):
         list = []
-        while 1:
+        while True:
             x = self.unpack_uint()
             if x == 0: break
             if x != 1:

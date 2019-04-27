@@ -9,6 +9,7 @@ server.
 This module is built upon the pydoc and SimpleXMLRPCServer
 modules.
 """
+from __future__ import print_function
 
 import pydoc
 import inspect
@@ -38,7 +39,7 @@ class ServerHTMLDoc(pydoc.HTMLDoc):
                                 r'RFC[- ]?(\d+)|'
                                 r'PEP[- ]?(\d+)|'
                                 r'(self\.)?((?:\w|\.)+))\b')
-        while 1:
+        while True:
             match = pattern.search(text, here)
             if not match: break
             start, end = match.span()
@@ -75,7 +76,7 @@ class ServerHTMLDoc(pydoc.HTMLDoc):
             self.escape(anchor), self.escape(name))
 
         if inspect.ismethod(object):
-            args, varargs, varkw, defaults = inspect.getargspec(object.im_func)
+            args, varargs, varkw, defaults = inspect.getargspec(object.__func__)
             # exclude the argument bound to the instance, it will be
             # confusing to the non-Python user
             argspec = inspect.formatargspec (
@@ -269,9 +270,9 @@ class DocCGIXMLRPCRequestHandler(   CGIXMLRPCRequestHandler,
 
         response = self.generate_html_documentation()
 
-        print 'Content-Type: text/html'
-        print 'Content-Length: %d' % len(response)
-        print
+        print('Content-Type: text/html')
+        print('Content-Length: %d' % len(response))
+        print()
         sys.stdout.write(response)
 
     def __init__(self):

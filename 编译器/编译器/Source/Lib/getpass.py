@@ -47,7 +47,7 @@ def unix_getpass(prompt='Password: ', stream=None):
         input = tty
         if not stream:
             stream = tty
-    except EnvironmentError, e:
+    except EnvironmentError as e:
         # If that fails, see if stdin can be controlled.
         try:
             fd = sys.stdin.fileno()
@@ -72,7 +72,7 @@ def unix_getpass(prompt='Password: ', stream=None):
             finally:
                 termios.tcsetattr(fd, tcsetattr_flags, old)
                 stream.flush()  # issue7208
-        except termios.error, e:
+        except termios.error as e:
             if passwd is not None:
                 # _raw_input succeeded.  The final tcsetattr failed.  Reraise
                 # instead of leaving the terminal in an unknown state.
@@ -94,7 +94,7 @@ def win_getpass(prompt='Password: ', stream=None):
     for c in prompt:
         msvcrt.putch(c)
     pw = ""
-    while 1:
+    while True:
         c = msvcrt.getch()
         if c == '\r' or c == '\n':
             break

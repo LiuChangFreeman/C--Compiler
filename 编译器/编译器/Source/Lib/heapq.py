@@ -29,6 +29,7 @@ These two make it possible to view the heap as a regular Python list
 without surprises: heap[0] is the smallest item, and heap.sort()
 maintains the heap invariant!
 """
+from __future__ import print_function
 
 # Original code by Kevin O'Connor, augmented by Tim Peters and Raymond Hettinger
 
@@ -380,7 +381,7 @@ def merge(*iterables):
 
     while _len(h) > 1:
         try:
-            while 1:
+            while True:
                 v, itnum, next = s = h[0]
                 yield v
                 s[0] = next()               # raises StopIteration when exhausted
@@ -479,7 +480,7 @@ if __name__ == "__main__":
     sort = []
     while heap:
         sort.append(heappop(heap))
-    print sort
+    print(sort)
 
     import doctest
     doctest.testmod()

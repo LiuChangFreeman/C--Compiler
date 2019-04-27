@@ -101,7 +101,7 @@ _copy_dispatch = d = {}
 def _copy_immutable(x):
     return x
 for t in (type(None), int, long, float, bool, str, tuple,
-          frozenset, type, xrange, types.ClassType,
+          frozenset, type, xrange, type,
           types.BuiltinFunctionType, type(Ellipsis),
           types.FunctionType, weakref.ref):
     d[t] = _copy_immutable
@@ -218,7 +218,7 @@ except AttributeError:
     pass
 d[type] = _deepcopy_atomic
 d[xrange] = _deepcopy_atomic
-d[types.ClassType] = _deepcopy_atomic
+d[type] = _deepcopy_atomic
 d[types.BuiltinFunctionType] = _deepcopy_atomic
 d[types.FunctionType] = _deepcopy_atomic
 d[weakref.ref] = _deepcopy_atomic
@@ -261,7 +261,7 @@ if PyStringMap is not None:
     d[PyStringMap] = _deepcopy_dict
 
 def _deepcopy_method(x, memo): # Copy instance methods
-    return type(x)(x.im_func, deepcopy(x.im_self, memo), x.im_class)
+    return type(x)(x.__func__, deepcopy(x.__self__, memo), x.__self__.__class__)
 _deepcopy_dispatch[types.MethodType] = _deepcopy_method
 
 def _keep_alive(x, memo):
@@ -367,7 +367,7 @@ class _EmptyClass:
     pass
 
 def _test():
-    l = [None, 1, 2L, 3.14, 'xyzzy', (1, 2L), [3.14, 'abc'],
+    l = [None, 1, 2, 3.14, 'xyzzy', (1, 2), [3.14, 'abc'],
          {'abc': 'ABC'}, (), [], {}]
     l1 = copy(l)
     print l1==l
