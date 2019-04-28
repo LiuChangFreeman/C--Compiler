@@ -49,6 +49,7 @@ by the way the __import__ hook is used by the Python interpreter.)  It
 would also do wise to install a different version of reload().
 
 """
+from __future__ import print_function
 from warnings import warnpy3k, warn
 warnpy3k("the ihooks module has been removed in Python 3.0", stacklevel=2)
 del warnpy3k
@@ -89,9 +90,9 @@ class _Verbose:
 
     def message(self, format, *args):
         if args:
-            print format%args
+            print(format%args)
         else:
-            print format
+            print(format)
 
 
 class BasicModuleLoader(_Verbose):

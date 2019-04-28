@@ -1,4 +1,5 @@
 """An object-oriented interface to .netrc files."""
+from __future__ import print_function
 
 # Module and documentation by Eric S. Raymond, 21 Dec 1998
 
@@ -142,4 +143,4 @@ class netrc:
         return rep
 
 if __name__ == '__main__':
-    print netrc()
+    print(netrc())

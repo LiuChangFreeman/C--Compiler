@@ -45,6 +45,7 @@ control than multi-threaded programming. The module documented here solves
 many of the difficult problems for you, making the task of building
 sophisticated high-performance network servers and clients a snap.
 """
+from __future__ import print_function
 
 import select
 import socket
@@ -434,7 +435,7 @@ class dispatcher:
 
     def log_info(self, message, type='info'):
         if type not in self.ignore_log_types:
-            print '%s: %s' % (type, message)
+            print('%s: %s' % (type, message))
 
     def handle_read_event(self):
         if self.accepting:

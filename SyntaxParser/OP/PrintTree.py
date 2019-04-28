@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
 def print_tree(tree):
     buff = ['S']
     _print_tree(tree, buff, '', 0)

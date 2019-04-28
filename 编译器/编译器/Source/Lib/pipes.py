@@ -55,6 +55,7 @@ for the built-in function open() or for os.popen().
 To create a new template object initialized to a given one:
    t2 = t.clone()
 """                                     # '
+from __future__ import print_function
 
 
 import re
@@ -185,7 +186,7 @@ class Template:
     def makepipeline(self, infile, outfile):
         cmd = makepipeline(infile, self.steps, outfile)
         if self.debugging:
-            print cmd
+            print(cmd)
             cmd = 'set -x; ' + cmd
         return cmd
 

@@ -10,6 +10,7 @@ Parameters:
 x:             number to be formatted; or a string resembling a number
 digits_behind: number of digits behind the decimal point
 """
+from __future__ import print_function
 from warnings import warnpy3k
 warnpy3k("the fpformat module has been removed in Python 3.0", stacklevel=2)
 del warnpy3k
@@ -140,6 +141,6 @@ def test():
     try:
         while 1:
             x, digs = input('Enter (x, digs): ')
-            print x, fix(x, digs), sci(x, digs)
+            print(x, fix(x, digs), sci(x, digs))
     except (EOFError, KeyboardInterrupt):
         pass

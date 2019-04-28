@@ -9,6 +9,7 @@ server.
 This module is built upon the pydoc and SimpleXMLRPCServer
 modules.
 """
+from __future__ import print_function
 
 import pydoc
 import inspect
@@ -269,9 +270,9 @@ class DocCGIXMLRPCRequestHandler(   CGIXMLRPCRequestHandler,
 
         response = self.generate_html_documentation()
 
-        print 'Content-Type: text/html'
-        print 'Content-Length: %d' % len(response)
-        print
+        print('Content-Type: text/html')
+        print('Content-Length: %d' % len(response))
+        print()
         sys.stdout.write(response)
 
     def __init__(self):

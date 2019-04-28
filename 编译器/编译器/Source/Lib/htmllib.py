@@ -3,6 +3,7 @@
 See the HTML 2.0 specification:
 http://www.w3.org/hypertext/WWW/MarkUp/html-spec/html-spec_toc.html
 """
+from __future__ import print_function
 
 from warnings import warnpy3k
 warnpy3k("the htmllib module has been removed in Python 3.0",
@@ -469,7 +470,7 @@ def test(args = None):
         try:
             f = open(file, 'r')
         except IOError, msg:
-            print file, ":", msg
+            print(file, ":", msg)
             sys.exit(1)
 
     data = f.read()

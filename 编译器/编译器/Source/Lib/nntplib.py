@@ -23,6 +23,7 @@ For descriptions of all methods, read the comments in the code below.
 Note that all arguments and return values representing article numbers
 are strings, not numbers, since they are rarely used for calculations.
 """
+from __future__ import print_function
 
 # RFC 977 by Brian Kantor and Phil Lapsley.
 # xover, xgtitle, xpath, date methods by Kevan Heydon
@@ -181,7 +182,7 @@ class NNTP:
         If the response code is 200, posting is allowed;
         if it 201, posting is not allowed."""
 
-        if self.debugging: print '*welcome*', repr(self.welcome)
+        if self.debugging: print('*welcome*', repr(self.welcome))
         return self.welcome
 
     def set_debuglevel(self, level):
@@ -196,12 +197,12 @@ class NNTP:
     def putline(self, line):
         """Internal: send one line to the server, appending CRLF."""
         line = line + CRLF
-        if self.debugging > 1: print '*put*', repr(line)
+        if self.debugging > 1: print('*put*', repr(line))
         self.sock.sendall(line)
 
     def putcmd(self, line):
         """Internal: send one command to the server (through putline())."""
-        if self.debugging: print '*cmd*', repr(line)
+        if self.debugging: print('*cmd*', repr(line))
         self.putline(line)
 
     def getline(self):
@@ -211,7 +212,7 @@ class NNTP:
         if len(line) > _MAXLINE:
             raise NNTPDataError('line too long')
         if self.debugging > 1:
-            print '*get*', repr(line)
+            print('*get*', repr(line))
         if not line: raise EOFError
         if line[-2:] == CRLF: line = line[:-2]
         elif line[-1:] in CRLF: line = line[:-1]
@@ -221,7 +222,7 @@ class NNTP:
         """Internal: get a response from the server.
         Raise various errors if the response indicates an error."""
         resp = self.getline()
-        if self.debugging: print '*resp*', repr(resp)
+        if self.debugging: print('*resp*', repr(resp))
         c = resp[:1]
         if c == '4':
             raise NNTPTemporaryError(resp)
@@ -626,11 +627,11 @@ if __name__ == '__main__':
         mode = None
     s = NNTP(newshost, readermode=mode)
     resp, count, first, last, name = s.group('comp.lang.python')
-    print resp
-    print 'Group', name, 'has', count, 'articles, range', first, 'to', last
+    print(resp)
+    print('Group', name, 'has', count, 'articles, range', first, 'to', last)
     resp, subs = s.xhdr('subject', first + '-' + last)
-    print resp
+    print(resp)
     for item in subs:
-        print "%7s %s" % item
+        print("%7s %s" % item)
     resp = s.quit()
-    print resp
+    print(resp)

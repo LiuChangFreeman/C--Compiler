@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
 from nfa_and_dfa import NFA, DFA, NFANode, DFANode
 
 
@@ -181,13 +182,13 @@ class LexicalAnalyze(object):
                 if pos < len(line):
                     pos, token_type, token = self.run_on_dfa(line, pos)
                     if token_type is None:
-                        print 'Lexical error at line %s, column %s' % (
-                            (str(line_num), str(pos)))
+                        print('Lexical error at line %s, column %s' % (
+                            (str(line_num), str(pos))))
                         lex_error = True
                         break
                     else:
                         token_table.append((token_type, token))
-                        print '(\'%s\'\t, \'%s\')' % (token_type, token)
+                        print('(\'%s\'\t, \'%s\')' % (token_type, token))
                     pos += 1
         if not lex_error:
             output = open('token_table.data', 'w+')
