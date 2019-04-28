@@ -398,7 +398,7 @@ class Bdb:
         if not isinstance(cmd, types.CodeType):
             cmd = cmd+'\n'
         try:
-            exec cmd in globals, locals
+            exec(cmd, globals, locals)
         except BdbQuit:
             pass
         finally:

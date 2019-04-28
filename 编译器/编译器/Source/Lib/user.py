@@ -45,4 +45,5 @@ except IOError:
     pass
 else:
     f.close()
-    execfile(pythonrc)
+    with open(pythonrc) as in_file:
+        exec(in_file.read())

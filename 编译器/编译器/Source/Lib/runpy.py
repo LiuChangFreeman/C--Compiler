@@ -70,7 +70,7 @@ def _run_code(code, run_globals, init_globals=None,
                        __file__ = mod_fname,
                        __loader__ = mod_loader,
                        __package__ = pkg_name)
-    exec code in run_globals
+    exec(code, run_globals)
     return run_globals
 
 def _run_module_code(code, init_globals=None,

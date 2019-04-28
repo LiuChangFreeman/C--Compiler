@@ -168,7 +168,7 @@ def _test():
     else:
         print "accessible"
     \n"""
-    exec testcode
+    exec(testcode)
     print('='*20, "Using rexec:", '='*20)
     import rexec
     r = rexec.RExec()
