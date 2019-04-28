@@ -218,7 +218,7 @@ class _Database(UserDict.DictMixin):
             self._os.chmod(file, self._mode)
 
 
-def open(file, flag=None, mode=0666):
+def open(file, flag=None, mode=0o666):
     """Open the database file, filename, and return corresponding object.
 
     The flag argument, used to control how the database is opened in the

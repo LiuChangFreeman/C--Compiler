@@ -107,7 +107,7 @@ class LocaleTime(object):
         # magical; just happened to have used it everywhere else where a
         # static date was needed.
         am_pm = []
-        for hour in (01,22):
+        for hour in (0o1,22):
             time_tuple = time.struct_time((1999,3,17,hour,44,55,2,76,0))
             am_pm.append(time.strftime("%p", time_tuple).lower())
         self.am_pm = am_pm

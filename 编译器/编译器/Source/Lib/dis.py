@@ -89,7 +89,7 @@ def disassemble(co, lasti=-1):
             extended_arg = 0
             i = i+2
             if op == EXTENDED_ARG:
-                extended_arg = oparg*65536L
+                extended_arg = oparg*65536
             print(repr(oparg).rjust(5), end=' ')
             if op in hasconst:
                 print('(' + repr(co.co_consts[oparg]) + ')', end=' ')

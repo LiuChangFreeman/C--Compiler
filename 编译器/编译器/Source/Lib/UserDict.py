@@ -103,7 +103,7 @@ class DictMixin:
             return False
         return True
     def __contains__(self, key):
-        return self.has_key(key)
+        return key in self
 
     # third level takes advantage of second level definitions
     def iteritems(self):
