@@ -271,8 +271,7 @@ class CoverageResults:
         if self.calledfuncs:
             print()
             print("functions called:")
-            calls = self.calledfuncs.keys()
-            calls.sort()
+            calls = sorted(self.calledfuncs.keys())
             for filename, modulename, funcname in calls:
                 print ("filename: %s, modulename: %s, funcname: %s"
                        % (filename, modulename, funcname))
@@ -280,8 +279,7 @@ class CoverageResults:
         if self.callers:
             print()
             print("calling relationships:")
-            calls = self.callers.keys()
-            calls.sort()
+            calls = sorted(self.callers.keys())
             lastfile = lastcfile = ""
             for ((pfile, pmod, pfunc), (cfile, cmod, cfunc)) in calls:
                 if pfile != lastfile:
@@ -340,8 +338,7 @@ class CoverageResults:
                 sums[modulename] = n_lines, percent, modulename, filename
 
         if summary and sums:
-            mods = sums.keys()
-            mods.sort()
+            mods = sorted(sums.keys())
             print("lines   cov%   module   (path)")
             for m in mods:
                 n_lines, percent, modulename, filename = sums[m]

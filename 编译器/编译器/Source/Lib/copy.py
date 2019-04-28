@@ -368,7 +368,7 @@ class _EmptyClass:
     pass
 
 def _test():
-    l = [None, 1, 2L, 3.14, 'xyzzy', (1, 2L), [3.14, 'abc'],
+    l = [None, 1, 2, 3.14, 'xyzzy', (1, 2), [3.14, 'abc'],
          {'abc': 'ABC'}, (), [], {}]
     l1 = copy(l)
     print(l1==l)

@@ -587,7 +587,7 @@ class Telnet:
         if sys.platform == "win32":
             self.mt_interact()
             return
-        while 1:
+        while True:
             rfd, wfd, xfd = select.select([self, sys.stdin], [], [])
             if self in rfd:
                 try:
@@ -608,7 +608,7 @@ class Telnet:
         """Multithreaded version of interact()."""
         import thread
         thread.start_new_thread(self.listener, ())
-        while 1:
+        while True:
             line = sys.stdin.readline()
             if not line:
                 break
@@ -616,7 +616,7 @@ class Telnet:
 
     def listener(self):
         """Helper for mt_interact() -- this executes in the other thread."""
-        while 1:
+        while True:
             try:
                 data = self.read_eager()
             except EOFError:
@@ -733,7 +733,7 @@ class Telnet:
         if timeout is not None:
             from time import time
             time_start = time()
-        while 1:
+        while True:
             self.process_rawq()
             for i in indices:
                 m = list[i].search(self.cookedq)

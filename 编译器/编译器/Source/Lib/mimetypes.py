@@ -211,7 +211,7 @@ class MimeTypes:
         list of standard types, else to the list of non-standard
         types.
         """
-        while 1:
+        while True:
             line = fp.readline()
             if not line:
                 break

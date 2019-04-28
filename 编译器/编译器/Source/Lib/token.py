@@ -67,7 +67,7 @@ NT_OFFSET = 256
 
 tok_name = {}
 for _name, _value in globals().items():
-    if type(_value) is type(0):
+    if isinstance(_value, type(0)):
         tok_name[_value] = _name
 del _name, _value
 
@@ -107,8 +107,7 @@ def main():
             name, val = match.group(1, 2)
             val = int(val)
             tokens[val] = name          # reverse so we can sort them...
-    keys = tokens.keys()
-    keys.sort()
+    keys = sorted(tokens.keys())
     # load the output skeleton from the target:
     try:
         fp = open(outFileName)

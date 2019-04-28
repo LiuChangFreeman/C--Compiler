@@ -73,7 +73,7 @@ class RHooks(ihooks.Hooks):
         # new interface is RHooks([verbose])
         verbose = 0
         rexec = None
-        if args and type(args[-1]) == type(0):
+        if args and isinstance(args[-1], type(0)):
             verbose = args[-1]
             args = args[:-1]
         if args and hasattr(args[0], '__class__'):
@@ -262,8 +262,7 @@ class RExec(ihooks._Verbose):
         m.path = map(None, self.ok_path)
         m.exc_info = self.r_exc_info
         m = self.modules['sys']
-        l = self.modules.keys() + list(self.ok_builtin_modules)
-        l.sort()
+        l = sorted(self.modules.keys() + list(self.ok_builtin_modules))
         m.builtin_module_names = tuple(l)
 
     # The copy_* methods copy existing modules with some changes

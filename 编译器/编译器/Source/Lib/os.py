@@ -133,7 +133,7 @@ SEEK_END = 2
 # Super directory utilities.
 # (Inspired by Eric Raymond; the doc strings are mostly his)
 
-def makedirs(name, mode=0777):
+def makedirs(name, mode=0o777):
     """makedirs(path [, mode=0777])
 
     Super-mkdir; create a leaf directory and all intermediate ones.
@@ -544,7 +544,7 @@ if _exists("fork") and not _exists("spawnv") and _exists("execv"):
             # Parent
             if mode == P_NOWAIT:
                 return pid # Caller is responsible for waiting!
-            while 1:
+            while True:
                 wpid, sts = waitpid(pid, 0)
                 if WIFSTOPPED(sts):
                     continue

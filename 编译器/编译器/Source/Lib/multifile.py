@@ -111,7 +111,7 @@ class MultiFile:
 
     def readlines(self):
         list = []
-        while 1:
+        while True:
             line = self.readline()
             if not line: break
             list.append(line)

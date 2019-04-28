@@ -92,7 +92,7 @@ def fix(x, digs):
     """Format x as [-]ddd.ddd with 'digs' digits after the point
     and at least one digit before.
     If digs <= 0, the point is suppressed."""
-    if type(x) != type(''): x = repr(x)
+    if not isinstance(x, type('')): x = repr(x)
     try:
         sign, intpart, fraction, expo = extract(x)
     except NotANumber:
@@ -108,7 +108,7 @@ def sci(x, digs):
     """Format x as [-]d.dddE[+-]ddd with 'digs' digits after the point
     and exactly one digit before.
     If digs is <= 0, one digit is kept and the point is suppressed."""
-    if type(x) != type(''): x = repr(x)
+    if not isinstance(x, type('')): x = repr(x)
     sign, intpart, fraction, expo = extract(x)
     if not intpart:
         while fraction and fraction[0] == '0':
@@ -139,7 +139,7 @@ def sci(x, digs):
 def test():
     """Interactive test run."""
     try:
-        while 1:
+        while True:
             x, digs = input('Enter (x, digs): ')
             print(x, fix(x, digs), sci(x, digs))
     except (EOFError, KeyboardInterrupt):

@@ -84,7 +84,7 @@ class HeaderFile:
             return line
         if he.match(line):
             return line
-        while 1:
+        while True:
             self.peek = self.file.readline()
             if len(self.peek) == 0 or \
                (self.peek[0] != ' ' and self.peek[0] != '\t'):
@@ -96,7 +96,7 @@ def mime_decode(line):
     """Decode a single line of quoted-printable text to 8bit."""
     newline = ''
     pos = 0
-    while 1:
+    while True:
         res = mime_code.search(line, pos)
         if res is None:
             break
@@ -109,7 +109,7 @@ def mime_decode_header(line):
     """Decode a header line to 8bit."""
     newline = ''
     pos = 0
-    while 1:
+    while True:
         res = mime_head.search(line, pos)
         if res is None:
             break
@@ -133,7 +133,7 @@ def unmimify_part(ifile, ofile, decode_base64 = 0):
 
     # read header
     hfile = HeaderFile(ifile)
-    while 1:
+    while True:
         line = hfile.readline()
         if not line:
             return
@@ -162,7 +162,7 @@ def unmimify_part(ifile, ofile, decode_base64 = 0):
         is_repl = 0
 
     # read body
-    while 1:
+    while True:
         line = ifile.readline()
         if not line:
             return
@@ -207,15 +207,15 @@ def unmimify_part(ifile, ofile, decode_base64 = 0):
 
 def unmimify(infile, outfile, decode_base64 = 0):
     """Convert quoted-printable parts of a MIME mail message to 8bit."""
-    if type(infile) == type(''):
+    if isinstance(infile, type('')):
         ifile = open(infile)
-        if type(outfile) == type('') and infile == outfile:
+        if isinstance(outfile, type('')) and infile == outfile:
             import os
             d, f = os.path.split(infile)
             os.rename(infile, os.path.join(d, ',' + f))
     else:
         ifile = infile
-    if type(outfile) == type(''):
+    if isinstance(outfile, type('')):
         ofile = open(outfile, 'w')
     else:
         ofile = outfile
@@ -239,7 +239,7 @@ def mime_encode(line, header):
         # quote 'From ' at the start of a line for stupid mailers
         newline = ('=%02x' % ord('F')).upper()
         pos = 1
-    while 1:
+    while True:
         res = reg.search(line, pos)
         if res is None:
             break
@@ -264,7 +264,7 @@ def mime_encode_header(line):
     """Code a single header line as quoted-printable."""
     newline = ''
     pos = 0
-    while 1:
+    while True:
         res = mime_header.search(line, pos)
         if res is None:
             break
@@ -290,7 +290,7 @@ def mimify_part(ifile, ofile, is_mime):
     message_end = ''
     # read header
     hfile = HeaderFile(ifile)
-    while 1:
+    while True:
         line = hfile.readline()
         if not line:
             break
@@ -313,7 +313,7 @@ def mimify_part(ifile, ofile, is_mime):
         header.append(line)
 
     # read body
-    while 1:
+    while True:
         line = ifile.readline()
         if not line:
             break
@@ -388,7 +388,7 @@ def mimify_part(ifile, ofile, is_mime):
     while multipart:
         if line == multipart + '--\n':
             # read bit after the end of the last part
-            while 1:
+            while True:
                 line = ifile.readline()
                 if not line:
                     return
@@ -405,7 +405,7 @@ def mimify_part(ifile, ofile, is_mime):
             ofile.write(line)
             continue
         # unexpectedly no multipart separator--copy rest of file
-        while 1:
+        while True:
             line = ifile.readline()
             if not line:
                 return
@@ -415,15 +415,15 @@ def mimify_part(ifile, ofile, is_mime):
 
 def mimify(infile, outfile):
     """Convert 8bit parts of a MIME mail message to quoted-printable."""
-    if type(infile) == type(''):
+    if isinstance(infile, type('')):
         ifile = open(infile)
-        if type(outfile) == type('') and infile == outfile:
+        if isinstance(outfile, type('')) and infile == outfile:
             import os
             d, f = os.path.split(infile)
             os.rename(infile, os.path.join(d, ',' + f))
     else:
         ifile = infile
-    if type(outfile) == type(''):
+    if isinstance(outfile, type('')):
         ofile = open(outfile, 'w')
     else:
         ofile = outfile

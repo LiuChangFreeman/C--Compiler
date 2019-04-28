@@ -172,7 +172,7 @@ class _Rlecoderengine:
 class BinHex:
     def __init__(self, name_finfo_dlen_rlen, ofp):
         name, finfo, dlen, rlen = name_finfo_dlen_rlen
-        if type(ofp) == type(''):
+        if isinstance(ofp, type('')):
             ofname = ofp
             ofp = open(ofname, 'w')
         ofp.write('(This file must be converted with BinHex 4.0)\n\n:')
@@ -254,7 +254,7 @@ def binhex(inp, out):
 
     ifp = open(inp, 'rb')
     # XXXX Do textfile translation on non-mac systems
-    while 1:
+    while True:
         d = ifp.read(128000)
         if not d: break
         ofp.write(d)
@@ -262,7 +262,7 @@ def binhex(inp, out):
     ifp.close()
 
     ifp = openrsrc(inp, 'rb')
-    while 1:
+    while True:
         d = ifp.read(128000)
         if not d: break
         ofp.write_rsrc(d)
@@ -292,7 +292,7 @@ class _Hqxdecoderengine:
             # bytes in what we pass to a2b. Solve by yet another
             # loop.
             #
-            while 1:
+            while True:
                 try:
                     decdatacur, self.eof = \
                             binascii.a2b_hqx(data)
@@ -369,12 +369,12 @@ class _Rledecoderengine:
 
 class HexBin:
     def __init__(self, ifp):
-        if type(ifp) == type(''):
+        if isinstance(ifp, type('')):
             ifp = open(ifp)
         #
         # Find initial colon.
         #
-        while 1:
+        while True:
             ch = ifp.read(1)
             if not ch:
                 raise Error, "No binhex data found"
@@ -478,7 +478,7 @@ def hexbin(inp, out):
 
     ofp = open(out, 'wb')
     # XXXX Do translation on non-mac systems
-    while 1:
+    while True:
         d = ifp.read(128000)
         if not d: break
         ofp.write(d)
@@ -489,7 +489,7 @@ def hexbin(inp, out):
     if d:
         ofp = openrsrc(out, 'wb')
         ofp.write(d)
-        while 1:
+        while True:
             d = ifp.read_rsrc(128000)
             if not d: break
             ofp.write(d)

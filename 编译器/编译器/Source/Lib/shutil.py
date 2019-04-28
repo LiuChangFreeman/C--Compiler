@@ -45,7 +45,7 @@ except NameError:
 
 def copyfileobj(fsrc, fdst, length=16*1024):
     """copy data from file-like object fsrc to file-like object fdst"""
-    while 1:
+    while True:
         buf = fsrc.read(length)
         if not buf:
             break
@@ -471,9 +471,8 @@ def get_archive_formats():
 
     Each element of the returned sequence is a tuple (name, description)
     """
-    formats = [(name, registry[2]) for name, registry in
-               _ARCHIVE_FORMATS.items()]
-    formats.sort()
+    formats = sorted([(name, registry[2]) for name, registry in
+               _ARCHIVE_FORMATS.items()])
     return formats
 
 def register_archive_format(name, function, extra_args=None, description=''):

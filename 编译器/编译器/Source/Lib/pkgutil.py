@@ -329,8 +329,7 @@ try:
     from zipimport import zipimporter
 
     def iter_zipimport_modules(importer, prefix=''):
-        dirlist = zipimport._zip_directory_cache[importer.archive].keys()
-        dirlist.sort()
+        dirlist = sorted(zipimport._zip_directory_cache[importer.archive].keys())
         _prefix = importer.prefix
         plen = len(_prefix)
         yielded = {}

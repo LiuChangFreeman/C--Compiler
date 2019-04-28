@@ -133,7 +133,7 @@ class Wave_read:
             raise Error, 'not a WAVE file'
         self._fmt_chunk_read = 0
         self._data_chunk = None
-        while 1:
+        while True:
             self._data_seek_needed = 1
             try:
                 chunk = Chunk(self._file, bigendian = 0)

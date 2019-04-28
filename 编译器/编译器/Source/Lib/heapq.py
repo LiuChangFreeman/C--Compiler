@@ -381,7 +381,7 @@ def merge(*iterables):
 
     while _len(h) > 1:
         try:
-            while 1:
+            while True:
                 v, itnum, next = s = h[0]
                 yield v
                 s[0] = next()               # raises StopIteration when exhausted

@@ -54,7 +54,7 @@ if not _defaultmod:
 
 error = tuple(_errors)
 
-def open(file, flag='r', mode=0666):
+def open(file, flag='r', mode=0o666):
     """Open or create database at path given by *file*.
 
     Optional argument *flag* can be 'r' (default) for read-only access, 'w'

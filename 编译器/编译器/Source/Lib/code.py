@@ -225,7 +225,7 @@ class InteractiveConsole(InteractiveInterpreter):
         else:
             self.write("%s\n" % str(banner))
         more = 0
-        while 1:
+        while True:
             try:
                 if more:
                     prompt = sys.ps2

@@ -70,8 +70,7 @@ class Stats:
             self.stream = kwds["stream"]
             del kwds["stream"]
         if kwds:
-            keys = kwds.keys()
-            keys.sort()
+            keys = sorted(kwds.keys())
             extras = ", ".join(["%s=%s" % (k, kwds[k]) for k in keys])
             raise ValueError, "unrecognized keyword args: %s" % extras
         if not len(args):
@@ -139,7 +138,7 @@ class Stats:
         if not arg_list: return self
         if len(arg_list) > 1: self.add(*arg_list[1:])
         other = arg_list[0]
-        if type(self) != type(other) or self.__class__ != other.__class__:
+        if not isinstance(self, type(other)) or self.__class__ != other.__class__:
             other = Stats(other)
         self.files += other.files
         self.total_calls += other.total_calls
@@ -406,8 +405,7 @@ class Stats:
         if not call_dict:
             print(file=self.stream)
             return
-        clist = call_dict.keys()
-        clist.sort()
+        clist = sorted(call_dict.keys())
         indent = ""
         for func in clist:
             name = func_std_string(func)

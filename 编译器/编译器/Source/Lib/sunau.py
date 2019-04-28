@@ -119,7 +119,7 @@ AUDIO_FILE_ENCODING_ADPCM_G723_5 = 26
 AUDIO_FILE_ENCODING_ALAW_8 = 27
 
 # from <multimedia/audio_hdr.h>
-AUDIO_UNKNOWN_SIZE = 0xFFFFFFFFL        # ((unsigned)(~0))
+AUDIO_UNKNOWN_SIZE = 0xFFFFFFFF        # ((unsigned)(~0))
 
 _simple_encodings = [AUDIO_FILE_ENCODING_MULAW_8,
                      AUDIO_FILE_ENCODING_LINEAR_8,
@@ -132,7 +132,7 @@ class Error(Exception):
     pass
 
 def _read_u32(file):
-    x = 0L
+    x = 0
     for i in range(4):
         byte = file.read(1)
         if byte == '':
@@ -152,7 +152,7 @@ def _write_u32(file, x):
 class Au_read:
 
     def __init__(self, f):
-        if type(f) == type(''):
+        if isinstance(f, type('')):
             import __builtin__
             f = __builtin__.open(f, 'rb')
         self.initfp(f)
@@ -290,7 +290,7 @@ class Au_read:
 class Au_write:
 
     def __init__(self, f):
-        if type(f) == type(''):
+        if isinstance(f, type('')):
             import __builtin__
             f = __builtin__.open(f, 'wb')
         self.initfp(f)

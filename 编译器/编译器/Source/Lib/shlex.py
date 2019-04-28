@@ -285,7 +285,7 @@ if __name__ == '__main__':
     else:
         file = sys.argv[1]
         lexer = shlex(open(file), file)
-    while 1:
+    while True:
         tt = lexer.get_token()
         if tt:
             print("Token: " + repr(tt))

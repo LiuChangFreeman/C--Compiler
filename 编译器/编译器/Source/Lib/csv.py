@@ -375,8 +375,7 @@ class Sniffer:
 
         # nothing else indicates a preference, pick the character that
         # dominates(?)
-        items = [(v,k) for (k,v) in delims.items()]
-        items.sort()
+        items = sorted([(v,k) for (k,v) in delims.items()])
         delim = items[-1][1]
 
         skipinitialspace = (data[0].count(delim) ==
@@ -440,7 +439,7 @@ class Sniffer:
         # on whether it's a header
         hasHeader = 0
         for col, colType in columnTypes.items():
-            if type(colType) == type(0): # it's a length
+            if isinstance(colType, type(0)): # it's a length
                 if len(header[col]) != colType:
                     hasHeader += 1
                 else:

@@ -183,7 +183,7 @@ class WeakValueDictionary(UserDict.UserDict):
     def popitem(self):
         if self._pending_removals:
             self._commit_removals()
-        while 1:
+        while True:
             key, wr = self.data.popitem()
             o = wr()
             if o is not None:
@@ -420,7 +420,7 @@ class WeakKeyDictionary(UserDict.UserDict):
         return L
 
     def popitem(self):
-        while 1:
+        while True:
             key, value = self.data.popitem()
             o = key()
             if o is not None:
