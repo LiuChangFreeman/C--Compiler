@@ -511,7 +511,7 @@ class Trace:
         if not self.donothing:
             _settrace(self.globaltrace)
         try:
-            exec cmd in globals, locals
+            exec(cmd, globals, locals)
         finally:
             if not self.donothing:
                 _unsettrace()

@@ -62,7 +62,7 @@ class FileDelegate(FileBase):
         self.name = name
 
     for m in FileBase.ok_file_methods + ('close',):
-        exec TEMPLATE % (m, m)
+        exec(TEMPLATE % (m, m))
 
 
 class RHooks(ihooks.Hooks):
@@ -314,7 +314,7 @@ class RExec(ihooks._Verbose):
 
         """
         m = self.add_module('__main__')
-        exec code in m.__dict__
+        exec(code, m.__dict__)
 
     def r_eval(self, code):
         """Evaluate code within a restricted environment.
@@ -334,7 +334,8 @@ class RExec(ihooks._Verbose):
 
         """
         m = self.add_module('__main__')
-        execfile(file, m.__dict__)
+        with open(file) as in_file:
+            exec(in_file.read(), m.__dict__)
 
     def r_import(self, mname, globals={}, locals={}, fromlist=[]):
         """Import a module, raising an ImportError exception if the module

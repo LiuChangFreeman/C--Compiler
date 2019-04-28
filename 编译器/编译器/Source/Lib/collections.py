@@ -372,7 +372,7 @@ def namedtuple(typename, field_names, verbose=False, rename=False):
     namespace = dict(_itemgetter=_itemgetter, __name__='namedtuple_%s' % typename,
                      OrderedDict=OrderedDict, _property=property, _tuple=tuple)
     try:
-        exec class_definition in namespace
+        exec(class_definition, namespace)
     except SyntaxError as e:
         raise SyntaxError(e.message + ':\n' + class_definition)
     result = namespace[typename]

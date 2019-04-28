@@ -135,14 +135,14 @@ class Timer:
                 raise ValueError("setup is neither a string nor callable")
             self.src = src # Save for traceback display
             code = compile(src, dummy_src_name, "exec")
-            exec code in globals(), ns
+            exec(code, globals(), ns)
             self.inner = ns["inner"]
         elif hasattr(stmt, '__call__'):
             self.src = None
             if isinstance(setup, basestring):
                 _setup = setup
                 def setup():
-                    exec _setup in globals(), ns
+                    exec(_setup, globals(), ns)
             elif not hasattr(setup, '__call__'):
                 raise ValueError("setup is neither a string nor callable")
             self.inner = _template_func(setup, stmt)
