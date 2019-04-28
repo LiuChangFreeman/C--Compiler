@@ -1,4 +1,5 @@
 """Classes for manipulating audio devices (currently only for Sun and SGI)"""
+from __future__ import print_function
 from warnings import warnpy3k
 warnpy3k("the audiodev module has been removed in Python 3.0", stacklevel=2)
 del warnpy3k
@@ -243,7 +244,7 @@ def test(fn = None):
         fn = 'f:just samples:just.aif'
     import aifc
     af = aifc.open(fn, 'r')
-    print fn, af.getparams()
+    print(fn, af.getparams())
     p = AudioDev()
     p.setoutrate(af.getframerate())
     p.setsampwidth(af.getsampwidth())
@@ -252,7 +253,7 @@ def test(fn = None):
     while 1:
         data = af.readframes(BUFSIZ)
         if not data: break
-        print len(data)
+        print(len(data))
         p.writeframes(data)
     p.wait()
 

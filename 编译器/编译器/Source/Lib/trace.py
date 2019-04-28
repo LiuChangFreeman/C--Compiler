@@ -47,6 +47,7 @@ Sample use, programmatically
   r = tracer.results()
   r.write_results(show_missing=True, coverdir="/tmp")
 """
+from __future__ import print_function
 
 import linecache
 import os
@@ -242,8 +243,8 @@ class CoverageResults:
                         pickle.load(open(self.infile, 'rb'))
                 self.update(self.__class__(counts, calledfuncs, callers))
             except (IOError, EOFError, ValueError), err:
-                print >> sys.stderr, ("Skipping counts file %r: %s"
-                                      % (self.infile, err))
+                print(("Skipping counts file %r: %s"
+                                      % (self.infile, err)), file=sys.stderr)
 
     def update(self, other):
         """Merge in the data from another CoverageResults"""
@@ -268,8 +269,8 @@ class CoverageResults:
         @param coverdir
         """
         if self.calledfuncs:
-            print
-            print "functions called:"
+            print()
+            print("functions called:")
             calls = self.calledfuncs.keys()
             calls.sort()
             for filename, modulename, funcname in calls:
@@ -277,21 +278,21 @@ class CoverageResults:
                        % (filename, modulename, funcname))
 
         if self.callers:
-            print
-            print "calling relationships:"
+            print()
+            print("calling relationships:")
             calls = self.callers.keys()
             calls.sort()
             lastfile = lastcfile = ""
             for ((pfile, pmod, pfunc), (cfile, cmod, cfunc)) in calls:
                 if pfile != lastfile:
-                    print
-                    print "***", pfile, "***"
+                    print()
+                    print("***", pfile, "***")
                     lastfile = pfile
                     lastcfile = ""
                 if cfile != pfile and lastcfile != cfile:
-                    print "  -->", cfile
+                    print("  -->", cfile)
                     lastcfile = cfile
-                print "    %s.%s -> %s.%s" % (pmod, pfunc, cmod, cfunc)
+                print("    %s.%s -> %s.%s" % (pmod, pfunc, cmod, cfunc))
 
         # turn the counts data ("(filename, lineno) = count") into something
         # accessible on a per-file basis
@@ -341,10 +342,10 @@ class CoverageResults:
         if summary and sums:
             mods = sums.keys()
             mods.sort()
-            print "lines   cov%   module   (path)"
+            print("lines   cov%   module   (path)")
             for m in mods:
                 n_lines, percent, modulename, filename = sums[m]
-                print "%5d   %3d%%   %s   (%s)" % sums[m]
+                print("%5d   %3d%%   %s   (%s)" % sums[m])
 
         if self.outfile:
             # try and store counts and module info into self.outfile
@@ -352,7 +353,7 @@ class CoverageResults:
                 pickle.dump((self.counts, self.calledfuncs, self.callers),
                             open(self.outfile, 'wb'), 1)
             except IOError, err:
-                print >> sys.stderr, "Can't save counts files because %s" % err
+                print("Can't save counts files because %s" % err, file=sys.stderr)
 
     def write_results_file(self, path, lines, lnotab, lines_hit):
         """Return a coverage results file in path."""
@@ -360,8 +361,8 @@ class CoverageResults:
         try:
             outfile = open(path, "w")
         except IOError, err:
-            print >> sys.stderr, ("trace: Could not open %r for writing: %s"
-                                  "- skipping" % (path, err))
+            print(("trace: Could not open %r for writing: %s"
+                                  "- skipping" % (path, err)), file=sys.stderr)
             return 0, 0
 
         n_lines = 0
@@ -440,8 +441,8 @@ def find_executable_linenos(filename):
     try:
         prog = open(filename, "rU").read()
     except IOError, err:
-        print >> sys.stderr, ("Not printing coverage data for %r: %s"
-                              % (filename, err))
+        print(("Not printing coverage data for %r: %s"
+                              % (filename, err)), file=sys.stderr)
         return {}
     code = compile(prog, filename, "exec")
     strs = find_strings(filename)
@@ -619,10 +620,10 @@ class Trace:
             self.counts[key] = self.counts.get(key, 0) + 1
 
             if self.start_time:
-                print '%.2f' % (time.time() - self.start_time),
+                print('%.2f' % (time.time() - self.start_time), end=' ')
             bname = os.path.basename(filename)
-            print "%s(%d): %s" % (bname, lineno,
-                                  linecache.getline(filename, lineno)),
+            print("%s(%d): %s" % (bname, lineno,
+                                  linecache.getline(filename, lineno)), end=' ')
         return self.localtrace
 
     def localtrace_trace(self, frame, why, arg):
@@ -632,10 +633,10 @@ class Trace:
             lineno = frame.f_lineno
 
             if self.start_time:
-                print '%.2f' % (time.time() - self.start_time),
+                print('%.2f' % (time.time() - self.start_time), end=' ')
             bname = os.path.basename(filename)
-            print "%s(%d): %s" % (bname, lineno,
-                                  linecache.getline(filename, lineno)),
+            print("%s(%d): %s" % (bname, lineno,
+                                  linecache.getline(filename, lineno)), end=' ')
         return self.localtrace
 
     def localtrace_count(self, frame, why, arg):

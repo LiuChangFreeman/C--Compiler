@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 KeyWordList = ['if', 'else', 'while', 'break', 'continue', 'for', 'double', 'int', 'float', 'long', 'short', 'bool','switch', 'case', 'return', 'void','unsigned']
 SeparatorList = ['{', '}', '[', ']', '(', ')', '~', ',', ';', '.', '?', ':', ' ']
 OperatorList = ['+', '++', '-', '--', '+=', '-=', '*', '*=', '%', '%=', '->', '|', '||', '|=','/', '/=', '>', '<', '>=', '<=', '=', '==', '!=', '!', '&']

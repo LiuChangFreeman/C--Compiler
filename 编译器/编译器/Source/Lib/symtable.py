@@ -1,4 +1,5 @@
 """Interface to the compiler's internal symbol tables"""
+from __future__ import print_function
 
 import _symtable
 from _symtable import (USE, DEF_GLOBAL, DEF_LOCAL, DEF_PARAM,
@@ -236,4 +237,4 @@ if __name__ == "__main__":
     mod = symtable(src, os.path.split(sys.argv[0])[1], "exec")
     for ident in mod.get_identifiers():
         info = mod.lookup(ident)
-        print info, info.is_local(), info.is_namespace()
+        print(info, info.is_local(), info.is_namespace())

@@ -16,6 +16,7 @@ XXX To do:
 - r_exec etc. with explicit globals/locals? (Use rexec("exec ... in ...")?)
 
 """
+from __future__ import print_function
 from warnings import warnpy3k
 warnpy3k("the rexec module has been removed in Python 3.0", stacklevel=2)
 del warnpy3k
@@ -555,7 +556,7 @@ def test():
         try:
             fp = open(args[0])
         except IOError, msg:
-            print "%s: can't open file %r" % (sys.argv[0], args[0])
+            print("%s: can't open file %r" % (sys.argv[0], args[0]))
             return 1
     if fp.isatty():
         try:

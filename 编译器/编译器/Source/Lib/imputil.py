@@ -9,6 +9,7 @@ Exported classes:
 
     DynLoadSuffixImporter
 """
+from __future__ import print_function
 from warnings import warnpy3k
 warnpy3k("the imputil module has been removed in Python 3.0", stacklevel=2)
 del warnpy3k
@@ -616,9 +617,9 @@ def _print_importers():
     items.sort()
     for name, module in items:
         if module:
-            print name, module.__dict__.get('__importer__', '-- no importer')
+            print(name, module.__dict__.get('__importer__', '-- no importer'))
         else:
-            print name, '-- non-existent module'
+            print(name, '-- non-existent module')
 
 def _test_revamp():
     ImportManager().install()

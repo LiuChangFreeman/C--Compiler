@@ -25,6 +25,7 @@ the repr() of the original object.  This is precomputed when the
 bastion is created.
 
 """
+from __future__ import print_function
 from warnings import warnpy3k
 warnpy3k("the Bastion module has been removed in Python 3.0", stacklevel=2)
 del warnpy3k
@@ -168,7 +169,7 @@ def _test():
         print "accessible"
     \n"""
     exec testcode
-    print '='*20, "Using rexec:", '='*20
+    print('='*20, "Using rexec:", '='*20)
     import rexec
     r = rexec.RExec()
     m = r.add_module('__main__')
