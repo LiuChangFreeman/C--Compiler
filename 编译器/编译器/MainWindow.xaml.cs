@@ -105,6 +105,10 @@ namespace 编译器
             engine=await Task.Run(() => {
                 return Python.CreateEngine();
             });
+            ICollection<string> Paths = engine.GetSearchPaths();
+            Paths.Add("../../Source");
+            Paths.Add("../../Source/Lib");
+            engine.SetSearchPaths(Paths);
         }
 
         private async void Lexcial_Click(object sender, RoutedEventArgs e)

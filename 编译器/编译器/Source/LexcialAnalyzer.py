@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-import sys
-sys.path.append("../../Source/");
 import re
 from Definitions import *
 currentline=1

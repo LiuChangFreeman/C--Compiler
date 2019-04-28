@@ -1,8 +1,5 @@
 #coding:utf-8
 from __future__ import print_function
-import sys
-sys.path.append("../../Source/");
-sys.path.append("../../Source/Lib");
 import os
 import copy
 from Definitions import *
