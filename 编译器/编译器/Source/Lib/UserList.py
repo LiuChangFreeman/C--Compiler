@@ -7,7 +7,7 @@ class UserList(collections.MutableSequence):
         self.data = []
         if initlist is not None:
             # XXX should this accept an arbitrary sequence?
-            if type(initlist) == type(self.data):
+            if isinstance(initlist, type(self.data)):
                 self.data[:] = initlist
             elif isinstance(initlist, UserList):
                 self.data[:] = initlist.data[:]

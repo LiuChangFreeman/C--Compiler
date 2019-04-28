@@ -61,7 +61,7 @@ def readmailcapfile(fp):
     the viewing command is stored with the key "view".
     """
     caps = {}
-    while 1:
+    while True:
         line = fp.readline()
         if not line: break
         # Ignore comments and blank lines
@@ -240,14 +240,12 @@ def show(caps):
     if not caps: caps = getcaps()
     print("Mailcap entries:")
     print()
-    ckeys = caps.keys()
-    ckeys.sort()
+    ckeys = sorted(caps.keys())
     for type in ckeys:
         print(type)
         entries = caps[type]
         for e in entries:
-            keys = e.keys()
-            keys.sort()
+            keys = sorted(e.keys())
             for k in keys:
                 print("  %-15s" % k, e[k])
             print()

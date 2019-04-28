@@ -68,7 +68,7 @@ def encode(input, output, quotetabs, header = 0):
             output.write(s + lineEnd)
 
     prevline = None
-    while 1:
+    while True:
         line = input.readline()
         if not line:
             break
@@ -126,7 +126,7 @@ def decode(input, output, header = 0):
         return
 
     new = ''
-    while 1:
+    while True:
         line = input.readline()
         if not line: break
         i, n = 0, len(line)

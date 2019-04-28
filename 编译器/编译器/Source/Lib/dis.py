@@ -30,8 +30,7 @@ def dis(x=None):
     if hasattr(x, 'func_code'):
         x = x.func_code
     if hasattr(x, '__dict__'):
-        items = x.__dict__.items()
-        items.sort()
+        items = sorted(x.__dict__.items())
         for name, x1 in items:
             if isinstance(x1, _have_code):
                 print("Disassembly of %s:" % name)

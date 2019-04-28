@@ -12,7 +12,7 @@ __all__ = ["pickle", "constructor",
 dispatch_table = {}
 
 def pickle(ob_type, pickle_function, constructor_ob=None):
-    if type(ob_type) is _ClassType:
+    if isinstance(ob_type, _ClassType):
         raise TypeError("copy_reg is not intended for use with classes")
 
     if not hasattr(pickle_function, '__call__'):

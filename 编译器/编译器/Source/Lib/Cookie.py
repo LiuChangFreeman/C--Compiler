@@ -496,14 +496,13 @@ class Morsel(dict):
         # Now add any defined attributes
         if attrs is None:
             attrs = self._reserved
-        items = self.items()
-        items.sort()
+        items = sorted(self.items())
         for K,V in items:
             if V == "": continue
             if K not in attrs: continue
-            if K == "expires" and type(V) == type(1):
+            if K == "expires" and isinstance(V, type(1)):
                 RA("%s=%s" % (self._reserved[K], _getdate(V)))
-            elif K == "max-age" and type(V) == type(1):
+            elif K == "max-age" and isinstance(V, type(1)):
                 RA("%s=%d" % (self._reserved[K], V))
             elif K == "secure":
                 RA(str(self._reserved[K]))
@@ -602,8 +601,7 @@ class BaseCookie(dict):
     def output(self, attrs=None, header="Set-Cookie:", sep="\015\012"):
         """Return a string suitable for HTTP."""
         result = []
-        items = self.items()
-        items.sort()
+        items = sorted(self.items())
         for K,V in items:
             result.append( V.output(attrs, header) )
         return sep.join(result)
@@ -613,8 +611,7 @@ class BaseCookie(dict):
 
     def __repr__(self):
         L = []
-        items = self.items()
-        items.sort()
+        items = sorted(self.items())
         for K,V in items:
             L.append( '%s=%s' % (K,repr(V.value) ) )
         return '<%s: %s>' % (self.__class__.__name__, _spacejoin(L))
@@ -622,8 +619,7 @@ class BaseCookie(dict):
     def js_output(self, attrs=None):
         """Return a string suitable for JavaScript."""
         result = []
-        items = self.items()
-        items.sort()
+        items = sorted(self.items())
         for K,V in items:
             result.append( V.js_output(attrs) )
         return _nulljoin(result)
@@ -635,7 +631,7 @@ class BaseCookie(dict):
         is equivalent to calling:
             map(Cookie.__setitem__, d.keys(), d.values())
         """
-        if type(rawdata) == type(""):
+        if isinstance(rawdata, type("")):
             self.__ParseString(rawdata)
         else:
             # self.update() wouldn't call our custom __setitem__
@@ -743,7 +739,7 @@ class SmartCookie(BaseCookie):
         except:
             return strval, val
     def value_encode(self, val):
-        if type(val) == type(""):
+        if isinstance(val, type("")):
             return val, _quote(val)
         else:
             return val, _quote( dumps(val) )

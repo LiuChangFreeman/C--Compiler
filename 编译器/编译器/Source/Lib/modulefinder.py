@@ -495,8 +495,7 @@ class ModuleFinder:
         print("  %-25s %s" % ("Name", "File"))
         print("  %-25s %s" % ("----", "----"))
         # Print modules found
-        keys = self.modules.keys()
-        keys.sort()
+        keys = sorted(self.modules.keys())
         for key in keys:
             m = self.modules[key]
             if m.__path__:
@@ -511,8 +510,7 @@ class ModuleFinder:
             print()
             print("Missing modules:")
             for name in missing:
-                mods = self.badmodules[name].keys()
-                mods.sort()
+                mods = sorted(self.badmodules[name].keys())
                 print("?", name, "imported from", ', '.join(mods))
         # Print modules that may be missing, but then again, maybe not...
         if maybe:
@@ -520,8 +518,7 @@ class ModuleFinder:
             print("Submodules that appear to be missing, but could also be", end=' ')
             print("global names in the parent package:")
             for name in maybe:
-                mods = self.badmodules[name].keys()
-                mods.sort()
+                mods = sorted(self.badmodules[name].keys())
                 print("?", name, "imported from", ', '.join(mods))
 
     def any_missing(self):

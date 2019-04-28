@@ -228,7 +228,7 @@ class Unpacker:
 
     def unpack_list(self, unpack_item):
         list = []
-        while 1:
+        while True:
             x = self.unpack_uint()
             if x == 0: break
             if x != 1:

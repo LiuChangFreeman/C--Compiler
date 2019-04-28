@@ -200,7 +200,7 @@ def atof(s):
     Return the floating point number represented by the string s.
 
     """
-    if type(s) == _StringType:
+    if isinstance(s, _StringType):
         return _float(s)
     else:
         raise TypeError('argument 1: expected string, %s found' %
@@ -226,7 +226,7 @@ def atoi(*args):
     # Don't catch type error resulting from too many arguments to int().  The
     # error message isn't compatible but the error type is, and this function
     # is complicated enough already.
-    if type(s) == _StringType:
+    if isinstance(s, _StringType):
         return _apply(_int, args)
     else:
         raise TypeError('argument 1: expected string, %s found' %
@@ -254,7 +254,7 @@ def atol(*args):
     # Don't catch type error resulting from too many arguments to long().  The
     # error message isn't compatible but the error type is, and this function
     # is complicated enough already.
-    if type(s) == _StringType:
+    if isinstance(s, _StringType):
         return _apply(_long, args)
     else:
         raise TypeError('argument 1: expected string, %s found' %
@@ -314,7 +314,7 @@ def zfill(x, width):
     of the specified width.  The string x is never truncated.
 
     """
-    if type(x) == type(''): s = x
+    if isinstance(x, type('')): s = x
     else: s = repr(x)
     n = len(s)
     if n >= width: return s

@@ -613,8 +613,7 @@ class DynLoadSuffixImporter:
 ######################################################################
 
 def _print_importers():
-    items = sys.modules.items()
-    items.sort()
+    items = sorted(sys.modules.items())
     for name, module in items:
         if module:
             print(name, module.__dict__.get('__importer__', '-- no importer'))
