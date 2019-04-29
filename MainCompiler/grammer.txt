@@ -1,64 +1,16 @@
-S
-    : start
-    ;
-
 start
     : external_declaration start
     | '$'
     ;
 
-primary_expression
-     : id
-     | number
-     | '(' expression ')'
-     ;
-
-operator
-    : '+'
-    | '-'
-    | '*'
-    | '/'
-    | '%'
-    | '<'
-    | '>'
-    | '=='
-    | '!='
+external_declaration
+    : function_implement
+    | declaration
     ;
 
-arithmetic_expression
-    : operator primary_expression arithmetic_expression
+declaration_assign
+    : '=' expression
     | '$'
-    ;
-
-constant_expression
-    : primary_expression arithmetic_expression
-    ;
-
-assignment_operator
-    : '='
-    | '+' '='
-    | '-' '='
-    | '*' '='
-    | '/' '='
-    | '%' '='
-    ;
-
-assignment_expression
-    :id assignment_operator expression
-    ;
-
-assignment_expression_profix
-    : ',' assignment_expression assignment_expression_profix
-    | '$'
-    ;
-
-assignment_expression_list
-    : assignment_expression assignment_expression_profix
-    | '$'
-    ;
-
-function_expression
-    : function id '(' expression_list ')'
     ;
 
 expression
@@ -77,19 +29,15 @@ expression_list
     ;
 
 type_specifier
-    : double
-    | char
-    | int
-    | float
+    : int
     ;
 
-declaration_assign
-    : '=' expression
-    | '$'
+declaration
+    : type_specifier declaration_init declaration_init_list ';'
     ;
 
 declaration_init
-    : id declaration_assign
+    : identifier declaration_assign
     ;
 
 declaration_init_list
@@ -97,12 +45,8 @@ declaration_init_list
     | '$'
     ;
 
-declaration
-    : type_specifier declaration_init declaration_init_list ';'
-    ;
-
 function_declaration
-    : type_specifier id
+    : type_specifier identifier
     ;
 
 function_declaration_suffix
@@ -116,11 +60,70 @@ function_declaration_list
     ;
 
 function_definition
-    : function type_specifier id '(' function_declaration_list ')'
+    : function type_specifier identifier '(' function_declaration_list ')'
     ;
 
 function_implement
     : function_definition compound_statement
+    ;
+
+primary_expression
+     : identifier
+     | number
+     | '(' expression ')'
+     ;
+
+operator
+    : '+'
+    | '-'
+    | '*'
+    | '/'
+    | '%'
+    | '<'
+    | '>'
+    | '=='
+    | '!='
+    ;
+
+assignment_operator
+    : '='
+    | '+' '='
+    | '-' '='
+    | '*' '='
+    | '/' '='
+    | '%' '='
+    ;
+
+arithmetic_expression
+    : operator primary_expression arithmetic_expression
+    | '$'
+    ;
+
+constant_expression
+    : primary_expression arithmetic_expression
+    ;
+
+assignment_expression
+    :identifier assignment_operator expression
+    ;
+
+assignment_expression_profix
+    : ',' assignment_expression assignment_expression_profix
+    | '$'
+    ;
+
+assignment_expression_list
+    : assignment_expression assignment_expression_profix
+    | '$'
+    ;
+
+function_expression
+    : function identifier '(' expression_list ')'
+    ;
+
+statement_list
+    : statement statement_list
+    | '$'
     ;
 
 statement
@@ -130,11 +133,6 @@ statement
     : iteration_statement
     : compound_statement
     : declaration
-    ;
-
-statement_list
-    : statement statement_list
-    | '$'
     ;
 
 expression_statement
@@ -158,9 +156,4 @@ iteration_statement
 
 compound_statement
     : '{' statement_list '}'
-    ;
-
-external_declaration
-    : function_implement
-    | declaration
     ;

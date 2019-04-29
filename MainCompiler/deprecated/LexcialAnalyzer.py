@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
 import re
 from Definitions import *
-currentline=1
-def RemoveComments(data):#去除注释
+CURRENT_LINE=1
+
+def remove_comments(data):#去除注释
     temp = re.findall('//.*?\n',data,flags=re.DOTALL)
     if(len(temp)>0):
         data=data.replace(temp[0],"")
@@ -11,7 +11,8 @@ def RemoveComments(data):#去除注释
     if(len(temp)>0):
         data=data.replace(temp[0],"")
     return data
-def Scan(line):#经行一次扫描，返回得到的token以及剩余的字符串
+
+def scan(line):#经行一次扫描，返回得到的token以及剩余的字符串
     max=''
     target_regex=regexs[0]
     subindex=0
@@ -33,7 +34,8 @@ def Scan(line):#经行一次扫描，返回得到的token以及剩余的字符�
         return {"data":line[0],"regex":"null","remain":line[1:]}
     else:
         return {"data":max,"regex":target_regex,"remain":line[subindex+len(max):]}
-def ScanLine(line):#对一行进行重复扫描，获得一组token
+
+def scan_line(line):#对一行进行重复扫描，获得一组token
     tokens=[]
     result = line.strip().strip('\t')
     origin=result
@@ -41,17 +43,17 @@ def ScanLine(line):#对一行进行重复扫描，获得一组token
         if (result == ""):
             break
         before=result
-        result = Scan(result)
+        result = scan(result)
         if (result['regex'] != "null"):
             token = {}
             token['class'] = "T"
-            token['row'] = currentline
+            token['row'] = CURRENT_LINE
             token['colum'] = origin.find(before)+1
             token['name'] = type[regexs.index(result['regex'])].upper()
             token['data'] = result['data']
             token['type'] = token['name']
-            if (result['data'] in Reserved):#保留字，对应文法中->不加引号，认定为终结符
-                token['name'] = Reserved[result['data']].lower()
+            if (reserved.has_key(result['data'])):#保留字，对应文法中->不加引号，认定为终结符
+                token['name'] = reserved[result['data']].lower()
                 token['type'] = token['name']
             if (token['name']=="operator".upper() or token['name']=="seperator".upper()):
                 #操作符或者界符，对应文法中->加引号，认定为终结符
@@ -68,20 +70,22 @@ def ScanLine(line):#对一行进行重复扫描，获得一组token
         if (result == ""):
             return tokens
     return tokens
-def main(path):
+
+def generate_tokens(path):
     fd=open(path,'r')
-    lines=RemoveComments(fd.read()).split('\n')
+    lines=remove_comments(fd.read()).split('\n')
     with open(path,'wb')as f:
         for line in lines:
             f.write(line.strip().strip('\t')+'\n')
     tokens=[]
     for line in lines:
-        temp=ScanLine(line)
+        temp=scan_line(line)
         for token in temp:
             tokens.append(token)
-        global currentline
+        global CURRENT_LINE
         currentline+=1
     return tokens
+
 if __name__ == "__main__":
- for token in(main("test.c")):
+ for token in(generate_tokens("test.c--")):
      print(token)
