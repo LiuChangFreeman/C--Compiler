@@ -20,9 +20,11 @@ reserved = {
     'goto':'GOTO' ,
     'number':'NUMBER'
 }#保留字
+
 type=[
     'seperator', 'operator', 'identifier', 'string', 'char', 'int', 'float'
 ]#类别
+
 regexs=[
     '\{|\}|\[|\]|\(|\)|,|;|\.|\?|\:'#界符
     ,'\+|-|\*|%|/|>|<|==|!=|='#操作符
@@ -31,7 +33,7 @@ regexs=[
     ,'\'.{1}\''#字符
     ,'\d+'#整数
     ,'-?\d+\.\d+?'#浮点数
-]#匹配使用的正则表达式
+]#词法分析所使用的正则表达式
 
 SOURCE_PATH= ''
 NAME_SOURCE_CODE="test.c--"
@@ -258,9 +260,9 @@ def scan_line(line):#对一行进行重复扫描，获得一组token
 def generate_tokens(path):
     fd=open(path,'r')
     lines=remove_comments(fd.read()).split('\n')
-    with open(path,'wb')as f:
-        for line in lines:
-            f.write(line.strip().strip('\t')+'\n')
+    # with io.open(path,'w',encoding="utf-8")as f:
+    #     for line in lines:
+    #         f.write(line.strip().strip('\t')+'\n')
     tokens=[]
     for line in lines:
         tokens_temp=scan_line(line)
@@ -507,7 +509,7 @@ def make_up_first():#补全Fisrt集
                 return False
         return True
     global FIRST
-    procession =FIRST.keys()
+    procession =list(FIRST.keys())
     while len(procession)>0:
         for key in procession:
             first = FIRST[key]
