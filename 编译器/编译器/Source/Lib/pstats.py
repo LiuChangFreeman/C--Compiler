@@ -72,7 +72,7 @@ class Stats:
         if kwds:
             keys = sorted(kwds.keys())
             extras = ", ".join(["%s=%s" % (k, kwds[k]) for k in keys])
-            raise ValueError, "unrecognized keyword args: %s" % extras
+            raise ValueError("unrecognized keyword args: %s" % extras)
         if not len(args):
             arg = None
         else:

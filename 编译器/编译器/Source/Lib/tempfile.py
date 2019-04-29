@@ -208,7 +208,7 @@ def _get_default_tempdir():
                 if e.args[0] != _errno.EEXIST:
                     break # no point trying more names in this directory
                 pass
-    raise IOError, (_errno.ENOENT,
+    raise IOError(_errno.ENOENT,
                     ("No usable temporary directory found in %s" % dirlist))
 
 _name_sequence = None
@@ -248,7 +248,7 @@ def _mkstemp_inner(dir, pre, suf, flags):
                 continue
             raise
 
-    raise IOError, (_errno.EEXIST, "No usable temporary file name found")
+    raise IOError(_errno.EEXIST, "No usable temporary file name found")
 
 
 # User visible interfaces.
@@ -337,7 +337,7 @@ def mkdtemp(suffix="", prefix=template, dir=None):
                 continue # try again
             raise
 
-    raise IOError, (_errno.EEXIST, "No usable temporary directory name found")
+    raise IOError(_errno.EEXIST, "No usable temporary directory name found")
 
 def mktemp(suffix="", prefix=template, dir=None):
     """User-callable function to return a unique temporary file name.  The
@@ -366,7 +366,7 @@ def mktemp(suffix="", prefix=template, dir=None):
         if not _exists(file):
             return file
 
-    raise IOError, (_errno.EEXIST, "No usable temporary filename found")
+    raise IOError(_errno.EEXIST, "No usable temporary filename found")
 
 
 class _TemporaryFileWrapper:

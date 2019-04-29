@@ -80,7 +80,7 @@ class _posixfile_:
     def fileopen(self, file):
         import types
         if repr(type(file)) != "<type 'file'>":
-            raise TypeError, 'posixfile.fileopen() arg must be file object'
+            raise TypeError('posixfile.fileopen() arg must be file object')
         self._file_  = file
         # Copy basic file methods
         for maybemethod in dir(file):
@@ -100,7 +100,7 @@ class _posixfile_:
         import posix
 
         if not hasattr(posix, 'fdopen'):
-            raise AttributeError, 'dup() method unavailable'
+            raise AttributeError('dup() method unavailable')
 
         return posix.fdopen(posix.dup(self._file_.fileno()), self._file_.mode)
 
@@ -108,7 +108,7 @@ class _posixfile_:
         import posix
 
         if not hasattr(posix, 'fdopen'):
-            raise AttributeError, 'dup() method unavailable'
+            raise AttributeError('dup() method unavailable')
 
         posix.dup2(self._file_.fileno(), fd)
         return posix.fdopen(fd, self._file_.mode)
@@ -118,7 +118,7 @@ class _posixfile_:
 
         if which:
             if len(which) > 1:
-                raise TypeError, 'Too many arguments'
+                raise TypeError('Too many arguments')
             which = which[0]
         else: which = '?'
 
@@ -156,7 +156,7 @@ class _posixfile_:
         if 'w' in how: l_type = fcntl.F_WRLCK
         elif 'r' in how: l_type = fcntl.F_RDLCK
         elif 'u' in how: l_type = fcntl.F_UNLCK
-        else: raise TypeError, 'no type of lock specified'
+        else: raise TypeError('no type of lock specified')
 
         if '|' in how: cmd = fcntl.F_SETLKW
         elif '?' in how: cmd = fcntl.F_GETLK
@@ -173,7 +173,7 @@ class _posixfile_:
         elif len(args) == 3:
             l_len, l_start, l_whence = args
         elif len(args) > 3:
-            raise TypeError, 'too many arguments'
+            raise TypeError('too many arguments')
 
         # Hack by davem@magnet.com to get locking to go on freebsd;
         # additions for AIX by Vladimir.Marangozov@imag.fr

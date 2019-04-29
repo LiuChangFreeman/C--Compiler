@@ -157,7 +157,7 @@ class _Database(UserDict.DictMixin):
 
     def __setitem__(self, key, val):
         if not type(key) == type('') == type(val):
-            raise TypeError, "keys and values must be strings"
+            raise TypeError("keys and values must be strings")
         if key not in self._index:
             self._addkey(key, self._addval(val))
         else:

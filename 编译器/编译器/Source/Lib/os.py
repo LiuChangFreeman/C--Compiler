@@ -114,7 +114,7 @@ elif 'riscos' in _names:
     del riscos
 
 else:
-    raise ImportError, 'no os specific module found'
+    raise ImportError('no os specific module found')
 
 sys.modules['os.path'] = path
 from os.path import (curdir, pardir, sep, pathsep, defpath, extsep, altsep,
@@ -553,7 +553,7 @@ if _exists("fork") and not _exists("spawnv") and _exists("execv"):
                 elif WIFEXITED(sts):
                     return WEXITSTATUS(sts)
                 else:
-                    raise error, "Not stopped, signaled or exited???"
+                    raise error("Not stopped, signaled or exited???")
 
     def spawnv(mode, file, args):
         """spawnv(mode, file, args) -> integer

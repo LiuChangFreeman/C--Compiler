@@ -356,7 +356,7 @@ else:
                     continue
                 break
             if not self.sock:
-                raise socket.error, msg
+                raise socket.error(msg)
             self.file = self.sock.makefile('rb')
             self.sslobj = ssl.wrap_socket(self.sock, self.keyfile, self.certfile)
             self._debugging = 0

@@ -80,7 +80,7 @@ class RHooks(ihooks.Hooks):
             rexec = args[0]
             args = args[1:]
         if args:
-            raise TypeError, "too many arguments"
+            raise TypeError("too many arguments")
         ihooks.Hooks.__init__(self, verbose)
         self.rexec = rexec
 
@@ -98,10 +98,10 @@ class RHooks(ihooks.Hooks):
         m = __import__(name)
         return self.rexec.copy_except(m, ())
 
-    def init_frozen(self, name): raise SystemError, "don't use this"
-    def load_source(self, *args): raise SystemError, "don't use this"
-    def load_compiled(self, *args): raise SystemError, "don't use this"
-    def load_package(self, *args): raise SystemError, "don't use this"
+    def init_frozen(self, name): raise SystemError("don't use this")
+    def load_source(self, *args): raise SystemError("don't use this")
+    def load_compiled(self, *args): raise SystemError("don't use this")
+    def load_package(self, *args): raise SystemError("don't use this")
 
     def load_dynamic(self, name, filename, file):
         return self.rexec.load_dynamic(name, filename, file)
@@ -185,7 +185,7 @@ class RExec(ihooks._Verbose):
 
         """
 
-        raise RuntimeError, "This code is not secure in Python 2.2 and later"
+        raise RuntimeError("This code is not secure in Python 2.2 and later")
 
         ihooks._Verbose.__init__(self, verbose)
         # XXX There's a circular reference here:
@@ -214,7 +214,7 @@ class RExec(ihooks._Verbose):
 
     def load_dynamic(self, name, filename, file):
         if name not in self.ok_dynamic_modules:
-            raise ImportError, "untrusted dynamic module: %s" % name
+            raise ImportError("untrusted dynamic module: %s" % name)
         if name in sys.modules:
             src = sys.modules[name]
         else:
@@ -522,7 +522,7 @@ class RExec(ihooks._Verbose):
         """
         mode = str(mode)
         if mode not in ('r', 'rb'):
-            raise IOError, "can't open files for writing in restricted mode"
+            raise IOError("can't open files for writing in restricted mode")
         return open(file, mode, buf)
 
     # Restricted version of sys.exc_info()
