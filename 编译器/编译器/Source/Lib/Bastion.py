@@ -101,7 +101,7 @@ def Bastion(object, filter = lambda name: name[:1] != '_',
 
     """
 
-    raise RuntimeError, "This code is not secure in Python 2.2 and later"
+    raise RuntimeError("This code is not secure in Python 2.2 and later")
 
     # Note: we define *two* ad-hoc functions here, get1 and get2.
     # Both are intended to be called in the same way: get(name).
@@ -121,7 +121,7 @@ def Bastion(object, filter = lambda name: name[:1] != '_',
             attribute = getattr(object, name)
             if isinstance(attribute, MethodType):
                 return attribute
-        raise AttributeError, name
+        raise AttributeError(name)
 
     def get2(name, get1=get1):
         """Internal function for Bastion().  See source comments."""

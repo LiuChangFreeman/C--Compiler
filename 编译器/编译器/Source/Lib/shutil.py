@@ -205,7 +205,7 @@ def copytree(src, dst, symlinks=False, ignore=None):
         else:
             errors.append((src, dst, str(why)))
     if errors:
-        raise Error, errors
+        raise Error(errors)
 
 def rmtree(path, ignore_errors=False, onerror=None):
     """Recursively delete a directory tree.
@@ -289,13 +289,13 @@ def move(src, dst):
 
         real_dst = os.path.join(dst, _basename(src))
         if os.path.exists(real_dst):
-            raise Error, "Destination path '%s' already exists" % real_dst
+            raise Error("Destination path '%s' already exists" % real_dst)
     try:
         os.rename(src, real_dst)
     except OSError:
         if os.path.isdir(src):
             if _destinsrc(src, dst):
-                raise Error, "Cannot move a directory '%s' into itself '%s'." % (src, dst)
+                raise Error("Cannot move a directory '%s' into itself '%s'." % (src, dst))
             copytree(src, real_dst, symlinks=True)
             rmtree(src)
         else:
@@ -356,8 +356,7 @@ def _make_tarball(base_name, base_dir, compress="gzip", verbose=0, dry_run=0,
 
     # flags for compression program, each element of list will be an argument
     if compress is not None and compress not in compress_ext.keys():
-        raise ValueError, \
-              ("bad value for 'compress': must be None, 'gzip' or 'bzip2'")
+        raise ValueError(("bad value for 'compress': must be None, 'gzip' or 'bzip2'"))
 
     archive_name = base_name + '.tar' + compress_ext.get(compress, '')
     archive_dir = os.path.dirname(archive_name)
@@ -409,10 +408,9 @@ def _call_external_zip(base_dir, zip_filename, verbose=False, dry_run=False):
     except DistutilsExecError:
         # XXX really should distinguish between "couldn't find
         # external 'zip' command" and "zip failed".
-        raise ExecError, \
-            ("unable to create zip file '%s': "
+        raise ExecError(("unable to create zip file '%s': "
             "could neither import the 'zipfile' module nor "
-            "find a standalone zip utility") % zip_filename
+            "find a standalone zip utility") % zip_filename)
 
 def _make_zipfile(base_name, base_dir, verbose=0, dry_run=0, logger=None):
     """Create a zip file from all the files under 'base_dir'.
@@ -533,7 +531,7 @@ def make_archive(base_name, format, root_dir=None, base_dir=None, verbose=0,
     try:
         format_info = _ARCHIVE_FORMATS[format]
     except KeyError:
-        raise ValueError, "unknown archive format '%s'" % format
+        raise ValueError("unknown archive format '%s'" % format)
 
     func = format_info[0]
     for arg, val in format_info[1]:

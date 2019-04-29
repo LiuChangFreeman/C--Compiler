@@ -64,10 +64,10 @@ class MultiFile:
                 if self.level > 0:
                     pos = pos + self.lastpos
                 else:
-                    raise Error, "can't use whence=2 yet"
+                    raise Error("can't use whence=2 yet")
         if not 0 <= pos <= here or \
                         self.level > 0 and pos > self.lastpos:
-            raise Error, 'bad MultiFile.seek() call'
+            raise Error('bad MultiFile.seek() call')
         self.fp.seek(pos + self.start)
         self.level = 0
         self.last = 0
@@ -81,7 +81,7 @@ class MultiFile:
             self.level = len(self.stack)
             self.last = (self.level > 0)
             if self.last:
-                raise Error, 'sudden EOF in MultiFile.readline()'
+                raise Error('sudden EOF in MultiFile.readline()')
             return ''
         assert self.level == 0
         # Fast check to see if this is just data
@@ -106,7 +106,7 @@ class MultiFile:
             self.lastpos = self.tell() - len(line)
         self.level = i+1
         if self.level > 1:
-            raise Error,'Missing endmarker in MultiFile.readline()'
+            raise Error('Missing endmarker in MultiFile.readline()')
         return ''
 
     def readlines(self):
@@ -132,7 +132,7 @@ class MultiFile:
 
     def push(self, sep):
         if self.level > 0:
-            raise Error, 'bad MultiFile.push() call'
+            raise Error('bad MultiFile.push() call')
         self.stack.append(sep)
         if self.seekable:
             self.posstack.append(self.start)
@@ -140,7 +140,7 @@ class MultiFile:
 
     def pop(self):
         if self.stack == []:
-            raise Error, 'bad MultiFile.pop() call'
+            raise Error('bad MultiFile.pop() call')
         if self.level <= 1:
             self.last = 0
         else:
