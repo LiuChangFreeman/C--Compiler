@@ -113,7 +113,7 @@ def readwrite(obj, flags):
             obj.handle_expt_event()
         if flags & (select.POLLHUP | select.POLLERR | select.POLLNVAL):
             obj.handle_close()
-    except socket.error, e:
+    except socket.error as e:
         if e.args[0] not in _DISCONNECTED:
             obj.handle_error()
         else:
@@ -144,7 +144,7 @@ def poll(timeout=0.0, map=None):
 
         try:
             r, w, e = select.select(r, w, e, timeout)
-        except select.error, err:
+        except select.error as err:
             if err.args[0] != EINTR:
                 raise
             else:
@@ -191,7 +191,7 @@ def poll2(timeout=0.0, map=None):
                 pollster.register(fd, flags)
         try:
             r = pollster.poll(timeout)
-        except select.error, err:
+        except select.error as err:
             if err.args[0] != EINTR:
                 raise
             r = []
@@ -249,7 +249,7 @@ class dispatcher:
             # passed be connected.
             try:
                 self.addr = sock.getpeername()
-            except socket.error, err:
+            except socket.error as err:
                 if err.args[0] in (ENOTCONN, EINVAL):
                     # To handle the case where we got an unconnected
                     # socket.
@@ -374,7 +374,7 @@ class dispatcher:
         try:
             result = self.socket.send(data)
             return result
-        except socket.error, why:
+        except socket.error as why:
             if why.args[0] == EWOULDBLOCK:
                 return 0
             elif why.args[0] in _DISCONNECTED:
@@ -393,7 +393,7 @@ class dispatcher:
                 return ''
             else:
                 return data
-        except socket.error, why:
+        except socket.error as why:
             # winsock sometimes raises ENOTCONN
             if why.args[0] in _DISCONNECTED:
                 self.handle_close()
@@ -408,7 +408,7 @@ class dispatcher:
         self.del_channel()
         try:
             self.socket.close()
-        except socket.error, why:
+        except socket.error as why:
             if why.args[0] not in (ENOTCONN, EBADF):
                 raise
 
@@ -580,7 +580,7 @@ def close_all(map=None, ignore_all=False):
     for x in map.values():
         try:
             x.close()
-        except OSError, x:
+        except OSError as x:
             if x.args[0] == EBADF:
                 pass
             elif not ignore_all:

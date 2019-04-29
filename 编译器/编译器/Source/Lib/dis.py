@@ -36,7 +36,7 @@ def dis(x=None):
                 print("Disassembly of %s:" % name)
                 try:
                     dis(x1)
-                except TypeError, msg:
+                except TypeError as msg:
                     print("Sorry:", msg)
                 print()
     elif hasattr(x, 'co_code'):
