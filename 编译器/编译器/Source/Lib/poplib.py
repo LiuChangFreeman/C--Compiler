@@ -258,7 +258,7 @@ class POP3:
         """Signoff: commit changes on server, unlock mailbox, close connection."""
         try:
             resp = self._shortcmd('QUIT')
-        except error_proto, val:
+        except error_proto as val:
             resp = val
         self.file.close()
         self.sock.close()
@@ -349,7 +349,7 @@ else:
                 try:
                     self.sock = socket.socket(af, socktype, proto)
                     self.sock.connect(sa)
-                except socket.error, msg:
+                except socket.error as msg:
                     if self.sock:
                         self.sock.close()
                     self.sock = None
@@ -403,7 +403,7 @@ else:
             """Signoff: commit changes on server, unlock mailbox, close connection."""
             try:
                 resp = self._shortcmd('QUIT')
-            except error_proto, val:
+            except error_proto as val:
                 resp = val
             self.sock.close()
             del self.sslobj, self.sock

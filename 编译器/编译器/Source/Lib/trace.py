@@ -242,7 +242,7 @@ class CoverageResults:
                 counts, calledfuncs, callers = \
                         pickle.load(open(self.infile, 'rb'))
                 self.update(self.__class__(counts, calledfuncs, callers))
-            except (IOError, EOFError, ValueError), err:
+            except (IOError, EOFError, ValueError) as err:
                 print(("Skipping counts file %r: %s"
                                       % (self.infile, err)), file=sys.stderr)
 
@@ -349,7 +349,7 @@ class CoverageResults:
             try:
                 pickle.dump((self.counts, self.calledfuncs, self.callers),
                             open(self.outfile, 'wb'), 1)
-            except IOError, err:
+            except IOError as err:
                 print("Can't save counts files because %s" % err, file=sys.stderr)
 
     def write_results_file(self, path, lines, lnotab, lines_hit):
@@ -357,7 +357,7 @@ class CoverageResults:
 
         try:
             outfile = open(path, "w")
-        except IOError, err:
+        except IOError as err:
             print(("trace: Could not open %r for writing: %s"
                                   "- skipping" % (path, err)), file=sys.stderr)
             return 0, 0
@@ -437,7 +437,7 @@ def find_executable_linenos(filename):
     """Return dict where keys are line numbers in the line number table."""
     try:
         prog = open(filename, "rU").read()
-    except IOError, err:
+    except IOError as err:
         print(("Not printing coverage data for %r: %s"
                               % (filename, err)), file=sys.stderr)
         return {}
@@ -668,7 +668,7 @@ def main(argv=None):
                                          "coverdir=", "listfuncs",
                                          "trackcalls", "timing"])
 
-    except getopt.error, msg:
+    except getopt.error as msg:
         sys.stderr.write("%s: %s\n" % (sys.argv[0], msg))
         sys.stderr.write("Try `%s --help' for more information\n"
                          % sys.argv[0])
@@ -803,7 +803,7 @@ def main(argv=None):
                 '__cached__': None,
             }
             t.runctx(code, globs, globs)
-        except IOError, err:
+        except IOError as err:
             _err_exit("Cannot run file %r because: %s" % (sys.argv[0], err))
         except SystemExit:
             pass

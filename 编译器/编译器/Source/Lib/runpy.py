@@ -108,7 +108,7 @@ def _get_module_details(mod_name):
         try:
             pkg_main_name = mod_name + ".__main__"
             return _get_module_details(pkg_main_name)
-        except ImportError, e:
+        except ImportError as e:
             raise ImportError(("%s; %r is a package and cannot " +
                                "be directly executed") %(e, mod_name))
     code = loader.get_code(mod_name)

@@ -98,12 +98,12 @@ def compile_file(fullname, ddir=None, force=0, rx=None, quiet=0):
                 print('Compiling', fullname, '...')
             try:
                 ok = py_compile.compile(fullname, None, dfile, True)
-            except py_compile.PyCompileError,err:
+            except py_compile.PyCompileError as err:
                 if quiet:
                     print('Compiling', fullname, '...')
                 print(err.msg)
                 success = 0
-            except IOError, e:
+            except IOError as e:
                 print("Sorry", e)
                 success = 0
             else:
@@ -154,7 +154,7 @@ def main():
     import getopt
     try:
         opts, args = getopt.getopt(sys.argv[1:], 'lfqd:x:i:')
-    except getopt.error, msg:
+    except getopt.error as msg:
         print(msg)
         print("usage: python compileall.py [-l] [-f] [-q] [-d destdir] " \
               "[-x regexp] [-i list] [directory|file ...]")

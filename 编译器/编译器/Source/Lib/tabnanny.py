@@ -44,7 +44,7 @@ def main():
     global verbose, filename_only
     try:
         opts, args = getopt.getopt(sys.argv[1:], "qv")
-    except getopt.error, msg:
+    except getopt.error as msg:
         errprint(msg)
         return
     for o, a in opts:
@@ -96,7 +96,7 @@ def check(file):
 
     try:
         f = open(file)
-    except IOError, msg:
+    except IOError as msg:
         errprint("%r: I/O Error: %s" % (file, msg))
         return
 
@@ -106,15 +106,15 @@ def check(file):
     try:
         process_tokens(tokenize.generate_tokens(f.readline))
 
-    except tokenize.TokenError, msg:
+    except tokenize.TokenError as msg:
         errprint("%r: Token Error: %s" % (file, msg))
         return
 
-    except IndentationError, msg:
+    except IndentationError as msg:
         errprint("%r: Indentation Error: %s" % (file, msg))
         return
 
-    except NannyNag, nag:
+    except NannyNag as nag:
         badline = nag.get_lineno()
         line = nag.get_line()
         if verbose:
