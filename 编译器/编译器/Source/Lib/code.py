@@ -10,6 +10,11 @@ import sys
 import traceback
 from codeop import CommandCompiler, compile_command
 
+try:
+    raw_input     # Python 2
+except EOFError:  # Python 3
+    raw_input = input
+
 __all__ = ["InteractiveInterpreter", "InteractiveConsole", "interact",
            "compile_command"]
 

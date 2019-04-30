@@ -64,6 +64,11 @@ import os
 import __builtin__
 import traceback
 
+try:
+    raw_input     # Python 2
+except EOFError:  # Python 3
+    raw_input = input
+
 # Prefixes for site-packages; add additional prefixes like /usr/local here
 PREFIXES = [sys.prefix, sys.exec_prefix]
 # Enable per user site-packages directory
@@ -384,7 +389,7 @@ class _Printer(object):
             for filename in self.__files:
                 filename = os.path.join(dir, filename)
                 try:
-                    fp = file(filename, "rU")
+                    fp = open(filename, "rU")
                     data = fp.read()
                     fp.close()
                     break

@@ -14,7 +14,6 @@ TypeType = type
 ObjectType = object
 
 IntType = int
-LongType = long
 FloatType = float
 BooleanType = bool
 try:
@@ -24,16 +23,21 @@ except NameError:
 
 StringType = str
 
-# StringTypes is already outdated.  Instead of writing "type(x) in
-# types.StringTypes", you should use "isinstance(x, basestring)".  But
-# we keep around for compatibility with Python 2.2.
-try:
+try:               # Python 2
+    BufferType = buffer
+    FileType = file
+    LongType = long
+    StringTypes = basestring
     UnicodeType = unicode
-    StringTypes = (StringType, UnicodeType)
-except NameError:
+    XRangeType = xrange
+except NameError:  # Python 3
+    from io import IOBase
+    BufferType = memoryview
+    FileType = IOBase
+    LongType = int
     StringTypes = (StringType,)
-
-BufferType = buffer
+    UnicodeType = str
+    XRangeType = range
 
 TupleType = tuple
 ListType = list
@@ -60,8 +64,6 @@ BuiltinFunctionType = type(len)
 BuiltinMethodType = type([].append)     # Same as BuiltinFunctionType
 
 ModuleType = type(sys)
-FileType = file
-XRangeType = xrange
 
 try:
     raise TypeError

@@ -1,5 +1,4 @@
 """Class for printing reports on profiled python code."""
-from __future__ import print_function
 
 # Written by James Roskind
 # Based on prior profile module by Sjoerd Mullender...
@@ -20,6 +19,7 @@ from __future__ import print_function
 # either express or implied.  See the License for the specific language
 # governing permissions and limitations under the License.
 
+from __future__ import print_function
 
 import sys
 import os
@@ -27,6 +27,11 @@ import time
 import marshal
 import re
 from functools import cmp_to_key
+
+try:
+    long        # Python 2
+except NameError:
+    long = int  # Python 3
 
 __all__ = ["Stats"]
 
@@ -162,7 +167,7 @@ class Stats:
 
     def dump_stats(self, filename):
         """Write the profile data to a file we know how to load back."""
-        f = file(filename, 'wb')
+        f = open(filename, 'wb')
         try:
             marshal.dump(self.stats, f)
         finally:
