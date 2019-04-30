@@ -49,6 +49,10 @@ internationalized, to the local language and cultural habits.
 import locale, copy, os, re, struct, sys
 from errno import ENOENT
 
+try:
+    xrange          # Python 2
+except NameError:
+    xrange = range  # Python 3
 
 __all__ = ['NullTranslations', 'GNUTranslations', 'Catalog',
            'find', 'translation', 'install', 'textdomain', 'bindtextdomain',

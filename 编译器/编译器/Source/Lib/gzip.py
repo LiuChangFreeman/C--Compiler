@@ -11,6 +11,11 @@ import zlib
 import io
 import __builtin__
 
+try:
+    xrange          # Python 2
+except NameError:
+    xrange = range  # Python 3
+
 __all__ = ["GzipFile","open"]
 
 FTEXT, FHCRC, FEXTRA, FNAME, FCOMMENT = 1, 2, 4, 8, 16

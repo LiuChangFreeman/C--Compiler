@@ -4,6 +4,11 @@
 #  Licensed to PSF under a Contributor Agreement.
 #
 
+try:
+    xrange          # Python 2
+except NameError:
+    xrange = range  # Python 3
+
 __doc__ = """hashlib module - A common interface to many hash functions.
 
 new(name, string='') - returns a new hash object implementing the
