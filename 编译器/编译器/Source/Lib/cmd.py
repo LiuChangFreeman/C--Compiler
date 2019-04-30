@@ -47,6 +47,11 @@ they automatically support Emacs-like command history and editing features.
 
 import string
 
+try:
+    raw_input     # Python 2
+except EOFError:  # Python 3
+    raw_input = input
+
 __all__ = ["Cmd"]
 
 PROMPT = '(Cmd) '
