@@ -60,6 +60,12 @@ try:
     import thread as _thread
 except ImportError:
     import dummy_thread as _thread
+
+try:
+    xrange          # Python 2
+except NameError:
+    xrange = range  # Python 3
+
 _allocate_lock = _thread.allocate_lock
 
 _text_openflags = _os.O_RDWR | _os.O_CREAT | _os.O_EXCL
@@ -190,7 +196,7 @@ def _get_default_tempdir():
         if dir != _os.curdir:
             dir = _os.path.normcase(_os.path.abspath(dir))
         # Try only a few names per directory.
-        for seq in xrange(100):
+        for seq in range(100):
             name = namer.next()
             filename = _os.path.join(dir, name)
             try:

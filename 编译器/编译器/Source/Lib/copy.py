@@ -62,6 +62,13 @@ try:
 except ImportError:
     PyStringMap = None
 
+try:
+    long        # Python 2
+    xrange
+except NameError:
+    long = int  # Python 3
+    xrange = range
+
 __all__ = ["Error", "copy", "deepcopy"]
 
 def copy(x):

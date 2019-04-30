@@ -56,6 +56,11 @@ what's tested is actually `z in y'.
 
 from itertools import ifilter, ifilterfalse
 
+try:
+    xrange          # Python 2
+except NameError:
+    xrange = range  # Python 3
+
 __all__ = ['BaseSet', 'Set', 'ImmutableSet']
 
 import warnings
