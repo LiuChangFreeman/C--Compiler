@@ -53,6 +53,11 @@ from collections import deque
 from sys import py3kwarning
 from warnings import filterwarnings, catch_warnings
 
+try:
+    long        # Python 2
+except NameError:
+    long = int  # Python 3
+
 _BLOCKING_IO_ERRORS = (errno.EAGAIN, errno.EALREADY, errno.EINPROGRESS,
                        errno.EWOULDBLOCK)
 
@@ -133,7 +138,7 @@ class async_chat (asyncore.dispatcher):
                 # no terminator, collect it all
                 self.collect_incoming_data (self.ac_in_buffer)
                 self.ac_in_buffer = ''
-            elif isinstance(terminator, int) or isinstance(terminator, long):
+            elif isinstance(terminator, (int, long)):
                 # numeric terminator
                 n = terminator
                 if lb < n:

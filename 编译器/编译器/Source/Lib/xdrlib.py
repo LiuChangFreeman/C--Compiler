@@ -11,6 +11,11 @@ except ImportError:
     from StringIO import StringIO as _StringIO
 from functools import wraps
 
+try:
+    long        # Python 2
+except NameError:
+    long = int  # Python 3
+
 __all__ = ["Error", "Packer", "Unpacker", "ConversionError"]
 
 # exceptions

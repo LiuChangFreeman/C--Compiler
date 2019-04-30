@@ -8,6 +8,11 @@ TODO: Fill out more detailed documentation on the operators."""
 from __future__ import division
 from abc import ABCMeta, abstractmethod, abstractproperty
 
+try:
+    long        # Python 2
+except NameError:
+    long = int  # Python 3
+
 __all__ = ["Number", "Complex", "Real", "Rational", "Integral"]
 
 class Number(object):

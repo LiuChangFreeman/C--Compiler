@@ -12,9 +12,11 @@ import io
 import __builtin__
 
 try:
-    xrange          # Python 2
+    long        # Python 2
+    xrange
 except NameError:
-    xrange = range  # Python 3
+    long = int  # Python 3
+    xrange = range
 
 __all__ = ["GzipFile","open"]
 

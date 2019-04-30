@@ -50,6 +50,10 @@ Parse Plist example:
     print pl["aKey"]
 """
 
+try:
+    long        # Python 2
+except NameError:
+    long = int  # Python 3
 
 __all__ = [
     "readPlist", "writePlist", "readPlistFromString", "writePlistToString",

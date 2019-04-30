@@ -19,6 +19,11 @@ printable -- a string containing all characters considered printable
 
 """
 
+try:
+    long        # Python 2
+except NameError:
+    long = int  # Python 3
+
 # Some strings for ctype-style character classification
 whitespace = ' \t\n\r\v\f'
 lowercase = 'abcdefghijklmnopqrstuvwxyz'
