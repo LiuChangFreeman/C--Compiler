@@ -8,6 +8,11 @@ This module requires Python 1.6 or later.
 import sys
 import collections
 
+try:
+    long        # Python 2
+except NameError:
+    long = int  # Python 3
+
 __all__ = ["UserString","MutableString"]
 
 class UserString(collections.Sequence):

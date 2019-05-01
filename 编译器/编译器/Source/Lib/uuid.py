@@ -46,6 +46,11 @@ Typical usage:
 
 __author__ = 'Ka-Ping Yee <ping@zesty.ca>'
 
+try:
+    long        # Python 2
+except NameError:
+    long = int  # Python 3
+
 RESERVED_NCS, RFC_4122, RESERVED_MICROSOFT, RESERVED_FUTURE = [
     'reserved for NCS compatibility', 'specified in RFC 4122',
     'reserved for Microsoft compatibility', 'reserved for future definition']

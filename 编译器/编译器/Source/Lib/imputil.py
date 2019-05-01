@@ -23,6 +23,11 @@ import __builtin__
 import struct
 import marshal
 
+try:
+    long        # Python 2
+except NameError:
+    long = int  # Python 3
+
 __all__ = ["ImportManager","Importer","BuiltinImporter"]
 
 _StringType = type('')

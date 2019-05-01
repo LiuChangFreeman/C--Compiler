@@ -10,6 +10,11 @@ import numbers
 import operator
 import re
 
+try:
+    long        # Python 2
+except NameError:
+    long = int  # Python 3
+
 __all__ = ['Fraction', 'gcd']
 
 Rational = numbers.Rational

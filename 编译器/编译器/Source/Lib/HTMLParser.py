@@ -11,6 +11,11 @@
 import markupbase
 import re
 
+try:
+    unichr        # Python 2
+except NameError:
+    unichr = chr  # Python 3
+
 # Regular expressions used for parsing
 
 interesting_normal = re.compile('[&<]')

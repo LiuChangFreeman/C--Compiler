@@ -18,6 +18,11 @@ hexdigits -- a string containing all characters considered hexadecimal digits
 octdigits -- a string containing all characters considered octal digits
 
 """
+try:
+    long        # Python 2
+except NameError:
+    long = int  # Python 3
+
 from warnings import warnpy3k
 warnpy3k("the stringold module has been removed in Python 3.0", stacklevel=2)
 del warnpy3k

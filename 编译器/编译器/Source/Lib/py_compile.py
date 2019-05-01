@@ -10,6 +10,11 @@ import os
 import sys
 import traceback
 
+try:
+    long        # Python 2
+except NameError:
+    long = int  # Python 3
+
 MAGIC = imp.get_magic()
 
 __all__ = ["compile", "main", "PyCompileError"]

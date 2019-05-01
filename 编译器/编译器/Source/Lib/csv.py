@@ -17,6 +17,11 @@ try:
 except ImportError:
     from StringIO import StringIO
 
+try:
+    long        # Python 2
+except NameError:
+    long = int  # Python 3
+
 __all__ = [ "QUOTE_MINIMAL", "QUOTE_ALL", "QUOTE_NONNUMERIC", "QUOTE_NONE",
             "Error", "Dialect", "__doc__", "excel", "excel_tab",
             "field_size_limit", "reader", "writer",

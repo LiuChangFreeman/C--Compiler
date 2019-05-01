@@ -10,6 +10,10 @@ import re
 import struct
 import binascii
 
+try:
+    long        # Python 2
+except NameError:
+    long = int  # Python 3
 
 __all__ = [
     # Legacy interface exports traditional RFC 1521 Base64 encodings
