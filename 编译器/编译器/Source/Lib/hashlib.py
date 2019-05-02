@@ -5,9 +5,11 @@
 #
 
 try:
-    xrange          # Python 2
+    buffer               # Python 2
+    xrange
 except NameError:
-    xrange = range  # Python 3
+    buffer = memoryview  # Python 3
+    xrange = range
 
 __doc__ = """hashlib module - A common interface to many hash functions.
 

@@ -54,9 +54,11 @@ from sys import py3kwarning
 from warnings import filterwarnings, catch_warnings
 
 try:
-    long        # Python 2
+    buffer               # Python 2
+    long
 except NameError:
-    long = int  # Python 3
+    buffer = memoryview  # Python 3
+    long = int
 
 _BLOCKING_IO_ERRORS = (errno.EAGAIN, errno.EALREADY, errno.EINPROGRESS,
                        errno.EWOULDBLOCK)
