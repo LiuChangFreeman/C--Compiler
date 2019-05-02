@@ -9,6 +9,11 @@ import imp
 import os.path
 from types import ModuleType
 
+try:
+    basestring     # Python 2
+except NameError:  # Python 3
+    basestring = str
+
 __all__ = [
     'get_importer', 'iter_importers', 'get_loader', 'find_loader',
     'walk_packages', 'iter_modules', 'get_data',

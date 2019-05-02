@@ -29,9 +29,11 @@ import re
 from functools import cmp_to_key
 
 try:
-    long        # Python 2
-except NameError:
-    long = int  # Python 3
+    basestring     # Python 2
+    long
+except NameError:  # Python 3
+    basestring = str
+    long = int
 
 __all__ = ["Stats"]
 

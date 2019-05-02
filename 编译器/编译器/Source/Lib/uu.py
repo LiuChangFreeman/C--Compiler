@@ -35,6 +35,11 @@ import binascii
 import os
 import sys
 
+try:
+    basestring     # Python 2
+except NameError:  # Python 3
+    basestring = str
+
 __all__ = ["Error", "encode", "decode"]
 
 class Error(Exception):

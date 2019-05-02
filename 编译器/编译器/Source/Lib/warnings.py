@@ -8,6 +8,11 @@ import linecache
 import sys
 import types
 
+try:
+    basestring     # Python 2
+except NameError:  # Python 3
+    basestring = str
+
 __all__ = ["warn", "warn_explicit", "showwarning",
            "formatwarning", "filterwarnings", "simplefilter",
            "resetwarnings", "catch_warnings"]

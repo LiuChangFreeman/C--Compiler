@@ -10,6 +10,11 @@ import stat
 import subprocess
 import time
 
+try:
+    basestring     # Python 2
+except NameError:  # Python 3
+    basestring = str
+
 __all__ = ["Error", "open", "open_new", "open_new_tab", "get", "register"]
 
 class Error(Exception):

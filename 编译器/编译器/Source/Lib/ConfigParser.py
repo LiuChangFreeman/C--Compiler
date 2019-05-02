@@ -95,6 +95,11 @@ except ImportError:
 
 import re
 
+try:
+    basestring     # Python 2
+except NameError:  # Python 3
+    basestring = str
+
 __all__ = ["NoSectionError", "DuplicateSectionError", "NoOptionError",
            "InterpolationError", "InterpolationDepthError",
            "InterpolationSyntaxError", "ParsingError",
