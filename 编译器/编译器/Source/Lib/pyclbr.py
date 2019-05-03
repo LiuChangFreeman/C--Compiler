@@ -46,6 +46,13 @@ import tokenize
 from token import NAME, DEDENT, OP
 from operator import itemgetter
 
+try:
+    cmp
+except NameError:
+    def cmp(x, y):
+        return (x > y) - (x < y)
+
+
 __all__ = ["readmodule", "readmodule_ex", "Class", "Function"]
 
 _modules = {}                           # cache of modules we've seen

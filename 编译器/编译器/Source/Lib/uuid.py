@@ -48,8 +48,11 @@ __author__ = 'Ka-Ping Yee <ping@zesty.ca>'
 
 try:
     long        # Python 2
+    cmp
 except NameError:
     long = int  # Python 3
+    def cmp(x, y):
+        return (x > y) - (x < y)
 
 RESERVED_NCS, RFC_4122, RESERVED_MICROSOFT, RESERVED_FUTURE = [
     'reserved for NCS compatibility', 'specified in RFC 4122',

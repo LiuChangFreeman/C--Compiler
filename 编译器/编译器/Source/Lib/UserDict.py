@@ -1,5 +1,12 @@
 """A more or less complete user-defined wrapper around dictionary objects."""
 
+try:
+    cmp
+except NameError:
+    def cmp(x, y):
+        return (x > y) - (x < y)
+
+
 class UserDict:
     def __init__(self, dict=None, **kwargs):
         self.data = {}

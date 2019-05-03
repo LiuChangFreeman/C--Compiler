@@ -53,9 +53,12 @@ Parse Plist example:
 try:
     basestring     # Python 2
     long
+    cmp
 except NameError:  # Python 3
     basestring = str
     long = int
+    def cmp(x, y):
+        return (x > y) - (x < y)
 
 __all__ = [
     "readPlist", "writePlist", "readPlistFromString", "writePlistToString",
