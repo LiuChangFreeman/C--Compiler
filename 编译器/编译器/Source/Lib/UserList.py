@@ -2,6 +2,13 @@
 
 import collections
 
+try:
+    cmp
+except NameError:
+    def cmp(x, y):
+        return (x > y) - (x < y)
+
+
 class UserList(collections.MutableSequence):
     def __init__(self, initlist=None):
         self.data = []
