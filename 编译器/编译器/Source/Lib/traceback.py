@@ -217,7 +217,7 @@ def _some_str(value):
     try:
         value = unicode(value)
         return value.encode("ascii", "backslashreplace")
-    except Exception:
+    except (NameError, Exception):
         pass
     return '<unprintable %s object>' % type(value).__name__
 

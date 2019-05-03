@@ -135,7 +135,7 @@ def join(words, sep = ' '):
 joinfields = join
 
 # for a little bit of speed
-_apply = apply
+_apply = apply  # noqa: F821  apply was removed in Python 3
 
 # Find substring, raise exception if not found
 def index(s, *args):

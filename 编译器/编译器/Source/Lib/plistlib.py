@@ -51,9 +51,11 @@ Parse Plist example:
 """
 
 try:
-    long        # Python 2
-except NameError:
-    long = int  # Python 3
+    basestring     # Python 2
+    long
+except NameError:  # Python 3
+    basestring = str
+    long = int
 
 __all__ = [
     "readPlist", "writePlist", "readPlistFromString", "writePlistToString",
@@ -75,7 +77,7 @@ def readPlist(pathOrFile):
     usually is a dictionary).
     """
     didOpen = 0
-    if isinstance(pathOrFile, (str, unicode)):
+    if isinstance(pathOrFile, basestring):
         pathOrFile = open(pathOrFile)
         didOpen = 1
     p = PlistParser()
@@ -90,7 +92,7 @@ def writePlist(rootObject, pathOrFile):
     file name or a (writable) file object.
     """
     didOpen = 0
-    if isinstance(pathOrFile, (str, unicode)):
+    if isinstance(pathOrFile, basestring):
         pathOrFile = open(pathOrFile, "w")
         didOpen = 1
     writer = PlistWriter(pathOrFile)
@@ -239,7 +241,7 @@ class PlistWriter(DumbXMLWriter):
         DumbXMLWriter.__init__(self, file, indentLevel, indent)
 
     def writeValue(self, value):
-        if isinstance(value, (str, unicode)):
+        if isinstance(value, basestring):
             self.simpleElement("string", value)
         elif isinstance(value, bool):
             # must switch for bool before int, as bool is a
@@ -278,7 +280,7 @@ class PlistWriter(DumbXMLWriter):
         self.beginElement("dict")
         items = sorted(d.items())
         for key, value in items:
-            if not isinstance(key, (str, unicode)):
+            if not isinstance(key, basestring):
                 raise TypeError("keys must be strings")
             self.simpleElement("key", key)
             self.writeValue(value)

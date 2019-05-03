@@ -321,7 +321,7 @@ except NameError:
         return 0
 else:
     def _is_unicode(x):
-        return isinstance(x, unicode)
+        return isinstance(x, unicode)  # noqa: F821
 
 # unquote method for parse_qs and parse_qsl
 # Cannot use directly from urllib as it would create a circular reference
