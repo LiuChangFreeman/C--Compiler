@@ -73,6 +73,11 @@ is destroyed.
 
 import __builtin__
 
+try:
+    basestring     # Python 2
+except NameError:  # Python 3
+    basestring = str
+
 __all__ = ["open", "openfp", "Error"]
 
 class Error(Exception):

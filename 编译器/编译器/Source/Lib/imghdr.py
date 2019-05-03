@@ -1,6 +1,11 @@
 """Recognize image file formats based on their first few bytes."""
 from __future__ import print_function
 
+try:
+    basestring     # Python 2
+except NameError:  # Python 3
+    basestring = str
+
 __all__ = ["what"]
 
 #-------------------------#

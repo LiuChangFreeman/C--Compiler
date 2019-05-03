@@ -80,7 +80,14 @@ XXX Possible additions:
 """
 from __future__ import print_function
 
-import sys, os
+import os
+import sys
+
+try:
+    basestring     # Python 2
+except NameError:  # Python 3
+    basestring = str
+
 
 __all__ = ["input","close","nextfile","filename","lineno","filelineno",
            "isfirstline","isstdin","FileInput"]

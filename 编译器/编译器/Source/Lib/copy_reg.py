@@ -6,6 +6,11 @@ C, not for instances of user-defined classes.
 
 from types import ClassType as _ClassType
 
+try:
+    basestring     # Python 2
+except NameError:  # Python 3
+    basestring = str
+
 __all__ = ["pickle", "constructor",
            "add_extension", "remove_extension", "clear_extension_cache"]
 

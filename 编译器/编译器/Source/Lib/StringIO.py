@@ -34,6 +34,11 @@ try:
 except ImportError:
     EINVAL = 22
 
+try:
+    basestring     # Python 2
+except NameError:  # Python 3
+    basestring = str
+
 __all__ = ["StringIO"]
 
 def _complain_ifclosed(closed):

@@ -12,6 +12,11 @@ import warnings
 warnings.warn("The popen2 module is deprecated.  Use the subprocess module.",
               DeprecationWarning, stacklevel=2)
 
+try:
+    basestring     # Python 2
+except NameError:  # Python 3
+    basestring = str
+
 __all__ = ["popen2", "popen3", "popen4"]
 
 try:
