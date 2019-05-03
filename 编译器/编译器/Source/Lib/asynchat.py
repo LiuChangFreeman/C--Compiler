@@ -56,9 +56,11 @@ from warnings import filterwarnings, catch_warnings
 try:
     buffer               # Python 2
     long
+    xrange
 except NameError:
     buffer = memoryview  # Python 3
     long = int
+    xrange = range
 
 _BLOCKING_IO_ERRORS = (errno.EAGAIN, errno.EALREADY, errno.EINPROGRESS,
                        errno.EWOULDBLOCK)

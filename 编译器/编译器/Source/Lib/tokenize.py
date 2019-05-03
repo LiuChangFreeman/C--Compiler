@@ -34,7 +34,7 @@ from token import *
 import token
 __all__ = [x for x in dir(token) if not x.startswith("_")]
 __all__ += ["COMMENT", "tokenize", "generate_tokens", "NL", "untokenize"]
-del x
+del x  # noqa: F821 In Python 3 x is scoped to the list comprehension
 del token
 
 COMMENT = N_TOKENS

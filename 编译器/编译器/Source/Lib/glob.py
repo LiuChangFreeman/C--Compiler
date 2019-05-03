@@ -1,5 +1,7 @@
 """Filename globbing utility."""
 
+# flake8: noqa
+
 import sys
 import os
 import re

@@ -11,9 +11,11 @@ import traceback
 from codeop import CommandCompiler, compile_command
 
 try:
-    raw_input     # Python 2
-except EOFError:  # Python 3
+    raw_input      # Python 2
+    unicode
+except NameError:  # Python 3
     raw_input = input
+    unicode = str
 
 __all__ = ["InteractiveInterpreter", "InteractiveConsole", "interact",
            "compile_command"]

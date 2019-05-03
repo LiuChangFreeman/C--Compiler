@@ -50,9 +50,11 @@ import locale, copy, os, re, struct, sys
 from errno import ENOENT
 
 try:
-    xrange          # Python 2
+    unicode        # Python 2
+    xrange
 except NameError:
-    xrange = range  # Python 3
+    unicode = str  # Python 3
+    xrange = range
 
 __all__ = ['NullTranslations', 'GNUTranslations', 'Catalog',
            'find', 'translation', 'install', 'textdomain', 'bindtextdomain',
@@ -330,14 +332,14 @@ class GNUTranslations(NullTranslations):
                 msgid1, msgid2 = msg.split('\x00')
                 tmsg = tmsg.split('\x00')
                 if self._charset:
-                    msgid1 = unicode(msgid1, self._charset)
-                    tmsg = [unicode(x, self._charset) for x in tmsg]
+                    msgid1 = msgid1.decode(self._charset)
+                    tmsg = [x.decode(self._charset) for x in tmsg]
                 for i in range(len(tmsg)):
                     catalog[(msgid1, i)] = tmsg[i]
             else:
                 if self._charset:
-                    msg = unicode(msg, self._charset)
-                    tmsg = unicode(tmsg, self._charset)
+                    msg = msg.decode(self._charset)
+                    tmsg = tmsg.decode(self._charset)
                 catalog[msg] = tmsg
             # advance to next entry in the seek tables
             masteridx += 8
