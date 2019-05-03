@@ -18,10 +18,10 @@ before_script:
   - flake8 . --count --exit-zero --ignore=E225,E231 --max-complexity=10 --max-line-length=127 --statistics
 script:
   - cd MainCompiler
-  - ls -l > before.txt
+  - ls -l > .before.txt
   - python main.py test.c--
-  - ls -l > after.txt
-  - diff before.txt after.txt
+  - ls -l > .after.txt
+  - diff .before.txt .after.txt || true
 notifications:
   on_success: change
   on_failure: change  # `always` will be the setting once code changes slow down
