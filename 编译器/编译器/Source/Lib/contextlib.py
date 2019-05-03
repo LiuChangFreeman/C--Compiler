@@ -126,7 +126,10 @@ def nested(*managers):
             # Don't rely on sys.exc_info() still containing
             # the right information. Another exception may
             # have been raised and caught by an exit method
-            raise exc[0], exc[1], exc[2]
+            if sys.version_info[0] < 3:
+                raise exc[0], exc[1], exc[2]  # noqa: E999
+            else:
+                raise exc
 
 
 class closing(object):

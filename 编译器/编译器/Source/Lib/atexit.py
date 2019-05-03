@@ -32,7 +32,10 @@ def _run_exitfuncs():
             exc_info = sys.exc_info()
 
     if exc_info is not None:
-        raise exc_info[0], exc_info[1], exc_info[2]
+        if sys.version_info[0] < 3:
+            raise exc_info[0], exc_info[1], exc_info[2]  # noqa: E999
+        else:
+            raise exc_info
 
 
 def register(func, *targs, **kargs):

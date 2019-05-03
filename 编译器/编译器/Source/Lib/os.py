@@ -387,8 +387,18 @@ def _execvpe(file, args, env=None):
                 saved_exc = e
                 saved_tb = tb
     if saved_exc:
-        raise error, saved_exc, saved_tb
-    raise error, e, tb
+        if sys.version_info[0] < 3:
+            raise error, saved_exc, saved_tb  # noqa: E999
+        else:
+            ex = error(saved_exc)
+            ex.__traceback__ = saved_tb
+            raise ex
+    if sys.version_info[0] < 3:
+        raise error, e, tb  # noqa: E999
+    else:
+        ex = error(e)
+        ex.__traceback__ = tb
+        raise ex
 
 # Change environ to automatically call putenv() if it exists
 try:
