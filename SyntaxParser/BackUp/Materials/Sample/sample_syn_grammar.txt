@@ -1,0 +1,7 @@
+start1:start
+start:a A
+start:b B
+A:c A
+A:d
+B:c B
+B:d

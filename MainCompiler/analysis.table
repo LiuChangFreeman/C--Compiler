@@ -1,0 +1,707 @@
+步骤	当前栈	输入串	动作	状态栈	ACTION	GOTO	
+1	# function	int IDENTIFIER ( int IDENTIFIER ......	shift	I0 I8	s8		
+2	# function int	IDENTIFIER ( int IDENTIFIER , ......	shift	I0 I8 I6	s6		
+3	# function type_specifier	IDENTIFIER ( int IDENTIFIER , ......	reduce(type_specifier->int ,['#'])	I0 I8 I14	r19	I14	
+4	# function type_specifier IDENTIFIER	( int IDENTIFIER , int ......	shift	I0 I8 I14 I38	s38		
+5	# function type_specifier IDENTIFIER (	int IDENTIFIER , int IDENTIFIER ......	shift	I0 I8 I14 I38 I76	s76		
+6	...... function type_specifier IDENTIFIER ( int	IDENTIFIER , int IDENTIFIER ) ......	shift	I0 I8 I14 I38 I76 I6	s6		
+7	...... function type_specifier IDENTIFIER ( type_specifier	IDENTIFIER , int IDENTIFIER ) ......	reduce(type_specifier->int ,['#'])	I0 I8 I14 I38 I76 I118	r19	I118	
+8	...... type_specifier IDENTIFIER ( type_specifier IDENTIFIER	, int IDENTIFIER ) { ......	shift	I0 I8 I14 I38 I76 I118 I138	s138		
+9	...... function type_specifier IDENTIFIER ( function_declaration	, int IDENTIFIER ) { ......	reduce(function_declaration->type_specifier IDENTIFIER ,['#'])	I0 I8 I14 I38 I76 I117	r51	I117	
+10	...... type_specifier IDENTIFIER ( function_declaration ,	int IDENTIFIER ) { if ......	shift	I0 I8 I14 I38 I76 I117 I136	s136		
+11	...... IDENTIFIER ( function_declaration , int	IDENTIFIER ) { if ( ......	shift	I0 I8 I14 I38 I76 I117 I136 I6	s6		
+12	...... IDENTIFIER ( function_declaration , type_specifier	IDENTIFIER ) { if ( ......	reduce(type_specifier->int ,['#'])	I0 I8 I14 I38 I76 I117 I136 I118	r19	I118	
+13	...... ( function_declaration , type_specifier IDENTIFIER	) { if ( IDENTIFIER ......	shift	I0 I8 I14 I38 I76 I117 I136 I118 I138	s138		
+14	...... IDENTIFIER ( function_declaration , function_declaration	) { if ( IDENTIFIER ......	reduce(function_declaration->type_specifier IDENTIFIER ,['#'])	I0 I8 I14 I38 I76 I117 I136 I173	r51	I173	
+15	...... ( function_declaration , function_declaration function_declaration_suffix	) { if ( IDENTIFIER ......	reduce(function_declaration_suffix->$ ,['#'])	I0 I8 I14 I38 I76 I117 I136 I173 I197	r37	I197	
+16	...... type_specifier IDENTIFIER ( function_declaration function_declaration_suffix	) { if ( IDENTIFIER ......	reduce(function_declaration_suffix->, function_declaration function_declaration_suffix ,['#'])	I0 I8 I14 I38 I76 I117 I137	r36	I137	
+17	...... function type_specifier IDENTIFIER ( function_declaration_list	) { if ( IDENTIFIER ......	reduce(function_declaration_list->function_declaration function_declaration_suffix ,['#'])	I0 I8 I14 I38 I76 I116	r38	I116	
+18	...... type_specifier IDENTIFIER ( function_declaration_list )	{ if ( IDENTIFIER > ......	shift	I0 I8 I14 I38 I76 I116 I135	s135		
+19	# function_definition	{ if ( IDENTIFIER > ......	reduce(function_definition->function type_specifier IDENTIFIER ( function_declaration_list ) ,['#'])	I0 I7	r50	I7	
+20	# function_definition {	if ( IDENTIFIER > IDENTIFIER ......	shift	I0 I7 I12	s12		
+21	# function_definition { if	( IDENTIFIER > IDENTIFIER ) ......	shift	I0 I7 I12 I20	s20		
+22	# function_definition { if (	IDENTIFIER > IDENTIFIER ) return ......	shift	I0 I7 I12 I20 I50	s50		
+23	...... function_definition { if ( IDENTIFIER	> IDENTIFIER ) return IDENTIFIER ......	shift	I0 I7 I12 I20 I50 I82	s82		
+24	...... function_definition { if ( primary_expression	> IDENTIFIER ) return IDENTIFIER ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I7 I12 I20 I50 I84	r65	I84	
+25	...... { if ( primary_expression >	IDENTIFIER ) return IDENTIFIER ; ......	shift	I0 I7 I12 I20 I50 I84 I87	s87		
+26	...... { if ( primary_expression operator	IDENTIFIER ) return IDENTIFIER ; ......	reduce(operator->> ,['#'])	I0 I7 I12 I20 I50 I84 I124	r9	I124	
+27	...... if ( primary_expression operator IDENTIFIER	) return IDENTIFIER ; else ......	shift	I0 I7 I12 I20 I50 I84 I124 I82	s82		
+28	...... if ( primary_expression operator primary_expression	) return IDENTIFIER ; else ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I7 I12 I20 I50 I84 I124 I150	r65	I150	
+29	...... ( primary_expression operator primary_expression arithmetic_expression	) return IDENTIFIER ; else ......	reduce(arithmetic_expression->$ ,['#'])	I0 I7 I12 I20 I50 I84 I124 I150 I182	r34	I182	
+30	...... { if ( primary_expression arithmetic_expression	) return IDENTIFIER ; else ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I7 I12 I20 I50 I84 I123	r33	I123	
+31	...... function_definition { if ( constant_expression	) return IDENTIFIER ; else ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I7 I12 I20 I50 I78	r32	I78	
+32	...... function_definition { if ( expression	) return IDENTIFIER ; else ......	reduce(expression->constant_expression ,['#'])	I0 I7 I12 I20 I50 I99	r63	I99	
+33	...... { if ( expression )	return IDENTIFIER ; else return ......	shift	I0 I7 I12 I20 I50 I99 I127	s127		
+34	...... if ( expression ) return	IDENTIFIER ; else return IDENTIFIER ......	shift	I0 I7 I12 I20 I50 I99 I127 I164	s164		
+35	...... ( expression ) return IDENTIFIER	; else return IDENTIFIER ; ......	shift	I0 I7 I12 I20 I50 I99 I127 I164 I71	s71		
+36	...... ( expression ) return primary_expression	; else return IDENTIFIER ; ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I7 I12 I20 I50 I99 I127 I164 I68	r65	I68	
+37	...... expression ) return primary_expression arithmetic_expression	; else return IDENTIFIER ; ......	reduce(arithmetic_expression->$ ,['#'])	I0 I7 I12 I20 I50 I99 I127 I164 I68 I111	r34	I111	
+38	...... ( expression ) return constant_expression	; else return IDENTIFIER ; ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I7 I12 I20 I50 I99 I127 I164 I67	r32	I67	
+39	...... ( expression ) return expression	; else return IDENTIFIER ; ......	reduce(expression->constant_expression ,['#'])	I0 I7 I12 I20 I50 I99 I127 I164 I191	r63	I191	
+40	...... expression ) return expression ;	else return IDENTIFIER ; } ......	shift	I0 I7 I12 I20 I50 I99 I127 I164 I191 I209	s209		
+41	...... if ( expression ) jump_statement	else return IDENTIFIER ; } ......	reduce(jump_statement->return expression ; ,['#'])	I0 I7 I12 I20 I50 I99 I127 I159	r49	I159	
+42	...... if ( expression ) statement	else return IDENTIFIER ; } ......	reduce(statement->jump_statement ,['#'])	I0 I7 I12 I20 I50 I99 I127 I157	r27	I157	
+43	...... ( expression ) statement else	return IDENTIFIER ; } function ......	shift	I0 I7 I12 I20 I50 I99 I127 I157 I186	s186		
+44	...... expression ) statement else return	IDENTIFIER ; } function int ......	shift	I0 I7 I12 I20 I50 I99 I127 I157 I186 I36	s36		
+45	...... ) statement else return IDENTIFIER	; } function int IDENTIFIER ......	shift	I0 I7 I12 I20 I50 I99 I127 I157 I186 I36 I71	s71		
+46	...... ) statement else return primary_expression	; } function int IDENTIFIER ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I7 I12 I20 I50 I99 I127 I157 I186 I36 I68	r65	I68	
+47	...... statement else return primary_expression arithmetic_expression	; } function int IDENTIFIER ......	reduce(arithmetic_expression->$ ,['#'])	I0 I7 I12 I20 I50 I99 I127 I157 I186 I36 I68 I111	r34	I111	
+48	...... ) statement else return constant_expression	; } function int IDENTIFIER ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I7 I12 I20 I50 I99 I127 I157 I186 I36 I67	r32	I67	
+49	...... ) statement else return expression	; } function int IDENTIFIER ......	reduce(expression->constant_expression ,['#'])	I0 I7 I12 I20 I50 I99 I127 I157 I186 I36 I69	r63	I69	
+50	...... statement else return expression ;	} function int IDENTIFIER ( ......	shift	I0 I7 I12 I20 I50 I99 I127 I157 I186 I36 I69 I113	s113		
+51	...... expression ) statement else jump_statement	} function int IDENTIFIER ( ......	reduce(jump_statement->return expression ; ,['#'])	I0 I7 I12 I20 I50 I99 I127 I157 I186 I34	r49	I34	
+52	...... expression ) statement else statement	} function int IDENTIFIER ( ......	reduce(statement->jump_statement ,['#'])	I0 I7 I12 I20 I50 I99 I127 I157 I186 I205	r27	I205	
+53	# function_definition { selection_statement	} function int IDENTIFIER ( ......	reduce(selection_statement->if ( expression ) statement else statement ,['#'])	I0 I7 I12 I33	r23	I33	
+54	# function_definition { statement	} function int IDENTIFIER ( ......	reduce(statement->selection_statement ,['#'])	I0 I7 I12 I37	r28	I37	
+55	# function_definition { statement statement_list	} function int IDENTIFIER ( ......	reduce(statement_list->$ ,['#'])	I0 I7 I12 I37 I75	r61	I75	
+56	# function_definition { statement_list	} function int IDENTIFIER ( ......	reduce(statement_list->statement statement_list ,['#'])	I0 I7 I12 I32	r60	I32	
+57	# function_definition { statement_list }	function int IDENTIFIER ( int ......	shift	I0 I7 I12 I32 I64	s64		
+58	# function_definition compound_statement	function int IDENTIFIER ( int ......	reduce(compound_statement->{ statement_list } ,['#'])	I0 I7 I13	r20	I13	
+59	# function_implement	function int IDENTIFIER ( int ......	reduce(function_implement->function_definition compound_statement ,['#'])	I0 I3	r2	I3	
+60	# external_declaration	function int IDENTIFIER ( int ......	reduce(external_declaration->function_implement ,['#'])	I0 I2	r17	I2	
+61	# external_declaration function	int IDENTIFIER ( int IDENTIFIER ......	shift	I0 I2 I8	s8		
+62	# external_declaration function int	IDENTIFIER ( int IDENTIFIER , ......	shift	I0 I2 I8 I6	s6		
+63	# external_declaration function type_specifier	IDENTIFIER ( int IDENTIFIER , ......	reduce(type_specifier->int ,['#'])	I0 I2 I8 I14	r19	I14	
+64	# external_declaration function type_specifier IDENTIFIER	( int IDENTIFIER , int ......	shift	I0 I2 I8 I14 I38	s38		
+65	...... external_declaration function type_specifier IDENTIFIER (	int IDENTIFIER , int IDENTIFIER ......	shift	I0 I2 I8 I14 I38 I76	s76		
+66	...... function type_specifier IDENTIFIER ( int	IDENTIFIER , int IDENTIFIER ) ......	shift	I0 I2 I8 I14 I38 I76 I6	s6		
+67	...... function type_specifier IDENTIFIER ( type_specifier	IDENTIFIER , int IDENTIFIER ) ......	reduce(type_specifier->int ,['#'])	I0 I2 I8 I14 I38 I76 I118	r19	I118	
+68	...... type_specifier IDENTIFIER ( type_specifier IDENTIFIER	, int IDENTIFIER ) { ......	shift	I0 I2 I8 I14 I38 I76 I118 I138	s138		
+69	...... function type_specifier IDENTIFIER ( function_declaration	, int IDENTIFIER ) { ......	reduce(function_declaration->type_specifier IDENTIFIER ,['#'])	I0 I2 I8 I14 I38 I76 I117	r51	I117	
+70	...... type_specifier IDENTIFIER ( function_declaration ,	int IDENTIFIER ) { if ......	shift	I0 I2 I8 I14 I38 I76 I117 I136	s136		
+71	...... IDENTIFIER ( function_declaration , int	IDENTIFIER ) { if ( ......	shift	I0 I2 I8 I14 I38 I76 I117 I136 I6	s6		
+72	...... IDENTIFIER ( function_declaration , type_specifier	IDENTIFIER ) { if ( ......	reduce(type_specifier->int ,['#'])	I0 I2 I8 I14 I38 I76 I117 I136 I118	r19	I118	
+73	...... ( function_declaration , type_specifier IDENTIFIER	) { if ( IDENTIFIER ......	shift	I0 I2 I8 I14 I38 I76 I117 I136 I118 I138	s138		
+74	...... IDENTIFIER ( function_declaration , function_declaration	) { if ( IDENTIFIER ......	reduce(function_declaration->type_specifier IDENTIFIER ,['#'])	I0 I2 I8 I14 I38 I76 I117 I136 I173	r51	I173	
+75	...... ( function_declaration , function_declaration function_declaration_suffix	) { if ( IDENTIFIER ......	reduce(function_declaration_suffix->$ ,['#'])	I0 I2 I8 I14 I38 I76 I117 I136 I173 I197	r37	I197	
+76	...... type_specifier IDENTIFIER ( function_declaration function_declaration_suffix	) { if ( IDENTIFIER ......	reduce(function_declaration_suffix->, function_declaration function_declaration_suffix ,['#'])	I0 I2 I8 I14 I38 I76 I117 I137	r36	I137	
+77	...... function type_specifier IDENTIFIER ( function_declaration_list	) { if ( IDENTIFIER ......	reduce(function_declaration_list->function_declaration function_declaration_suffix ,['#'])	I0 I2 I8 I14 I38 I76 I116	r38	I116	
+78	...... type_specifier IDENTIFIER ( function_declaration_list )	{ if ( IDENTIFIER < ......	shift	I0 I2 I8 I14 I38 I76 I116 I135	s135		
+79	# external_declaration function_definition	{ if ( IDENTIFIER < ......	reduce(function_definition->function type_specifier IDENTIFIER ( function_declaration_list ) ,['#'])	I0 I2 I7	r50	I7	
+80	# external_declaration function_definition {	if ( IDENTIFIER < IDENTIFIER ......	shift	I0 I2 I7 I12	s12		
+81	# external_declaration function_definition { if	( IDENTIFIER < IDENTIFIER ) ......	shift	I0 I2 I7 I12 I20	s20		
+82	...... external_declaration function_definition { if (	IDENTIFIER < IDENTIFIER ) return ......	shift	I0 I2 I7 I12 I20 I50	s50		
+83	...... function_definition { if ( IDENTIFIER	< IDENTIFIER ) return IDENTIFIER ......	shift	I0 I2 I7 I12 I20 I50 I82	s82		
+84	...... function_definition { if ( primary_expression	< IDENTIFIER ) return IDENTIFIER ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I7 I12 I20 I50 I84	r65	I84	
+85	...... { if ( primary_expression <	IDENTIFIER ) return IDENTIFIER ; ......	shift	I0 I2 I7 I12 I20 I50 I84 I95	s95		
+86	...... { if ( primary_expression operator	IDENTIFIER ) return IDENTIFIER ; ......	reduce(operator->< ,['#'])	I0 I2 I7 I12 I20 I50 I84 I124	r8	I124	
+87	...... if ( primary_expression operator IDENTIFIER	) return IDENTIFIER ; else ......	shift	I0 I2 I7 I12 I20 I50 I84 I124 I82	s82		
+88	...... if ( primary_expression operator primary_expression	) return IDENTIFIER ; else ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I7 I12 I20 I50 I84 I124 I150	r65	I150	
+89	...... ( primary_expression operator primary_expression arithmetic_expression	) return IDENTIFIER ; else ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I7 I12 I20 I50 I84 I124 I150 I182	r34	I182	
+90	...... { if ( primary_expression arithmetic_expression	) return IDENTIFIER ; else ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I7 I12 I20 I50 I84 I123	r33	I123	
+91	...... function_definition { if ( constant_expression	) return IDENTIFIER ; else ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I7 I12 I20 I50 I78	r32	I78	
+92	...... function_definition { if ( expression	) return IDENTIFIER ; else ......	reduce(expression->constant_expression ,['#'])	I0 I2 I7 I12 I20 I50 I99	r63	I99	
+93	...... { if ( expression )	return IDENTIFIER ; else return ......	shift	I0 I2 I7 I12 I20 I50 I99 I127	s127		
+94	...... if ( expression ) return	IDENTIFIER ; else return IDENTIFIER ......	shift	I0 I2 I7 I12 I20 I50 I99 I127 I164	s164		
+95	...... ( expression ) return IDENTIFIER	; else return IDENTIFIER ; ......	shift	I0 I2 I7 I12 I20 I50 I99 I127 I164 I71	s71		
+96	...... ( expression ) return primary_expression	; else return IDENTIFIER ; ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I7 I12 I20 I50 I99 I127 I164 I68	r65	I68	
+97	...... expression ) return primary_expression arithmetic_expression	; else return IDENTIFIER ; ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I7 I12 I20 I50 I99 I127 I164 I68 I111	r34	I111	
+98	...... ( expression ) return constant_expression	; else return IDENTIFIER ; ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I7 I12 I20 I50 I99 I127 I164 I67	r32	I67	
+99	...... ( expression ) return expression	; else return IDENTIFIER ; ......	reduce(expression->constant_expression ,['#'])	I0 I2 I7 I12 I20 I50 I99 I127 I164 I191	r63	I191	
+100	...... expression ) return expression ;	else return IDENTIFIER ; } ......	shift	I0 I2 I7 I12 I20 I50 I99 I127 I164 I191 I209	s209		
+101	...... if ( expression ) jump_statement	else return IDENTIFIER ; } ......	reduce(jump_statement->return expression ; ,['#'])	I0 I2 I7 I12 I20 I50 I99 I127 I159	r49	I159	
+102	...... if ( expression ) statement	else return IDENTIFIER ; } ......	reduce(statement->jump_statement ,['#'])	I0 I2 I7 I12 I20 I50 I99 I127 I157	r27	I157	
+103	...... ( expression ) statement else	return IDENTIFIER ; } function ......	shift	I0 I2 I7 I12 I20 I50 I99 I127 I157 I186	s186		
+104	...... expression ) statement else return	IDENTIFIER ; } function int ......	shift	I0 I2 I7 I12 I20 I50 I99 I127 I157 I186 I36	s36		
+105	...... ) statement else return IDENTIFIER	; } function int IDENTIFIER ......	shift	I0 I2 I7 I12 I20 I50 I99 I127 I157 I186 I36 I71	s71		
+106	...... ) statement else return primary_expression	; } function int IDENTIFIER ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I7 I12 I20 I50 I99 I127 I157 I186 I36 I68	r65	I68	
+107	...... statement else return primary_expression arithmetic_expression	; } function int IDENTIFIER ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I7 I12 I20 I50 I99 I127 I157 I186 I36 I68 I111	r34	I111	
+108	...... ) statement else return constant_expression	; } function int IDENTIFIER ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I7 I12 I20 I50 I99 I127 I157 I186 I36 I67	r32	I67	
+109	...... ) statement else return expression	; } function int IDENTIFIER ......	reduce(expression->constant_expression ,['#'])	I0 I2 I7 I12 I20 I50 I99 I127 I157 I186 I36 I69	r63	I69	
+110	...... statement else return expression ;	} function int IDENTIFIER ( ......	shift	I0 I2 I7 I12 I20 I50 I99 I127 I157 I186 I36 I69 I113	s113		
+111	...... expression ) statement else jump_statement	} function int IDENTIFIER ( ......	reduce(jump_statement->return expression ; ,['#'])	I0 I2 I7 I12 I20 I50 I99 I127 I157 I186 I34	r49	I34	
+112	...... expression ) statement else statement	} function int IDENTIFIER ( ......	reduce(statement->jump_statement ,['#'])	I0 I2 I7 I12 I20 I50 I99 I127 I157 I186 I205	r27	I205	
+113	# external_declaration function_definition { selection_statement	} function int IDENTIFIER ( ......	reduce(selection_statement->if ( expression ) statement else statement ,['#'])	I0 I2 I7 I12 I33	r23	I33	
+114	# external_declaration function_definition { statement	} function int IDENTIFIER ( ......	reduce(statement->selection_statement ,['#'])	I0 I2 I7 I12 I37	r28	I37	
+115	...... external_declaration function_definition { statement statement_list	} function int IDENTIFIER ( ......	reduce(statement_list->$ ,['#'])	I0 I2 I7 I12 I37 I75	r61	I75	
+116	# external_declaration function_definition { statement_list	} function int IDENTIFIER ( ......	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I7 I12 I32	r60	I32	
+117	...... external_declaration function_definition { statement_list }	function int IDENTIFIER ( int ......	shift	I0 I2 I7 I12 I32 I64	s64		
+118	# external_declaration function_definition compound_statement	function int IDENTIFIER ( int ......	reduce(compound_statement->{ statement_list } ,['#'])	I0 I2 I7 I13	r20	I13	
+119	# external_declaration function_implement	function int IDENTIFIER ( int ......	reduce(function_implement->function_definition compound_statement ,['#'])	I0 I2 I3	r2	I3	
+120	# external_declaration external_declaration	function int IDENTIFIER ( int ......	reduce(external_declaration->function_implement ,['#'])	I0 I2 I2	r17	I2	
+121	# external_declaration external_declaration function	int IDENTIFIER ( int IDENTIFIER ......	shift	I0 I2 I2 I8	s8		
+122	# external_declaration external_declaration function int	IDENTIFIER ( int IDENTIFIER ) ......	shift	I0 I2 I2 I8 I6	s6		
+123	# external_declaration external_declaration function type_specifier	IDENTIFIER ( int IDENTIFIER ) ......	reduce(type_specifier->int ,['#'])	I0 I2 I2 I8 I14	r19	I14	
+124	...... external_declaration external_declaration function type_specifier IDENTIFIER	( int IDENTIFIER ) { ......	shift	I0 I2 I2 I8 I14 I38	s38		
+125	...... external_declaration function type_specifier IDENTIFIER (	int IDENTIFIER ) { if ......	shift	I0 I2 I2 I8 I14 I38 I76	s76		
+126	...... function type_specifier IDENTIFIER ( int	IDENTIFIER ) { if ( ......	shift	I0 I2 I2 I8 I14 I38 I76 I6	s6		
+127	...... function type_specifier IDENTIFIER ( type_specifier	IDENTIFIER ) { if ( ......	reduce(type_specifier->int ,['#'])	I0 I2 I2 I8 I14 I38 I76 I118	r19	I118	
+128	...... type_specifier IDENTIFIER ( type_specifier IDENTIFIER	) { if ( IDENTIFIER ......	shift	I0 I2 I2 I8 I14 I38 I76 I118 I138	s138		
+129	...... function type_specifier IDENTIFIER ( function_declaration	) { if ( IDENTIFIER ......	reduce(function_declaration->type_specifier IDENTIFIER ,['#'])	I0 I2 I2 I8 I14 I38 I76 I117	r51	I117	
+130	...... type_specifier IDENTIFIER ( function_declaration function_declaration_suffix	) { if ( IDENTIFIER ......	reduce(function_declaration_suffix->$ ,['#'])	I0 I2 I2 I8 I14 I38 I76 I117 I137	r37	I137	
+131	...... function type_specifier IDENTIFIER ( function_declaration_list	) { if ( IDENTIFIER ......	reduce(function_declaration_list->function_declaration function_declaration_suffix ,['#'])	I0 I2 I2 I8 I14 I38 I76 I116	r38	I116	
+132	...... type_specifier IDENTIFIER ( function_declaration_list )	{ if ( IDENTIFIER < ......	shift	I0 I2 I2 I8 I14 I38 I76 I116 I135	s135		
+133	# external_declaration external_declaration function_definition	{ if ( IDENTIFIER < ......	reduce(function_definition->function type_specifier IDENTIFIER ( function_declaration_list ) ,['#'])	I0 I2 I2 I7	r50	I7	
+134	# external_declaration external_declaration function_definition {	if ( IDENTIFIER < number ......	shift	I0 I2 I2 I7 I12	s12		
+135	...... external_declaration external_declaration function_definition { if	( IDENTIFIER < number ) ......	shift	I0 I2 I2 I7 I12 I20	s20		
+136	...... external_declaration function_definition { if (	IDENTIFIER < number ) return ......	shift	I0 I2 I2 I7 I12 I20 I50	s50		
+137	...... function_definition { if ( IDENTIFIER	< number ) return number ......	shift	I0 I2 I2 I7 I12 I20 I50 I82	s82		
+138	...... function_definition { if ( primary_expression	< number ) return number ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I7 I12 I20 I50 I84	r65	I84	
+139	...... { if ( primary_expression <	number ) return number ; ......	shift	I0 I2 I2 I7 I12 I20 I50 I84 I95	s95		
+140	...... { if ( primary_expression operator	number ) return number ; ......	reduce(operator->< ,['#'])	I0 I2 I2 I7 I12 I20 I50 I84 I124	r8	I124	
+141	...... if ( primary_expression operator number	) return number ; else ......	shift	I0 I2 I2 I7 I12 I20 I50 I84 I124 I85	s85		
+142	...... if ( primary_expression operator primary_expression	) return number ; else ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I7 I12 I20 I50 I84 I124 I150	r66	I150	
+143	...... ( primary_expression operator primary_expression arithmetic_expression	) return number ; else ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I7 I12 I20 I50 I84 I124 I150 I182	r34	I182	
+144	...... { if ( primary_expression arithmetic_expression	) return number ; else ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I7 I12 I20 I50 I84 I123	r33	I123	
+145	...... function_definition { if ( constant_expression	) return number ; else ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I7 I12 I20 I50 I78	r32	I78	
+146	...... function_definition { if ( expression	) return number ; else ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99	r63	I99	
+147	...... { if ( expression )	return number ; else { ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127	s127		
+148	...... if ( expression ) return	number ; else { int ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I164	s164		
+149	...... ( expression ) return number	; else { int IDENTIFIER ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I164 I74	s74		
+150	...... ( expression ) return primary_expression	; else { int IDENTIFIER ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I164 I68	r66	I68	
+151	...... expression ) return primary_expression arithmetic_expression	; else { int IDENTIFIER ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I164 I68 I111	r34	I111	
+152	...... ( expression ) return constant_expression	; else { int IDENTIFIER ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I164 I67	r32	I67	
+153	...... ( expression ) return expression	; else { int IDENTIFIER ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I164 I191	r63	I191	
+154	...... expression ) return expression ;	else { int IDENTIFIER = ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I164 I191 I209	s209		
+155	...... if ( expression ) jump_statement	else { int IDENTIFIER = ......	reduce(jump_statement->return expression ; ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I159	r49	I159	
+156	...... if ( expression ) statement	else { int IDENTIFIER = ......	reduce(statement->jump_statement ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157	r27	I157	
+157	...... ( expression ) statement else	{ int IDENTIFIER = function ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186	s186		
+158	...... expression ) statement else {	int IDENTIFIER = function IDENTIFIER ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25	s25		
+159	...... ) statement else { int	IDENTIFIER = function IDENTIFIER ( ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I6	s6		
+160	...... ) statement else { type_specifier	IDENTIFIER = function IDENTIFIER ( ......	reduce(type_specifier->int ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19	r19	I19	
+161	...... statement else { type_specifier IDENTIFIER	= function IDENTIFIER ( IDENTIFIER ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10	s10		
+162	...... else { type_specifier IDENTIFIER =	function IDENTIFIER ( IDENTIFIER - ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16	s16		
+163	...... { type_specifier IDENTIFIER = function	IDENTIFIER ( IDENTIFIER - number ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I40	s40		
+164	...... type_specifier IDENTIFIER = function IDENTIFIER	( IDENTIFIER - number ) ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I40 I77	s77		
+165	...... IDENTIFIER = function IDENTIFIER (	IDENTIFIER - number ) ; ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I40 I77 I119	s119		
+166	...... = function IDENTIFIER ( IDENTIFIER	- number ) ; int ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I40 I77 I119 I143	s143		
+167	...... = function IDENTIFIER ( primary_expression	- number ) ; int ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I40 I77 I119 I140	r65	I140	
+168	...... function IDENTIFIER ( primary_expression -	number ) ; int IDENTIFIER ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I40 I77 I119 I140 I88	s88		
+169	...... function IDENTIFIER ( primary_expression operator	number ) ; int IDENTIFIER ......	reduce(operator->- ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I40 I77 I119 I140 I175	r4	I175	
+170	...... IDENTIFIER ( primary_expression operator number	) ; int IDENTIFIER = ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I40 I77 I119 I140 I175 I146	s146		
+171	...... IDENTIFIER ( primary_expression operator primary_expression	) ; int IDENTIFIER = ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I40 I77 I119 I140 I175 I198	r66	I198	
+172	...... ( primary_expression operator primary_expression arithmetic_expression	) ; int IDENTIFIER = ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I40 I77 I119 I140 I175 I198 I212	r34	I212	
+173	...... function IDENTIFIER ( primary_expression arithmetic_expression	) ; int IDENTIFIER = ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I40 I77 I119 I140 I174	r33	I174	
+174	...... = function IDENTIFIER ( constant_expression	) ; int IDENTIFIER = ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I40 I77 I119 I139	r32	I139	
+175	...... = function IDENTIFIER ( expression	) ; int IDENTIFIER = ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I40 I77 I119 I147	r63	I147	
+176	...... function IDENTIFIER ( expression expression_profix	) ; int IDENTIFIER = ......	reduce(expression_profix->$ ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I40 I77 I119 I147 I179	r44	I179	
+177	...... = function IDENTIFIER ( expression_list	) ; int IDENTIFIER = ......	reduce(expression_list->expression expression_profix ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I40 I77 I119 I141	r52	I141	
+178	...... function IDENTIFIER ( expression_list )	; int IDENTIFIER = IDENTIFIER ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I40 I77 I119 I141 I176	s176		
+179	...... { type_specifier IDENTIFIER = function_expression	; int IDENTIFIER = IDENTIFIER ......	reduce(function_expression->function IDENTIFIER ( expression_list ) ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I41	r62	I41	
+180	...... { type_specifier IDENTIFIER = expression	; int IDENTIFIER = IDENTIFIER ......	reduce(expression->function_expression ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I16 I45	r64	I45	
+181	...... else { type_specifier IDENTIFIER declaration_assign	; int IDENTIFIER = IDENTIFIER ......	reduce(declaration_assign->= expression ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I10 I15	r14	I15	
+182	...... statement else { type_specifier declaration_init	; int IDENTIFIER = IDENTIFIER ......	reduce(declaration_init->IDENTIFIER declaration_assign ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I49	r16	I49	
+183	...... else { type_specifier declaration_init declaration_init_list	; int IDENTIFIER = IDENTIFIER ......	reduce(declaration_init_list->$ ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I49 I98	r46	I98	
+184	...... { type_specifier declaration_init declaration_init_list ;	int IDENTIFIER = IDENTIFIER * ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I19 I49 I98 I126	s126		
+185	...... ) statement else { declaration	int IDENTIFIER = IDENTIFIER * ......	reduce(declaration->type_specifier declaration_init declaration_init_list ; ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I30	r42	I30	
+186	...... ) statement else { statement	int IDENTIFIER = IDENTIFIER * ......	reduce(statement->declaration ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37	r31	I37	
+187	...... statement else { statement int	IDENTIFIER = IDENTIFIER * IDENTIFIER ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I6	s6		
+188	...... statement else { statement type_specifier	IDENTIFIER = IDENTIFIER * IDENTIFIER ......	reduce(type_specifier->int ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I19	r19	I19	
+189	...... else { statement type_specifier IDENTIFIER	= IDENTIFIER * IDENTIFIER ; ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I19 I10	s10		
+190	...... { statement type_specifier IDENTIFIER =	IDENTIFIER * IDENTIFIER ; return ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I19 I10 I16	s16		
+191	...... statement type_specifier IDENTIFIER = IDENTIFIER	* IDENTIFIER ; return IDENTIFIER ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I19 I10 I16 I42	s42		
+192	...... statement type_specifier IDENTIFIER = primary_expression	* IDENTIFIER ; return IDENTIFIER ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I19 I10 I16 I44	r65	I44	
+193	...... type_specifier IDENTIFIER = primary_expression *	IDENTIFIER ; return IDENTIFIER ; ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I19 I10 I16 I44 I96	s96		
+194	...... type_specifier IDENTIFIER = primary_expression operator	IDENTIFIER ; return IDENTIFIER ; ......	reduce(operator->* ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I19 I10 I16 I44 I93	r5	I93	
+195	...... IDENTIFIER = primary_expression operator IDENTIFIER	; return IDENTIFIER ; } ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I19 I10 I16 I44 I93 I42	s42		
+196	...... IDENTIFIER = primary_expression operator primary_expression	; return IDENTIFIER ; } ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I19 I10 I16 I44 I93 I125	r65	I125	
+197	...... = primary_expression operator primary_expression arithmetic_expression	; return IDENTIFIER ; } ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I19 I10 I16 I44 I93 I125 I151	r34	I151	
+198	...... type_specifier IDENTIFIER = primary_expression arithmetic_expression	; return IDENTIFIER ; } ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I19 I10 I16 I44 I86	r33	I86	
+199	...... statement type_specifier IDENTIFIER = constant_expression	; return IDENTIFIER ; } ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I19 I10 I16 I39	r32	I39	
+200	...... statement type_specifier IDENTIFIER = expression	; return IDENTIFIER ; } ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I19 I10 I16 I45	r63	I45	
+201	...... { statement type_specifier IDENTIFIER declaration_assign	; return IDENTIFIER ; } ......	reduce(declaration_assign->= expression ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I19 I10 I15	r14	I15	
+202	...... else { statement type_specifier declaration_init	; return IDENTIFIER ; } ......	reduce(declaration_init->IDENTIFIER declaration_assign ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I19 I49	r16	I49	
+203	...... { statement type_specifier declaration_init declaration_init_list	; return IDENTIFIER ; } ......	reduce(declaration_init_list->$ ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I19 I49 I98	r46	I98	
+204	...... statement type_specifier declaration_init declaration_init_list ;	return IDENTIFIER ; } } ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I19 I49 I98 I126	s126		
+205	...... statement else { statement declaration	return IDENTIFIER ; } } ......	reduce(declaration->type_specifier declaration_init declaration_init_list ; ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I30	r42	I30	
+206	...... statement else { statement statement	return IDENTIFIER ; } } ......	reduce(statement->declaration ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I37	r31	I37	
+207	...... else { statement statement return	IDENTIFIER ; } } function ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I37 I36	s36		
+208	...... { statement statement return IDENTIFIER	; } } function int ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I37 I36 I71	s71		
+209	...... { statement statement return primary_expression	; } } function int ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I37 I36 I68	r65	I68	
+210	...... statement statement return primary_expression arithmetic_expression	; } } function int ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I37 I36 I68 I111	r34	I111	
+211	...... { statement statement return constant_expression	; } } function int ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I37 I36 I67	r32	I67	
+212	...... { statement statement return expression	; } } function int ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I37 I36 I69	r63	I69	
+213	...... statement statement return expression ;	} } function int IDENTIFIER ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I37 I36 I69 I113	s113		
+214	...... else { statement statement jump_statement	} } function int IDENTIFIER ......	reduce(jump_statement->return expression ; ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I37 I34	r49	I34	
+215	...... else { statement statement statement	} } function int IDENTIFIER ......	reduce(statement->jump_statement ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I37 I37	r27	I37	
+216	...... { statement statement statement statement_list	} } function int IDENTIFIER ......	reduce(statement_list->$ ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I37 I37 I75	r61	I75	
+217	...... else { statement statement statement_list	} } function int IDENTIFIER ......	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I37 I75	r60	I75	
+218	...... statement else { statement statement_list	} } function int IDENTIFIER ......	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I37 I75	r60	I75	
+219	...... ) statement else { statement_list	} } function int IDENTIFIER ......	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I53	r60	I53	
+220	...... statement else { statement_list }	} function int IDENTIFIER ( ......	shift	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I25 I53 I100	s100		
+221	...... expression ) statement else compound_statement	} function int IDENTIFIER ( ......	reduce(compound_statement->{ statement_list } ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I29	r20	I29	
+222	...... expression ) statement else statement	} function int IDENTIFIER ( ......	reduce(statement->compound_statement ,['#'])	I0 I2 I2 I7 I12 I20 I50 I99 I127 I157 I186 I205	r30	I205	
+223	...... external_declaration external_declaration function_definition { selection_statement	} function int IDENTIFIER ( ......	reduce(selection_statement->if ( expression ) statement else statement ,['#'])	I0 I2 I2 I7 I12 I33	r23	I33	
+224	...... external_declaration external_declaration function_definition { statement	} function int IDENTIFIER ( ......	reduce(statement->selection_statement ,['#'])	I0 I2 I2 I7 I12 I37	r28	I37	
+225	...... external_declaration function_definition { statement statement_list	} function int IDENTIFIER ( ......	reduce(statement_list->$ ,['#'])	I0 I2 I2 I7 I12 I37 I75	r61	I75	
+226	...... external_declaration external_declaration function_definition { statement_list	} function int IDENTIFIER ( ......	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I2 I7 I12 I32	r60	I32	
+227	...... external_declaration function_definition { statement_list }	function int IDENTIFIER ( ) ......	shift	I0 I2 I2 I7 I12 I32 I64	s64		
+228	# external_declaration external_declaration function_definition compound_statement	function int IDENTIFIER ( ) ......	reduce(compound_statement->{ statement_list } ,['#'])	I0 I2 I2 I7 I13	r20	I13	
+229	# external_declaration external_declaration function_implement	function int IDENTIFIER ( ) ......	reduce(function_implement->function_definition compound_statement ,['#'])	I0 I2 I2 I3	r2	I3	
+230	# external_declaration external_declaration external_declaration	function int IDENTIFIER ( ) ......	reduce(external_declaration->function_implement ,['#'])	I0 I2 I2 I2	r17	I2	
+231	# external_declaration external_declaration external_declaration function	int IDENTIFIER ( ) { ......	shift	I0 I2 I2 I2 I8	s8		
+232	...... external_declaration external_declaration external_declaration function int	IDENTIFIER ( ) { int ......	shift	I0 I2 I2 I2 I8 I6	s6		
+233	...... external_declaration external_declaration external_declaration function type_specifier	IDENTIFIER ( ) { int ......	reduce(type_specifier->int ,['#'])	I0 I2 I2 I2 I8 I14	r19	I14	
+234	...... external_declaration external_declaration function type_specifier IDENTIFIER	( ) { int IDENTIFIER ......	shift	I0 I2 I2 I2 I8 I14 I38	s38		
+235	...... external_declaration function type_specifier IDENTIFIER (	) { int IDENTIFIER , ......	shift	I0 I2 I2 I2 I8 I14 I38 I76	s76		
+236	...... function type_specifier IDENTIFIER ( function_declaration_list	) { int IDENTIFIER , ......	reduce(function_declaration_list->$ ,['#'])	I0 I2 I2 I2 I8 I14 I38 I76 I116	r39	I116	
+237	...... type_specifier IDENTIFIER ( function_declaration_list )	{ int IDENTIFIER , IDENTIFIER ......	shift	I0 I2 I2 I2 I8 I14 I38 I76 I116 I135	s135		
+238	# external_declaration external_declaration external_declaration function_definition	{ int IDENTIFIER , IDENTIFIER ......	reduce(function_definition->function type_specifier IDENTIFIER ( function_declaration_list ) ,['#'])	I0 I2 I2 I2 I7	r50	I7	
+239	...... external_declaration external_declaration external_declaration function_definition {	int IDENTIFIER , IDENTIFIER ; ......	shift	I0 I2 I2 I2 I7 I12	s12		
+240	...... external_declaration external_declaration function_definition { int	IDENTIFIER , IDENTIFIER ; IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I6	s6		
+241	...... external_declaration external_declaration function_definition { type_specifier	IDENTIFIER , IDENTIFIER ; IDENTIFIER ......	reduce(type_specifier->int ,['#'])	I0 I2 I2 I2 I7 I12 I19	r19	I19	
+242	...... external_declaration function_definition { type_specifier IDENTIFIER	, IDENTIFIER ; IDENTIFIER = ......	shift	I0 I2 I2 I2 I7 I12 I19 I10	s10		
+243	...... function_definition { type_specifier IDENTIFIER declaration_assign	, IDENTIFIER ; IDENTIFIER = ......	reduce(declaration_assign->$ ,['#'])	I0 I2 I2 I2 I7 I12 I19 I10 I15	r15	I15	
+244	...... external_declaration function_definition { type_specifier declaration_init	, IDENTIFIER ; IDENTIFIER = ......	reduce(declaration_init->IDENTIFIER declaration_assign ,['#'])	I0 I2 I2 I2 I7 I12 I19 I49	r16	I49	
+245	...... function_definition { type_specifier declaration_init ,	IDENTIFIER ; IDENTIFIER = function ......	shift	I0 I2 I2 I2 I7 I12 I19 I49 I18	s18		
+246	...... { type_specifier declaration_init , IDENTIFIER	; IDENTIFIER = function IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I19 I49 I18 I10	s10		
+247	...... type_specifier declaration_init , IDENTIFIER declaration_assign	; IDENTIFIER = function IDENTIFIER ......	reduce(declaration_assign->$ ,['#'])	I0 I2 I2 I2 I7 I12 I19 I49 I18 I10 I15	r15	I15	
+248	...... { type_specifier declaration_init , declaration_init	; IDENTIFIER = function IDENTIFIER ......	reduce(declaration_init->IDENTIFIER declaration_assign ,['#'])	I0 I2 I2 I2 I7 I12 I19 I49 I18 I48	r16	I48	
+249	...... type_specifier declaration_init , declaration_init declaration_init_list	; IDENTIFIER = function IDENTIFIER ......	reduce(declaration_init_list->$ ,['#'])	I0 I2 I2 I2 I7 I12 I19 I49 I18 I48 I97	r46	I97	
+250	...... function_definition { type_specifier declaration_init declaration_init_list	; IDENTIFIER = function IDENTIFIER ......	reduce(declaration_init_list->, declaration_init declaration_init_list ,['#'])	I0 I2 I2 I2 I7 I12 I19 I49 I98	r45	I98	
+251	...... { type_specifier declaration_init declaration_init_list ;	IDENTIFIER = function IDENTIFIER ( ......	shift	I0 I2 I2 I2 I7 I12 I19 I49 I98 I126	s126		
+252	...... external_declaration external_declaration function_definition { declaration	IDENTIFIER = function IDENTIFIER ( ......	reduce(declaration->type_specifier declaration_init declaration_init_list ; ,['#'])	I0 I2 I2 I2 I7 I12 I30	r42	I30	
+253	...... external_declaration external_declaration function_definition { statement	IDENTIFIER = function IDENTIFIER ( ......	reduce(statement->declaration ,['#'])	I0 I2 I2 I2 I7 I12 I37	r31	I37	
+254	...... external_declaration function_definition { statement IDENTIFIER	= function IDENTIFIER ( number ......	shift	I0 I2 I2 I2 I7 I12 I37 I26	s26		
+255	...... function_definition { statement IDENTIFIER =	function IDENTIFIER ( number ) ......	shift	I0 I2 I2 I2 I7 I12 I37 I26 I60	s60		
+256	...... function_definition { statement IDENTIFIER assignment_operator	function IDENTIFIER ( number ) ......	reduce(assignment_operator->= ,['#'])	I0 I2 I2 I2 I7 I12 I37 I26 I55	r54	I55	
+257	...... { statement IDENTIFIER assignment_operator function	IDENTIFIER ( number ) ; ......	shift	I0 I2 I2 I2 I7 I12 I37 I26 I55 I40	s40		
+258	...... statement IDENTIFIER assignment_operator function IDENTIFIER	( number ) ; int ......	shift	I0 I2 I2 I2 I7 I12 I37 I26 I55 I40 I77	s77		
+259	...... IDENTIFIER assignment_operator function IDENTIFIER (	number ) ; int IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I26 I55 I40 I77 I119	s119		
+260	...... assignment_operator function IDENTIFIER ( number	) ; int IDENTIFIER = ......	shift	I0 I2 I2 I2 I7 I12 I37 I26 I55 I40 I77 I119 I146	s146		
+261	...... assignment_operator function IDENTIFIER ( primary_expression	) ; int IDENTIFIER = ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I26 I55 I40 I77 I119 I140	r66	I140	
+262	...... function IDENTIFIER ( primary_expression arithmetic_expression	) ; int IDENTIFIER = ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I26 I55 I40 I77 I119 I140 I174	r34	I174	
+263	...... assignment_operator function IDENTIFIER ( constant_expression	) ; int IDENTIFIER = ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I26 I55 I40 I77 I119 I139	r32	I139	
+264	...... assignment_operator function IDENTIFIER ( expression	) ; int IDENTIFIER = ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I26 I55 I40 I77 I119 I147	r63	I147	
+265	...... function IDENTIFIER ( expression expression_profix	) ; int IDENTIFIER = ......	reduce(expression_profix->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I26 I55 I40 I77 I119 I147 I179	r44	I179	
+266	...... assignment_operator function IDENTIFIER ( expression_list	) ; int IDENTIFIER = ......	reduce(expression_list->expression expression_profix ,['#'])	I0 I2 I2 I2 I7 I12 I37 I26 I55 I40 I77 I119 I141	r52	I141	
+267	...... function IDENTIFIER ( expression_list )	; int IDENTIFIER = number ......	shift	I0 I2 I2 I2 I7 I12 I37 I26 I55 I40 I77 I119 I141 I176	s176		
+268	...... { statement IDENTIFIER assignment_operator function_expression	; int IDENTIFIER = number ......	reduce(function_expression->function IDENTIFIER ( expression_list ) ,['#'])	I0 I2 I2 I2 I7 I12 I37 I26 I55 I41	r62	I41	
+269	...... { statement IDENTIFIER assignment_operator expression	; int IDENTIFIER = number ......	reduce(expression->function_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I26 I55 I102	r64	I102	
+270	...... external_declaration function_definition { statement assignment_expression	; int IDENTIFIER = number ......	reduce(assignment_expression->IDENTIFIER assignment_operator expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I35	r35	I35	
+271	...... function_definition { statement assignment_expression assignment_expression_profix	; int IDENTIFIER = number ......	reduce(assignment_expression_profix->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I35 I65	r41	I65	
+272	...... external_declaration function_definition { statement assignment_expression_list	; int IDENTIFIER = number ......	reduce(assignment_expression_list->assignment_expression assignment_expression_profix ,['#'])	I0 I2 I2 I2 I7 I12 I37 I23	r21	I23	
+273	...... function_definition { statement assignment_expression_list ;	int IDENTIFIER = number , ......	shift	I0 I2 I2 I2 I7 I12 I37 I23 I52	s52		
+274	...... external_declaration function_definition { statement expression_statement	int IDENTIFIER = number , ......	reduce(expression_statement->assignment_expression_list ; ,['#'])	I0 I2 I2 I2 I7 I12 I37 I21	r1	I21	
+275	...... external_declaration function_definition { statement statement	int IDENTIFIER = number , ......	reduce(statement->expression_statement ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37	r26	I37	
+276	...... function_definition { statement statement int	IDENTIFIER = number , IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I6	s6		
+277	...... function_definition { statement statement type_specifier	IDENTIFIER = number , IDENTIFIER ......	reduce(type_specifier->int ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19	r19	I19	
+278	...... { statement statement type_specifier IDENTIFIER	= number , IDENTIFIER = ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I10	s10		
+279	...... statement statement type_specifier IDENTIFIER =	number , IDENTIFIER = number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I10 I16	s16		
+280	...... statement type_specifier IDENTIFIER = number	, IDENTIFIER = number , ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I10 I16 I46	s46		
+281	...... statement type_specifier IDENTIFIER = primary_expression	, IDENTIFIER = number , ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I10 I16 I44	r66	I44	
+282	...... type_specifier IDENTIFIER = primary_expression arithmetic_expression	, IDENTIFIER = number , ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I10 I16 I44 I86	r34	I86	
+283	...... statement type_specifier IDENTIFIER = constant_expression	, IDENTIFIER = number , ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I10 I16 I39	r32	I39	
+284	...... statement type_specifier IDENTIFIER = expression	, IDENTIFIER = number , ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I10 I16 I45	r63	I45	
+285	...... statement statement type_specifier IDENTIFIER declaration_assign	, IDENTIFIER = number , ......	reduce(declaration_assign->= expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I10 I15	r14	I15	
+286	...... { statement statement type_specifier declaration_init	, IDENTIFIER = number , ......	reduce(declaration_init->IDENTIFIER declaration_assign ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49	r16	I49	
+287	...... statement statement type_specifier declaration_init ,	IDENTIFIER = number , IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18	s18		
+288	...... statement type_specifier declaration_init , IDENTIFIER	= number , IDENTIFIER = ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I10	s10		
+289	...... type_specifier declaration_init , IDENTIFIER =	number , IDENTIFIER = number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I10 I16	s16		
+290	...... declaration_init , IDENTIFIER = number	, IDENTIFIER = number , ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I10 I16 I46	s46		
+291	...... declaration_init , IDENTIFIER = primary_expression	, IDENTIFIER = number , ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I10 I16 I44	r66	I44	
+292	...... , IDENTIFIER = primary_expression arithmetic_expression	, IDENTIFIER = number , ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I10 I16 I44 I86	r34	I86	
+293	...... declaration_init , IDENTIFIER = constant_expression	, IDENTIFIER = number , ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I10 I16 I39	r32	I39	
+294	...... declaration_init , IDENTIFIER = expression	, IDENTIFIER = number , ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I10 I16 I45	r63	I45	
+295	...... type_specifier declaration_init , IDENTIFIER declaration_assign	, IDENTIFIER = number , ......	reduce(declaration_assign->= expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I10 I15	r14	I15	
+296	...... statement type_specifier declaration_init , declaration_init	, IDENTIFIER = number , ......	reduce(declaration_init->IDENTIFIER declaration_assign ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48	r16	I48	
+297	...... type_specifier declaration_init , declaration_init ,	IDENTIFIER = number , IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18	s18		
+298	...... declaration_init , declaration_init , IDENTIFIER	= number , IDENTIFIER = ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I10	s10		
+299	...... , declaration_init , IDENTIFIER =	number , IDENTIFIER = number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I10 I16	s16		
+300	...... declaration_init , IDENTIFIER = number	, IDENTIFIER = number * ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I10 I16 I46	s46		
+301	...... declaration_init , IDENTIFIER = primary_expression	, IDENTIFIER = number * ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I10 I16 I44	r66	I44	
+302	...... , IDENTIFIER = primary_expression arithmetic_expression	, IDENTIFIER = number * ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I10 I16 I44 I86	r34	I86	
+303	...... declaration_init , IDENTIFIER = constant_expression	, IDENTIFIER = number * ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I10 I16 I39	r32	I39	
+304	...... declaration_init , IDENTIFIER = expression	, IDENTIFIER = number * ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I10 I16 I45	r63	I45	
+305	...... , declaration_init , IDENTIFIER declaration_assign	, IDENTIFIER = number * ......	reduce(declaration_assign->= expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I10 I15	r14	I15	
+306	...... declaration_init , declaration_init , declaration_init	, IDENTIFIER = number * ......	reduce(declaration_init->IDENTIFIER declaration_assign ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48	r16	I48	
+307	...... , declaration_init , declaration_init ,	IDENTIFIER = number * number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18	s18		
+308	...... declaration_init , declaration_init , IDENTIFIER	= number * number + ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10	s10		
+309	...... , declaration_init , IDENTIFIER =	number * number + number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16	s16		
+310	...... declaration_init , IDENTIFIER = number	* number + number - ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I46	s46		
+311	...... declaration_init , IDENTIFIER = primary_expression	* number + number - ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I44	r66	I44	
+312	...... , IDENTIFIER = primary_expression *	number + number - number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I44 I96	s96		
+313	...... , IDENTIFIER = primary_expression operator	number + number - number ......	reduce(operator->* ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I44 I93	r5	I93	
+314	...... IDENTIFIER = primary_expression operator number	+ number - number ; ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I44 I93 I46	s46		
+315	...... IDENTIFIER = primary_expression operator primary_expression	+ number - number ; ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I44 I93 I125	r66	I125	
+316	...... = primary_expression operator primary_expression +	number - number ; int ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I44 I93 I125 I90	s90		
+317	...... = primary_expression operator primary_expression operator	number - number ; int ......	reduce(operator->+ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I44 I93 I125 I93	r3	I93	
+318	...... primary_expression operator primary_expression operator number	- number ; int IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I44 I93 I125 I93 I46	s46		
+319	...... primary_expression operator primary_expression operator primary_expression	- number ; int IDENTIFIER ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I44 I93 I125 I93 I125	r66	I125	
+320	...... operator primary_expression operator primary_expression -	number ; int IDENTIFIER = ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I44 I93 I125 I93 I125 I88	s88		
+321	...... operator primary_expression operator primary_expression operator	number ; int IDENTIFIER = ......	reduce(operator->- ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I44 I93 I125 I93 I125 I93	r4	I93	
+322	...... primary_expression operator primary_expression operator number	; int IDENTIFIER = number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I44 I93 I125 I93 I125 I93 I46	s46		
+323	...... primary_expression operator primary_expression operator primary_expression	; int IDENTIFIER = number ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I44 I93 I125 I93 I125 I93 I125	r66	I125	
+324	...... operator primary_expression operator primary_expression arithmetic_expression	; int IDENTIFIER = number ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I44 I93 I125 I93 I125 I93 I125 I151	r34	I151	
+325	...... operator primary_expression operator primary_expression arithmetic_expression	; int IDENTIFIER = number ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I44 I93 I125 I93 I125 I151	r33	I151	
+326	...... = primary_expression operator primary_expression arithmetic_expression	; int IDENTIFIER = number ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I44 I93 I125 I151	r33	I151	
+327	...... , IDENTIFIER = primary_expression arithmetic_expression	; int IDENTIFIER = number ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I44 I86	r33	I86	
+328	...... declaration_init , IDENTIFIER = constant_expression	; int IDENTIFIER = number ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I39	r32	I39	
+329	...... declaration_init , IDENTIFIER = expression	; int IDENTIFIER = number ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I16 I45	r63	I45	
+330	...... , declaration_init , IDENTIFIER declaration_assign	; int IDENTIFIER = number ......	reduce(declaration_assign->= expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I10 I15	r14	I15	
+331	...... declaration_init , declaration_init , declaration_init	; int IDENTIFIER = number ......	reduce(declaration_init->IDENTIFIER declaration_assign ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I48	r16	I48	
+332	...... , declaration_init , declaration_init declaration_init_list	; int IDENTIFIER = number ......	reduce(declaration_init_list->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I18 I48 I97	r46	I97	
+333	...... , declaration_init , declaration_init declaration_init_list	; int IDENTIFIER = number ......	reduce(declaration_init_list->, declaration_init declaration_init_list ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I18 I48 I97	r45	I97	
+334	...... type_specifier declaration_init , declaration_init declaration_init_list	; int IDENTIFIER = number ......	reduce(declaration_init_list->, declaration_init declaration_init_list ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I18 I48 I97	r45	I97	
+335	...... statement statement type_specifier declaration_init declaration_init_list	; int IDENTIFIER = number ......	reduce(declaration_init_list->, declaration_init declaration_init_list ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I98	r45	I98	
+336	...... statement type_specifier declaration_init declaration_init_list ;	int IDENTIFIER = number ; ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I19 I49 I98 I126	s126		
+337	...... function_definition { statement statement declaration	int IDENTIFIER = number ; ......	reduce(declaration->type_specifier declaration_init declaration_init_list ; ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I30	r42	I30	
+338	...... function_definition { statement statement statement	int IDENTIFIER = number ; ......	reduce(statement->declaration ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37	r31	I37	
+339	...... { statement statement statement int	IDENTIFIER = number ; for ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I6	s6		
+340	...... { statement statement statement type_specifier	IDENTIFIER = number ; for ......	reduce(type_specifier->int ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I19	r19	I19	
+341	...... statement statement statement type_specifier IDENTIFIER	= number ; for ( ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I19 I10	s10		
+342	...... statement statement type_specifier IDENTIFIER =	number ; for ( int ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I19 I10 I16	s16		
+343	...... statement type_specifier IDENTIFIER = number	; for ( int IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I19 I10 I16 I46	s46		
+344	...... statement type_specifier IDENTIFIER = primary_expression	; for ( int IDENTIFIER ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I19 I10 I16 I44	r66	I44	
+345	...... type_specifier IDENTIFIER = primary_expression arithmetic_expression	; for ( int IDENTIFIER ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I19 I10 I16 I44 I86	r34	I86	
+346	...... statement type_specifier IDENTIFIER = constant_expression	; for ( int IDENTIFIER ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I19 I10 I16 I39	r32	I39	
+347	...... statement type_specifier IDENTIFIER = expression	; for ( int IDENTIFIER ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I19 I10 I16 I45	r63	I45	
+348	...... statement statement type_specifier IDENTIFIER declaration_assign	; for ( int IDENTIFIER ......	reduce(declaration_assign->= expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I19 I10 I15	r14	I15	
+349	...... statement statement statement type_specifier declaration_init	; for ( int IDENTIFIER ......	reduce(declaration_init->IDENTIFIER declaration_assign ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I19 I49	r16	I49	
+350	...... statement statement type_specifier declaration_init declaration_init_list	; for ( int IDENTIFIER ......	reduce(declaration_init_list->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I19 I49 I98	r46	I98	
+351	...... statement type_specifier declaration_init declaration_init_list ;	for ( int IDENTIFIER = ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I19 I49 I98 I126	s126		
+352	...... { statement statement statement declaration	for ( int IDENTIFIER = ......	reduce(declaration->type_specifier declaration_init declaration_init_list ; ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I30	r42	I30	
+353	...... { statement statement statement statement	for ( int IDENTIFIER = ......	reduce(statement->declaration ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37	r31	I37	
+354	...... statement statement statement statement for	( int IDENTIFIER = number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31	s31		
+355	...... statement statement statement for (	int IDENTIFIER = number ; ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63	s63		
+356	...... statement statement for ( int	IDENTIFIER = number ; IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I6	s6		
+357	...... statement statement for ( type_specifier	IDENTIFIER = number ; IDENTIFIER ......	reduce(type_specifier->int ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I108	r19	I108	
+358	...... statement for ( type_specifier IDENTIFIER	= number ; IDENTIFIER < ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I108 I10	s10		
+359	...... for ( type_specifier IDENTIFIER =	number ; IDENTIFIER < number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I108 I10 I16	s16		
+360	...... ( type_specifier IDENTIFIER = number	; IDENTIFIER < number ; ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I108 I10 I16 I46	s46		
+361	...... ( type_specifier IDENTIFIER = primary_expression	; IDENTIFIER < number ; ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I108 I10 I16 I44	r66	I44	
+362	...... type_specifier IDENTIFIER = primary_expression arithmetic_expression	; IDENTIFIER < number ; ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I108 I10 I16 I44 I86	r34	I86	
+363	...... ( type_specifier IDENTIFIER = constant_expression	; IDENTIFIER < number ; ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I108 I10 I16 I39	r32	I39	
+364	...... ( type_specifier IDENTIFIER = expression	; IDENTIFIER < number ; ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I108 I10 I16 I45	r63	I45	
+365	...... for ( type_specifier IDENTIFIER declaration_assign	; IDENTIFIER < number ; ......	reduce(declaration_assign->= expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I108 I10 I15	r14	I15	
+366	...... statement for ( type_specifier declaration_init	; IDENTIFIER < number ; ......	reduce(declaration_init->IDENTIFIER declaration_assign ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I108 I129	r16	I129	
+367	...... for ( type_specifier declaration_init declaration_init_list	; IDENTIFIER < number ; ......	reduce(declaration_init_list->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I108 I129 I169	r46	I169	
+368	...... ( type_specifier declaration_init declaration_init_list ;	IDENTIFIER < number ; IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I108 I129 I169 I193	s193		
+369	...... statement statement for ( declaration	IDENTIFIER < number ; IDENTIFIER ......	reduce(declaration->type_specifier declaration_init declaration_init_list ; ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109	r42	I109	
+370	...... statement for ( declaration IDENTIFIER	< number ; IDENTIFIER + ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I71	s71		
+371	...... statement for ( declaration primary_expression	< number ; IDENTIFIER + ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I68	r65	I68	
+372	...... for ( declaration primary_expression <	number ; IDENTIFIER + = ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I68 I95	s95		
+373	...... for ( declaration primary_expression operator	number ; IDENTIFIER + = ......	reduce(operator->< ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I68 I112	r8	I112	
+374	...... ( declaration primary_expression operator number	; IDENTIFIER + = number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I68 I112 I74	s74		
+375	...... ( declaration primary_expression operator primary_expression	; IDENTIFIER + = number ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I68 I112 I132	r66	I132	
+376	...... declaration primary_expression operator primary_expression arithmetic_expression	; IDENTIFIER + = number ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I68 I112 I132 I171	r34	I171	
+377	...... for ( declaration primary_expression arithmetic_expression	; IDENTIFIER + = number ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I68 I111	r33	I111	
+378	...... statement for ( declaration constant_expression	; IDENTIFIER + = number ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I67	r32	I67	
+379	...... statement for ( declaration expression	; IDENTIFIER + = number ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130	r63	I130	
+380	...... for ( declaration expression ;	IDENTIFIER + = number ) ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170	s170		
+381	...... ( declaration expression ; IDENTIFIER	+ = number ) { ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I195	s195		
+382	...... declaration expression ; IDENTIFIER +	= number ) { if ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I195 I57	s57		
+383	...... expression ; IDENTIFIER + =	number ) { if ( ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I195 I57 I104	s104		
+384	...... declaration expression ; IDENTIFIER assignment_operator	number ) { if ( ......	reduce(assignment_operator->+ = ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I195 I211	r55	I211	
+385	...... expression ; IDENTIFIER assignment_operator number	) { if ( IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I195 I211 I85	s85		
+386	...... expression ; IDENTIFIER assignment_operator primary_expression	) { if ( IDENTIFIER ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I195 I211 I84	r66	I84	
+387	...... ; IDENTIFIER assignment_operator primary_expression arithmetic_expression	) { if ( IDENTIFIER ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I195 I211 I84 I123	r34	I123	
+388	...... expression ; IDENTIFIER assignment_operator constant_expression	) { if ( IDENTIFIER ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I195 I211 I78	r32	I78	
+389	...... expression ; IDENTIFIER assignment_operator expression	) { if ( IDENTIFIER ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I195 I211 I220	r63	I220	
+390	...... ( declaration expression ; assignment_expression	) { if ( IDENTIFIER ......	reduce(assignment_expression->IDENTIFIER assignment_operator expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194	r35	I194	
+391	...... declaration expression ; assignment_expression )	{ if ( IDENTIFIER < ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210	s210		
+392	...... expression ; assignment_expression ) {	if ( IDENTIFIER < number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25	s25		
+393	...... ; assignment_expression ) { if	( IDENTIFIER < number ) ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20	s20		
+394	...... assignment_expression ) { if (	IDENTIFIER < number ) continue ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50	s50		
+395	...... ) { if ( IDENTIFIER	< number ) continue ; ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I82	s82		
+396	...... ) { if ( primary_expression	< number ) continue ; ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I84	r65	I84	
+397	...... { if ( primary_expression <	number ) continue ; else ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I84 I95	s95		
+398	...... { if ( primary_expression operator	number ) continue ; else ......	reduce(operator->< ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I84 I124	r8	I124	
+399	...... if ( primary_expression operator number	) continue ; else IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I84 I124 I85	s85		
+400	...... if ( primary_expression operator primary_expression	) continue ; else IDENTIFIER ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I84 I124 I150	r66	I150	
+401	...... ( primary_expression operator primary_expression arithmetic_expression	) continue ; else IDENTIFIER ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I84 I124 I150 I182	r34	I182	
+402	...... { if ( primary_expression arithmetic_expression	) continue ; else IDENTIFIER ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I84 I123	r33	I123	
+403	...... ) { if ( constant_expression	) continue ; else IDENTIFIER ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I78	r32	I78	
+404	...... ) { if ( expression	) continue ; else IDENTIFIER ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99	r63	I99	
+405	...... { if ( expression )	continue ; else IDENTIFIER + ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127	s127		
+406	...... if ( expression ) continue	; else IDENTIFIER + = ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I167	s167		
+407	...... ( expression ) continue ;	else IDENTIFIER + = IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I167 I192	s192		
+408	...... if ( expression ) jump_statement	else IDENTIFIER + = IDENTIFIER ......	reduce(jump_statement->continue ; ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I159	r47	I159	
+409	...... if ( expression ) statement	else IDENTIFIER + = IDENTIFIER ......	reduce(statement->jump_statement ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I157	r27	I157	
+410	...... ( expression ) statement else	IDENTIFIER + = IDENTIFIER ; ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I157 I186	s186		
+411	...... expression ) statement else IDENTIFIER	+ = IDENTIFIER ; if ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I157 I186 I26	s26		
+412	...... ) statement else IDENTIFIER +	= IDENTIFIER ; if ( ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I157 I186 I26 I57	s57		
+413	...... statement else IDENTIFIER + =	IDENTIFIER ; if ( IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I157 I186 I26 I57 I104	s104		
+414	...... ) statement else IDENTIFIER assignment_operator	IDENTIFIER ; if ( IDENTIFIER ......	reduce(assignment_operator->+ = ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I157 I186 I26 I55	r55	I55	
+415	...... statement else IDENTIFIER assignment_operator IDENTIFIER	; if ( IDENTIFIER > ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I157 I186 I26 I55 I42	s42		
+416	...... statement else IDENTIFIER assignment_operator primary_expression	; if ( IDENTIFIER > ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I157 I186 I26 I55 I44	r65	I44	
+417	...... else IDENTIFIER assignment_operator primary_expression arithmetic_expression	; if ( IDENTIFIER > ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I157 I186 I26 I55 I44 I86	r34	I86	
+418	...... statement else IDENTIFIER assignment_operator constant_expression	; if ( IDENTIFIER > ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I157 I186 I26 I55 I39	r32	I39	
+419	...... statement else IDENTIFIER assignment_operator expression	; if ( IDENTIFIER > ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I157 I186 I26 I55 I102	r63	I102	
+420	...... expression ) statement else assignment_expression	; if ( IDENTIFIER > ......	reduce(assignment_expression->IDENTIFIER assignment_operator expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I157 I186 I35	r35	I35	
+421	...... ) statement else assignment_expression assignment_expression_profix	; if ( IDENTIFIER > ......	reduce(assignment_expression_profix->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I157 I186 I35 I65	r41	I65	
+422	...... expression ) statement else assignment_expression_list	; if ( IDENTIFIER > ......	reduce(assignment_expression_list->assignment_expression assignment_expression_profix ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I157 I186 I23	r21	I23	
+423	...... ) statement else assignment_expression_list ;	if ( IDENTIFIER > number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I157 I186 I23 I52	s52		
+424	...... expression ) statement else expression_statement	if ( IDENTIFIER > number ......	reduce(expression_statement->assignment_expression_list ; ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I157 I186 I21	r1	I21	
+425	...... expression ) statement else statement	if ( IDENTIFIER > number ......	reduce(statement->expression_statement ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I20 I50 I99 I127 I157 I186 I205	r26	I205	
+426	...... ; assignment_expression ) { selection_statement	if ( IDENTIFIER > number ......	reduce(selection_statement->if ( expression ) statement else statement ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I33	r23	I33	
+427	...... ; assignment_expression ) { statement	if ( IDENTIFIER > number ......	reduce(statement->selection_statement ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37	r28	I37	
+428	...... assignment_expression ) { statement if	( IDENTIFIER > number ) ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20	s20		
+429	...... ) { statement if (	IDENTIFIER > number ) break ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50	s50		
+430	...... { statement if ( IDENTIFIER	> number ) break ; ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I82	s82		
+431	...... { statement if ( primary_expression	> number ) break ; ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I84	r65	I84	
+432	...... statement if ( primary_expression >	number ) break ; else ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I84 I87	s87		
+433	...... statement if ( primary_expression operator	number ) break ; else ......	reduce(operator->> ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I84 I124	r9	I124	
+434	...... if ( primary_expression operator number	) break ; else IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I84 I124 I85	s85		
+435	...... if ( primary_expression operator primary_expression	) break ; else IDENTIFIER ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I84 I124 I150	r66	I150	
+436	...... ( primary_expression operator primary_expression arithmetic_expression	) break ; else IDENTIFIER ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I84 I124 I150 I182	r34	I182	
+437	...... statement if ( primary_expression arithmetic_expression	) break ; else IDENTIFIER ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I84 I123	r33	I123	
+438	...... { statement if ( constant_expression	) break ; else IDENTIFIER ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I78	r32	I78	
+439	...... { statement if ( expression	) break ; else IDENTIFIER ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99	r63	I99	
+440	...... statement if ( expression )	break ; else IDENTIFIER = ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127	s127		
+441	...... if ( expression ) break	; else IDENTIFIER = number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I161	s161		
+442	...... ( expression ) break ;	else IDENTIFIER = number + ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I161 I188	s188		
+443	...... if ( expression ) jump_statement	else IDENTIFIER = number + ......	reduce(jump_statement->break ; ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I159	r48	I159	
+444	...... if ( expression ) statement	else IDENTIFIER = number + ......	reduce(statement->jump_statement ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157	r27	I157	
+445	...... ( expression ) statement else	IDENTIFIER = number + number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186	s186		
+446	...... expression ) statement else IDENTIFIER	= number + number , ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I26	s26		
+447	...... ) statement else IDENTIFIER =	number + number , IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I26 I60	s60		
+448	...... ) statement else IDENTIFIER assignment_operator	number + number , IDENTIFIER ......	reduce(assignment_operator->= ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I26 I55	r54	I55	
+449	...... statement else IDENTIFIER assignment_operator number	+ number , IDENTIFIER = ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I26 I55 I46	s46		
+450	...... statement else IDENTIFIER assignment_operator primary_expression	+ number , IDENTIFIER = ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I26 I55 I44	r66	I44	
+451	...... else IDENTIFIER assignment_operator primary_expression +	number , IDENTIFIER = number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I26 I55 I44 I90	s90		
+452	...... else IDENTIFIER assignment_operator primary_expression operator	number , IDENTIFIER = number ......	reduce(operator->+ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I26 I55 I44 I93	r3	I93	
+453	...... IDENTIFIER assignment_operator primary_expression operator number	, IDENTIFIER = number * ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I26 I55 I44 I93 I46	s46		
+454	...... IDENTIFIER assignment_operator primary_expression operator primary_expression	, IDENTIFIER = number * ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I26 I55 I44 I93 I125	r66	I125	
+455	...... assignment_operator primary_expression operator primary_expression arithmetic_expression	, IDENTIFIER = number * ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I26 I55 I44 I93 I125 I151	r34	I151	
+456	...... else IDENTIFIER assignment_operator primary_expression arithmetic_expression	, IDENTIFIER = number * ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I26 I55 I44 I86	r33	I86	
+457	...... statement else IDENTIFIER assignment_operator constant_expression	, IDENTIFIER = number * ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I26 I55 I39	r32	I39	
+458	...... statement else IDENTIFIER assignment_operator expression	, IDENTIFIER = number * ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I26 I55 I102	r63	I102	
+459	...... expression ) statement else assignment_expression	, IDENTIFIER = number * ......	reduce(assignment_expression->IDENTIFIER assignment_operator expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35	r35	I35	
+460	...... ) statement else assignment_expression ,	IDENTIFIER = number * number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66	s66		
+461	...... statement else assignment_expression , IDENTIFIER	= number * number , ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I26	s26		
+462	...... else assignment_expression , IDENTIFIER =	number * number , IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I26 I60	s60		
+463	...... else assignment_expression , IDENTIFIER assignment_operator	number * number , IDENTIFIER ......	reduce(assignment_operator->= ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I26 I55	r54	I55	
+464	...... assignment_expression , IDENTIFIER assignment_operator number	* number , IDENTIFIER + ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I26 I55 I46	s46		
+465	...... assignment_expression , IDENTIFIER assignment_operator primary_expression	* number , IDENTIFIER + ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I26 I55 I44	r66	I44	
+466	...... , IDENTIFIER assignment_operator primary_expression *	number , IDENTIFIER + = ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I26 I55 I44 I96	s96		
+467	...... , IDENTIFIER assignment_operator primary_expression operator	number , IDENTIFIER + = ......	reduce(operator->* ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I26 I55 I44 I93	r5	I93	
+468	...... IDENTIFIER assignment_operator primary_expression operator number	, IDENTIFIER + = IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I26 I55 I44 I93 I46	s46		
+469	...... IDENTIFIER assignment_operator primary_expression operator primary_expression	, IDENTIFIER + = IDENTIFIER ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I26 I55 I44 I93 I125	r66	I125	
+470	...... assignment_operator primary_expression operator primary_expression arithmetic_expression	, IDENTIFIER + = IDENTIFIER ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I26 I55 I44 I93 I125 I151	r34	I151	
+471	...... , IDENTIFIER assignment_operator primary_expression arithmetic_expression	, IDENTIFIER + = IDENTIFIER ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I26 I55 I44 I86	r33	I86	
+472	...... assignment_expression , IDENTIFIER assignment_operator constant_expression	, IDENTIFIER + = IDENTIFIER ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I26 I55 I39	r32	I39	
+473	...... assignment_expression , IDENTIFIER assignment_operator expression	, IDENTIFIER + = IDENTIFIER ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I26 I55 I102	r63	I102	
+474	...... statement else assignment_expression , assignment_expression	, IDENTIFIER + = IDENTIFIER ......	reduce(assignment_expression->IDENTIFIER assignment_operator expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I110	r35	I110	
+475	...... else assignment_expression , assignment_expression ,	IDENTIFIER + = IDENTIFIER ; ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I110 I66	s66		
+476	...... assignment_expression , assignment_expression , IDENTIFIER	+ = IDENTIFIER ; } ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I110 I66 I26	s26		
+477	...... , assignment_expression , IDENTIFIER +	= IDENTIFIER ; } int ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I110 I66 I26 I57	s57		
+478	...... assignment_expression , IDENTIFIER + =	IDENTIFIER ; } int IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I110 I66 I26 I57 I104	s104		
+479	...... , assignment_expression , IDENTIFIER assignment_operator	IDENTIFIER ; } int IDENTIFIER ......	reduce(assignment_operator->+ = ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I110 I66 I26 I55	r55	I55	
+480	...... assignment_expression , IDENTIFIER assignment_operator IDENTIFIER	; } int IDENTIFIER = ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I110 I66 I26 I55 I42	s42		
+481	...... assignment_expression , IDENTIFIER assignment_operator primary_expression	; } int IDENTIFIER = ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I110 I66 I26 I55 I44	r65	I44	
+482	...... , IDENTIFIER assignment_operator primary_expression arithmetic_expression	; } int IDENTIFIER = ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I110 I66 I26 I55 I44 I86	r34	I86	
+483	...... assignment_expression , IDENTIFIER assignment_operator constant_expression	; } int IDENTIFIER = ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I110 I66 I26 I55 I39	r32	I39	
+484	...... assignment_expression , IDENTIFIER assignment_operator expression	; } int IDENTIFIER = ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I110 I66 I26 I55 I102	r63	I102	
+485	...... assignment_expression , assignment_expression , assignment_expression	; } int IDENTIFIER = ......	reduce(assignment_expression->IDENTIFIER assignment_operator expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I110 I66 I110	r35	I110	
+486	...... , assignment_expression , assignment_expression assignment_expression_profix	; } int IDENTIFIER = ......	reduce(assignment_expression_profix->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I110 I66 I110 I131	r41	I131	
+487	...... else assignment_expression , assignment_expression assignment_expression_profix	; } int IDENTIFIER = ......	reduce(assignment_expression_profix->, assignment_expression assignment_expression_profix ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I66 I110 I131	r40	I131	
+488	...... ) statement else assignment_expression assignment_expression_profix	; } int IDENTIFIER = ......	reduce(assignment_expression_profix->, assignment_expression assignment_expression_profix ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I35 I65	r40	I65	
+489	...... expression ) statement else assignment_expression_list	; } int IDENTIFIER = ......	reduce(assignment_expression_list->assignment_expression assignment_expression_profix ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I23	r21	I23	
+490	...... ) statement else assignment_expression_list ;	} int IDENTIFIER = function ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I23 I52	s52		
+491	...... expression ) statement else expression_statement	} int IDENTIFIER = function ......	reduce(expression_statement->assignment_expression_list ; ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I21	r1	I21	
+492	...... expression ) statement else statement	} int IDENTIFIER = function ......	reduce(statement->expression_statement ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I20 I50 I99 I127 I157 I186 I205	r26	I205	
+493	...... assignment_expression ) { statement selection_statement	} int IDENTIFIER = function ......	reduce(selection_statement->if ( expression ) statement else statement ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I33	r23	I33	
+494	...... assignment_expression ) { statement statement	} int IDENTIFIER = function ......	reduce(statement->selection_statement ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I37	r28	I37	
+495	...... ) { statement statement statement_list	} int IDENTIFIER = function ......	reduce(statement_list->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I37 I75	r61	I75	
+496	...... assignment_expression ) { statement statement_list	} int IDENTIFIER = function ......	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I37 I75	r60	I75	
+497	...... ; assignment_expression ) { statement_list	} int IDENTIFIER = function ......	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I53	r60	I53	
+498	...... assignment_expression ) { statement_list }	int IDENTIFIER = function IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I25 I53 I100	s100		
+499	...... expression ; assignment_expression ) compound_statement	int IDENTIFIER = function IDENTIFIER ......	reduce(compound_statement->{ statement_list } ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I29	r20	I29	
+500	...... expression ; assignment_expression ) statement	int IDENTIFIER = function IDENTIFIER ......	reduce(statement->compound_statement ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I31 I63 I109 I130 I170 I194 I210 I219	r30	I219	
+501	...... statement statement statement statement iteration_statement	int IDENTIFIER = function IDENTIFIER ......	reduce(iteration_statement->for ( declaration expression ; assignment_expression ) statement ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I24	r13	I24	
+502	...... statement statement statement statement statement	int IDENTIFIER = function IDENTIFIER ......	reduce(statement->iteration_statement ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37	r29	I37	
+503	...... statement statement statement statement int	IDENTIFIER = function IDENTIFIER ( ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I6	s6		
+504	...... statement statement statement statement type_specifier	IDENTIFIER = function IDENTIFIER ( ......	reduce(type_specifier->int ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19	r19	I19	
+505	...... statement statement statement type_specifier IDENTIFIER	= function IDENTIFIER ( IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10	s10		
+506	...... statement statement type_specifier IDENTIFIER =	function IDENTIFIER ( IDENTIFIER , ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16	s16		
+507	...... statement type_specifier IDENTIFIER = function	IDENTIFIER ( IDENTIFIER , IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40	s40		
+508	...... type_specifier IDENTIFIER = function IDENTIFIER	( IDENTIFIER , IDENTIFIER ) ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40 I77	s77		
+509	...... IDENTIFIER = function IDENTIFIER (	IDENTIFIER , IDENTIFIER ) ; ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40 I77 I119	s119		
+510	...... = function IDENTIFIER ( IDENTIFIER	, IDENTIFIER ) ; int ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40 I77 I119 I143	s143		
+511	...... = function IDENTIFIER ( primary_expression	, IDENTIFIER ) ; int ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40 I77 I119 I140	r65	I140	
+512	...... function IDENTIFIER ( primary_expression arithmetic_expression	, IDENTIFIER ) ; int ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40 I77 I119 I140 I174	r34	I174	
+513	...... = function IDENTIFIER ( constant_expression	, IDENTIFIER ) ; int ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40 I77 I119 I139	r32	I139	
+514	...... = function IDENTIFIER ( expression	, IDENTIFIER ) ; int ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40 I77 I119 I147	r63	I147	
+515	...... function IDENTIFIER ( expression ,	IDENTIFIER ) ; int IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40 I77 I119 I147 I180	s180		
+516	...... IDENTIFIER ( expression , IDENTIFIER	) ; int IDENTIFIER = ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40 I77 I119 I147 I180 I143	s143		
+517	...... IDENTIFIER ( expression , primary_expression	) ; int IDENTIFIER = ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40 I77 I119 I147 I180 I140	r65	I140	
+518	...... ( expression , primary_expression arithmetic_expression	) ; int IDENTIFIER = ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40 I77 I119 I147 I180 I140 I174	r34	I174	
+519	...... IDENTIFIER ( expression , constant_expression	) ; int IDENTIFIER = ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40 I77 I119 I147 I180 I139	r32	I139	
+520	...... IDENTIFIER ( expression , expression	) ; int IDENTIFIER = ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40 I77 I119 I147 I180 I201	r63	I201	
+521	...... ( expression , expression expression_profix	) ; int IDENTIFIER = ......	reduce(expression_profix->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40 I77 I119 I147 I180 I201 I214	r44	I214	
+522	...... function IDENTIFIER ( expression expression_profix	) ; int IDENTIFIER = ......	reduce(expression_profix->, expression expression_profix ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40 I77 I119 I147 I179	r43	I179	
+523	...... = function IDENTIFIER ( expression_list	) ; int IDENTIFIER = ......	reduce(expression_list->expression expression_profix ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40 I77 I119 I141	r52	I141	
+524	...... function IDENTIFIER ( expression_list )	; int IDENTIFIER = number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I40 I77 I119 I141 I176	s176		
+525	...... statement type_specifier IDENTIFIER = function_expression	; int IDENTIFIER = number ......	reduce(function_expression->function IDENTIFIER ( expression_list ) ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I41	r62	I41	
+526	...... statement type_specifier IDENTIFIER = expression	; int IDENTIFIER = number ......	reduce(expression->function_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I16 I45	r64	I45	
+527	...... statement statement type_specifier IDENTIFIER declaration_assign	; int IDENTIFIER = number ......	reduce(declaration_assign->= expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I10 I15	r14	I15	
+528	...... statement statement statement type_specifier declaration_init	; int IDENTIFIER = number ......	reduce(declaration_init->IDENTIFIER declaration_assign ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I49	r16	I49	
+529	...... statement statement type_specifier declaration_init declaration_init_list	; int IDENTIFIER = number ......	reduce(declaration_init_list->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I49 I98	r46	I98	
+530	...... statement type_specifier declaration_init declaration_init_list ;	int IDENTIFIER = number * ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I19 I49 I98 I126	s126		
+531	...... statement statement statement statement declaration	int IDENTIFIER = number * ......	reduce(declaration->type_specifier declaration_init declaration_init_list ; ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I30	r42	I30	
+532	...... statement statement statement statement statement	int IDENTIFIER = number * ......	reduce(statement->declaration ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37	r31	I37	
+533	...... statement statement statement statement int	IDENTIFIER = number * number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I6	s6		
+534	...... statement statement statement statement type_specifier	IDENTIFIER = number * number ......	reduce(type_specifier->int ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19	r19	I19	
+535	...... statement statement statement type_specifier IDENTIFIER	= number * number + ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10	s10		
+536	...... statement statement type_specifier IDENTIFIER =	number * number + number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16	s16		
+537	...... statement type_specifier IDENTIFIER = number	* number + number / ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I46	s46		
+538	...... statement type_specifier IDENTIFIER = primary_expression	* number + number / ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44	r66	I44	
+539	...... type_specifier IDENTIFIER = primary_expression *	number + number / ( ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I96	s96		
+540	...... type_specifier IDENTIFIER = primary_expression operator	number + number / ( ......	reduce(operator->* ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93	r5	I93	
+541	...... IDENTIFIER = primary_expression operator number	+ number / ( number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I46	s46		
+542	...... IDENTIFIER = primary_expression operator primary_expression	+ number / ( number ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125	r66	I125	
+543	...... = primary_expression operator primary_expression +	number / ( number * ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I90	s90		
+544	...... = primary_expression operator primary_expression operator	number / ( number * ......	reduce(operator->+ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93	r3	I93	
+545	...... primary_expression operator primary_expression operator number	/ ( number * number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I46	s46		
+546	...... primary_expression operator primary_expression operator primary_expression	/ ( number * number ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125	r66	I125	
+547	...... operator primary_expression operator primary_expression /	( number * number ) ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I92	s92		
+548	...... operator primary_expression operator primary_expression operator	( number * number ) ......	reduce(operator->/ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93	r6	I93	
+549	...... primary_expression operator primary_expression operator (	number * number ) - ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I43	s43		
+550	...... operator primary_expression operator ( number	* number ) - number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I43 I85	s85		
+551	...... operator primary_expression operator ( primary_expression	* number ) - number ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I43 I84	r66	I84	
+552	...... primary_expression operator ( primary_expression *	number ) - number + ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I43 I84 I96	s96		
+553	...... primary_expression operator ( primary_expression operator	number ) - number + ......	reduce(operator->* ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I43 I84 I124	r5	I124	
+554	...... operator ( primary_expression operator number	) - number + IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I43 I84 I124 I85	s85		
+555	...... operator ( primary_expression operator primary_expression	) - number + IDENTIFIER ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I43 I84 I124 I150	r66	I150	
+556	...... ( primary_expression operator primary_expression arithmetic_expression	) - number + IDENTIFIER ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I43 I84 I124 I150 I182	r34	I182	
+557	...... primary_expression operator ( primary_expression arithmetic_expression	) - number + IDENTIFIER ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I43 I84 I123	r33	I123	
+558	...... operator primary_expression operator ( constant_expression	) - number + IDENTIFIER ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I43 I78	r32	I78	
+559	...... operator primary_expression operator ( expression	) - number + IDENTIFIER ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I43 I80	r63	I80	
+560	...... primary_expression operator ( expression )	- number + IDENTIFIER - ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I43 I80 I121	s121		
+561	...... primary_expression operator primary_expression operator primary_expression	- number + IDENTIFIER - ......	reduce(primary_expression->( expression ) ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125	r67	I125	
+562	...... operator primary_expression operator primary_expression -	number + IDENTIFIER - IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I88	s88		
+563	...... operator primary_expression operator primary_expression operator	number + IDENTIFIER - IDENTIFIER ......	reduce(operator->- ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93	r4	I93	
+564	...... primary_expression operator primary_expression operator number	+ IDENTIFIER - IDENTIFIER + ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I46	s46		
+565	...... primary_expression operator primary_expression operator primary_expression	+ IDENTIFIER - IDENTIFIER + ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I125	r66	I125	
+566	...... operator primary_expression operator primary_expression +	IDENTIFIER - IDENTIFIER + IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I125 I90	s90		
+567	...... operator primary_expression operator primary_expression operator	IDENTIFIER - IDENTIFIER + IDENTIFIER ......	reduce(operator->+ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I125 I93	r3	I93	
+568	...... primary_expression operator primary_expression operator IDENTIFIER	- IDENTIFIER + IDENTIFIER ; ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I125 I93 I42	s42		
+569	...... primary_expression operator primary_expression operator primary_expression	- IDENTIFIER + IDENTIFIER ; ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125	r65	I125	
+570	...... operator primary_expression operator primary_expression -	IDENTIFIER + IDENTIFIER ; while ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I88	s88		
+571	...... operator primary_expression operator primary_expression operator	IDENTIFIER + IDENTIFIER ; while ......	reduce(operator->- ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I93	r4	I93	
+572	...... primary_expression operator primary_expression operator IDENTIFIER	+ IDENTIFIER ; while ( ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I93 I42	s42		
+573	...... primary_expression operator primary_expression operator primary_expression	+ IDENTIFIER ; while ( ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125	r65	I125	
+574	...... operator primary_expression operator primary_expression +	IDENTIFIER ; while ( IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I90	s90		
+575	...... operator primary_expression operator primary_expression operator	IDENTIFIER ; while ( IDENTIFIER ......	reduce(operator->+ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I93	r3	I93	
+576	...... primary_expression operator primary_expression operator IDENTIFIER	; while ( IDENTIFIER < ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I93 I42	s42		
+577	...... primary_expression operator primary_expression operator primary_expression	; while ( IDENTIFIER < ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125	r65	I125	
+578	...... operator primary_expression operator primary_expression arithmetic_expression	; while ( IDENTIFIER < ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I151	r34	I151	
+579	...... operator primary_expression operator primary_expression arithmetic_expression	; while ( IDENTIFIER < ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I151	r33	I151	
+580	...... operator primary_expression operator primary_expression arithmetic_expression	; while ( IDENTIFIER < ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I125 I93 I125 I151	r33	I151	
+581	...... operator primary_expression operator primary_expression arithmetic_expression	; while ( IDENTIFIER < ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I93 I125 I151	r33	I151	
+582	...... operator primary_expression operator primary_expression arithmetic_expression	; while ( IDENTIFIER < ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I93 I125 I151	r33	I151	
+583	...... operator primary_expression operator primary_expression arithmetic_expression	; while ( IDENTIFIER < ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I151	r33	I151	
+584	...... = primary_expression operator primary_expression arithmetic_expression	; while ( IDENTIFIER < ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I151	r33	I151	
+585	...... type_specifier IDENTIFIER = primary_expression arithmetic_expression	; while ( IDENTIFIER < ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I86	r33	I86	
+586	...... statement type_specifier IDENTIFIER = constant_expression	; while ( IDENTIFIER < ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I39	r32	I39	
+587	...... statement type_specifier IDENTIFIER = expression	; while ( IDENTIFIER < ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I16 I45	r63	I45	
+588	...... statement statement type_specifier IDENTIFIER declaration_assign	; while ( IDENTIFIER < ......	reduce(declaration_assign->= expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I10 I15	r14	I15	
+589	...... statement statement statement type_specifier declaration_init	; while ( IDENTIFIER < ......	reduce(declaration_init->IDENTIFIER declaration_assign ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I49	r16	I49	
+590	...... statement statement type_specifier declaration_init declaration_init_list	; while ( IDENTIFIER < ......	reduce(declaration_init_list->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I49 I98	r46	I98	
+591	...... statement type_specifier declaration_init declaration_init_list ;	while ( IDENTIFIER < number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I19 I49 I98 I126	s126		
+592	...... statement statement statement statement declaration	while ( IDENTIFIER < number ......	reduce(declaration->type_specifier declaration_init declaration_init_list ; ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I30	r42	I30	
+593	...... statement statement statement statement statement	while ( IDENTIFIER < number ......	reduce(statement->declaration ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37	r31	I37	
+594	...... statement statement statement statement while	( IDENTIFIER < number ) ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27	s27		
+595	...... statement statement statement while (	IDENTIFIER < number ) { ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61	s61		
+596	...... statement statement while ( IDENTIFIER	< number ) { IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I82	s82		
+597	...... statement statement while ( primary_expression	< number ) { IDENTIFIER ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I84	r65	I84	
+598	...... statement while ( primary_expression <	number ) { IDENTIFIER + ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I84 I95	s95		
+599	...... statement while ( primary_expression operator	number ) { IDENTIFIER + ......	reduce(operator->< ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I84 I124	r8	I124	
+600	...... while ( primary_expression operator number	) { IDENTIFIER + = ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I84 I124 I85	s85		
+601	...... while ( primary_expression operator primary_expression	) { IDENTIFIER + = ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I84 I124 I150	r66	I150	
+602	...... ( primary_expression operator primary_expression arithmetic_expression	) { IDENTIFIER + = ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I84 I124 I150 I182	r34	I182	
+603	...... statement while ( primary_expression arithmetic_expression	) { IDENTIFIER + = ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I84 I123	r33	I123	
+604	...... statement statement while ( constant_expression	) { IDENTIFIER + = ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I78	r32	I78	
+605	...... statement statement while ( expression	) { IDENTIFIER + = ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107	r63	I107	
+606	...... statement while ( expression )	{ IDENTIFIER + = IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128	s128		
+607	...... while ( expression ) {	IDENTIFIER + = IDENTIFIER ; ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25	s25		
+608	...... ( expression ) { IDENTIFIER	+ = IDENTIFIER ; } ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I26	s26		
+609	...... expression ) { IDENTIFIER +	= IDENTIFIER ; } int ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I26 I57	s57		
+610	...... ) { IDENTIFIER + =	IDENTIFIER ; } int IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I26 I57 I104	s104		
+611	...... expression ) { IDENTIFIER assignment_operator	IDENTIFIER ; } int IDENTIFIER ......	reduce(assignment_operator->+ = ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I26 I55	r55	I55	
+612	...... ) { IDENTIFIER assignment_operator IDENTIFIER	; } int IDENTIFIER = ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I26 I55 I42	s42		
+613	...... ) { IDENTIFIER assignment_operator primary_expression	; } int IDENTIFIER = ......	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I26 I55 I44	r65	I44	
+614	...... { IDENTIFIER assignment_operator primary_expression arithmetic_expression	; } int IDENTIFIER = ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I26 I55 I44 I86	r34	I86	
+615	...... ) { IDENTIFIER assignment_operator constant_expression	; } int IDENTIFIER = ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I26 I55 I39	r32	I39	
+616	...... ) { IDENTIFIER assignment_operator expression	; } int IDENTIFIER = ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I26 I55 I102	r63	I102	
+617	...... ( expression ) { assignment_expression	; } int IDENTIFIER = ......	reduce(assignment_expression->IDENTIFIER assignment_operator expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I35	r35	I35	
+618	...... expression ) { assignment_expression assignment_expression_profix	; } int IDENTIFIER = ......	reduce(assignment_expression_profix->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I35 I65	r41	I65	
+619	...... ( expression ) { assignment_expression_list	; } int IDENTIFIER = ......	reduce(assignment_expression_list->assignment_expression assignment_expression_profix ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I23	r21	I23	
+620	...... expression ) { assignment_expression_list ;	} int IDENTIFIER = ( ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I23 I52	s52		
+621	...... ( expression ) { expression_statement	} int IDENTIFIER = ( ......	reduce(expression_statement->assignment_expression_list ; ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I21	r1	I21	
+622	...... ( expression ) { statement	} int IDENTIFIER = ( ......	reduce(statement->expression_statement ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I37	r26	I37	
+623	...... expression ) { statement statement_list	} int IDENTIFIER = ( ......	reduce(statement_list->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I37 I75	r61	I75	
+624	...... ( expression ) { statement_list	} int IDENTIFIER = ( ......	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I53	r60	I53	
+625	...... expression ) { statement_list }	int IDENTIFIER = ( ( ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I25 I53 I100	s100		
+626	...... while ( expression ) compound_statement	int IDENTIFIER = ( ( ......	reduce(compound_statement->{ statement_list } ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I29	r20	I29	
+627	...... while ( expression ) statement	int IDENTIFIER = ( ( ......	reduce(statement->compound_statement ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I27 I61 I107 I128 I168	r30	I168	
+628	...... statement statement statement statement iteration_statement	int IDENTIFIER = ( ( ......	reduce(iteration_statement->while ( expression ) statement ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I24	r12	I24	
+629	...... statement statement statement statement statement	int IDENTIFIER = ( ( ......	reduce(statement->iteration_statement ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37	r29	I37	
+630	...... statement statement statement statement int	IDENTIFIER = ( ( number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I6	s6		
+631	...... statement statement statement statement type_specifier	IDENTIFIER = ( ( number ......	reduce(type_specifier->int ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19	r19	I19	
+632	...... statement statement statement type_specifier IDENTIFIER	= ( ( number - ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10	s10		
+633	...... statement statement type_specifier IDENTIFIER =	( ( number - number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16	s16		
+634	...... statement type_specifier IDENTIFIER = (	( number - number ) ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43	s43		
+635	...... type_specifier IDENTIFIER = ( (	number - number ) + ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I83	s83		
+636	...... IDENTIFIER = ( ( number	- number ) + number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I83 I85	s85		
+637	...... IDENTIFIER = ( ( primary_expression	- number ) + number ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I83 I84	r66	I84	
+638	...... = ( ( primary_expression -	number ) + number ) ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I83 I84 I88	s88		
+639	...... = ( ( primary_expression operator	number ) + number ) ......	reduce(operator->- ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I83 I84 I124	r4	I124	
+640	...... ( ( primary_expression operator number	) + number ) * ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I83 I84 I124 I85	s85		
+641	...... ( ( primary_expression operator primary_expression	) + number ) * ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I83 I84 I124 I150	r66	I150	
+642	...... ( primary_expression operator primary_expression arithmetic_expression	) + number ) * ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I83 I84 I124 I150 I182	r34	I182	
+643	...... = ( ( primary_expression arithmetic_expression	) + number ) * ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I83 I84 I123	r33	I123	
+644	...... IDENTIFIER = ( ( constant_expression	) + number ) * ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I83 I78	r32	I78	
+645	...... IDENTIFIER = ( ( expression	) + number ) * ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I83 I122	r63	I122	
+646	...... = ( ( expression )	+ number ) * number ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I83 I122 I149	s149		
+647	...... type_specifier IDENTIFIER = ( primary_expression	+ number ) * number ......	reduce(primary_expression->( expression ) ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I84	r67	I84	
+648	...... IDENTIFIER = ( primary_expression +	number ) * number + ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I84 I90	s90		
+649	...... IDENTIFIER = ( primary_expression operator	number ) * number + ......	reduce(operator->+ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I84 I124	r3	I124	
+650	...... = ( primary_expression operator number	) * number + IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I84 I124 I85	s85		
+651	...... = ( primary_expression operator primary_expression	) * number + IDENTIFIER ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I84 I124 I150	r66	I150	
+652	...... ( primary_expression operator primary_expression arithmetic_expression	) * number + IDENTIFIER ......	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I84 I124 I150 I182	r34	I182	
+653	...... IDENTIFIER = ( primary_expression arithmetic_expression	) * number + IDENTIFIER ......	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I84 I123	r33	I123	
+654	...... type_specifier IDENTIFIER = ( constant_expression	) * number + IDENTIFIER ......	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I78	r32	I78	
+655	...... type_specifier IDENTIFIER = ( expression	) * number + IDENTIFIER ......	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I80	r63	I80	
+656	...... IDENTIFIER = ( expression )	* number + IDENTIFIER ; ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I43 I80 I121	s121		
+657	...... statement type_specifier IDENTIFIER = primary_expression	* number + IDENTIFIER ; ......	reduce(primary_expression->( expression ) ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44	r67	I44	
+658	...... type_specifier IDENTIFIER = primary_expression *	number + IDENTIFIER ; return ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I96	s96		
+659	...... type_specifier IDENTIFIER = primary_expression operator	number + IDENTIFIER ; return ......	reduce(operator->* ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93	r5	I93	
+660	...... IDENTIFIER = primary_expression operator number	+ IDENTIFIER ; return IDENTIFIER ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I46	s46		
+661	...... IDENTIFIER = primary_expression operator primary_expression	+ IDENTIFIER ; return IDENTIFIER ......	reduce(primary_expression->number ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125	r66	I125	
+662	...... = primary_expression operator primary_expression +	IDENTIFIER ; return IDENTIFIER ; ......	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I90	s90		
+663	...... = primary_expression operator primary_expression operator	IDENTIFIER ; return IDENTIFIER ; ......	reduce(operator->+ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93	r3	I93	
+664	...... primary_expression operator primary_expression operator IDENTIFIER	; return IDENTIFIER ; }	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I42	s42		
+665	...... primary_expression operator primary_expression operator primary_expression	; return IDENTIFIER ; }	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125	r65	I125	
+666	...... operator primary_expression operator primary_expression arithmetic_expression	; return IDENTIFIER ; }	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I93 I125 I151	r34	I151	
+667	...... = primary_expression operator primary_expression arithmetic_expression	; return IDENTIFIER ; }	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I93 I125 I151	r33	I151	
+668	...... type_specifier IDENTIFIER = primary_expression arithmetic_expression	; return IDENTIFIER ; }	reduce(arithmetic_expression->operator primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I44 I86	r33	I86	
+669	...... statement type_specifier IDENTIFIER = constant_expression	; return IDENTIFIER ; }	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I39	r32	I39	
+670	...... statement type_specifier IDENTIFIER = expression	; return IDENTIFIER ; }	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I16 I45	r63	I45	
+671	...... statement statement type_specifier IDENTIFIER declaration_assign	; return IDENTIFIER ; }	reduce(declaration_assign->= expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I10 I15	r14	I15	
+672	...... statement statement statement type_specifier declaration_init	; return IDENTIFIER ; }	reduce(declaration_init->IDENTIFIER declaration_assign ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I49	r16	I49	
+673	...... statement statement type_specifier declaration_init declaration_init_list	; return IDENTIFIER ; }	reduce(declaration_init_list->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I49 I98	r46	I98	
+674	...... statement type_specifier declaration_init declaration_init_list ;	return IDENTIFIER ; }	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I19 I49 I98 I126	s126		
+675	...... statement statement statement statement declaration	return IDENTIFIER ; }	reduce(declaration->type_specifier declaration_init declaration_init_list ; ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I30	r42	I30	
+676	...... statement statement statement statement statement	return IDENTIFIER ; }	reduce(statement->declaration ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I37	r31	I37	
+677	...... statement statement statement statement return	IDENTIFIER ; }	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I37 I36	s36		
+678	...... statement statement statement return IDENTIFIER	; }	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I37 I36 I71	s71		
+679	...... statement statement statement return primary_expression	; }	reduce(primary_expression->IDENTIFIER ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I37 I36 I68	r65	I68	
+680	...... statement statement return primary_expression arithmetic_expression	; }	reduce(arithmetic_expression->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I37 I36 I68 I111	r34	I111	
+681	...... statement statement statement return constant_expression	; }	reduce(constant_expression->primary_expression arithmetic_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I37 I36 I67	r32	I67	
+682	...... statement statement statement return expression	; }	reduce(expression->constant_expression ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I37 I36 I69	r63	I69	
+683	...... statement statement return expression ;	}	shift	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I37 I36 I69 I113	s113		
+684	...... statement statement statement statement jump_statement	}	reduce(jump_statement->return expression ; ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I37 I34	r49	I34	
+685	...... statement statement statement statement statement	}	reduce(statement->jump_statement ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I37 I37	r27	I37	
+686	...... statement statement statement statement statement_list	}	reduce(statement_list->$ ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I37 I37 I75	r61	I75	
+687	...... statement statement statement statement statement_list	}	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I37 I75	r60	I75	
+688	...... statement statement statement statement statement_list	}	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I37 I75	r60	I75	
+689	...... statement statement statement statement statement_list	}	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I37 I75	r60	I75	
+690	...... statement statement statement statement statement_list	}	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I37 I75	r60	I75	
+691	...... statement statement statement statement statement_list	}	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I37 I75	r60	I75	
+692	...... statement statement statement statement statement_list	}	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I37 I75	r60	I75	
+693	...... { statement statement statement statement_list	}	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I37 I75	r60	I75	
+694	...... function_definition { statement statement statement_list	}	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I2 I2 I7 I12 I37 I37 I75	r60	I75	
+695	...... external_declaration function_definition { statement statement_list	}	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I2 I2 I7 I12 I37 I75	r60	I75	
+696	...... external_declaration external_declaration function_definition { statement_list	}	reduce(statement_list->statement statement_list ,['#'])	I0 I2 I2 I2 I7 I12 I32	r60	I32	
+697	...... external_declaration function_definition { statement_list }		shift	I0 I2 I2 I2 I7 I12 I32 I64	s64		
+698	...... external_declaration external_declaration external_declaration function_definition compound_statement		reduce(compound_statement->{ statement_list } ,['#'])	I0 I2 I2 I2 I7 I13	r20	I13	
+699	# external_declaration external_declaration external_declaration function_implement		reduce(function_implement->function_definition compound_statement ,['#'])	I0 I2 I2 I2 I3	r2	I3	
+700	# external_declaration external_declaration external_declaration external_declaration		reduce(external_declaration->function_implement ,['#'])	I0 I2 I2 I2 I2	r17	I2	
+701	...... external_declaration external_declaration external_declaration external_declaration start		reduce(start->$ ,['#'])	I0 I2 I2 I2 I2 I9	r25	I9	
+702	# external_declaration external_declaration external_declaration start		reduce(start->external_declaration start ,['#'])	I0 I2 I2 I2 I9	r24	I9	
+703	# external_declaration external_declaration start		reduce(start->external_declaration start ,['#'])	I0 I2 I2 I9	r24	I9	
+704	# external_declaration start		reduce(start->external_declaration start ,['#'])	I0 I2 I9	r24	I9	
+705	# start		reduce(start->external_declaration start ,['#'])	I0 I1	r24	I1	
+706	# start		accept	I0 I1	acc		

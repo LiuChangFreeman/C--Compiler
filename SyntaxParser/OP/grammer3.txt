@@ -1,0 +1,4 @@
+S->#Expr#
+Expr->(Expr)|Term
+Term->Term+Term|Term-Term|Term/Term|Term*Term|(Term)
+Term->num|real

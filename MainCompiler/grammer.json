@@ -1,0 +1,788 @@
+{
+    "expression_statement": [
+        [
+            {
+                "type": "assignment_expression_list", 
+                "class": "NT"
+            }, 
+            {
+                "type": ";", 
+                "class": "T", 
+                "name": "seperator"
+            }
+        ]
+    ], 
+    "function_implement": [
+        [
+            {
+                "type": "function_definition", 
+                "class": "NT"
+            }, 
+            {
+                "type": "compound_statement", 
+                "class": "NT"
+            }
+        ]
+    ], 
+    "operator": [
+        [
+            {
+                "type": "+", 
+                "class": "T", 
+                "name": "operator"
+            }
+        ], 
+        [
+            {
+                "type": "-", 
+                "class": "T", 
+                "name": "operator"
+            }
+        ], 
+        [
+            {
+                "type": "*", 
+                "class": "T", 
+                "name": "operator"
+            }
+        ], 
+        [
+            {
+                "type": "/", 
+                "class": "T", 
+                "name": "operator"
+            }
+        ], 
+        [
+            {
+                "type": "%", 
+                "class": "T", 
+                "name": "operator"
+            }
+        ], 
+        [
+            {
+                "type": "<", 
+                "class": "T", 
+                "name": "operator"
+            }
+        ], 
+        [
+            {
+                "type": ">", 
+                "class": "T", 
+                "name": "operator"
+            }
+        ], 
+        [
+            {
+                "type": "==", 
+                "class": "T", 
+                "name": "operator"
+            }
+        ], 
+        [
+            {
+                "type": "!=", 
+                "class": "T", 
+                "name": "operator"
+            }
+        ]
+    ], 
+    "iteration_statement": [
+        [
+            {
+                "type": "while", 
+                "class": "T", 
+                "name": "while"
+            }, 
+            {
+                "type": "(", 
+                "class": "T", 
+                "name": "seperator"
+            }, 
+            {
+                "type": "expression", 
+                "class": "NT"
+            }, 
+            {
+                "type": ")", 
+                "class": "T", 
+                "name": "seperator"
+            }, 
+            {
+                "type": "statement", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "for", 
+                "class": "T", 
+                "name": "for"
+            }, 
+            {
+                "type": "(", 
+                "class": "T", 
+                "name": "seperator"
+            }, 
+            {
+                "type": "declaration", 
+                "class": "NT"
+            }, 
+            {
+                "type": "expression", 
+                "class": "NT"
+            }, 
+            {
+                "type": ";", 
+                "class": "T", 
+                "name": "seperator"
+            }, 
+            {
+                "type": "assignment_expression", 
+                "class": "NT"
+            }, 
+            {
+                "type": ")", 
+                "class": "T", 
+                "name": "seperator"
+            }, 
+            {
+                "type": "statement", 
+                "class": "NT"
+            }
+        ]
+    ], 
+    "expression_profix": [
+        [
+            {
+                "type": ",", 
+                "class": "T", 
+                "name": "seperator"
+            }, 
+            {
+                "type": "expression", 
+                "class": "NT"
+            }, 
+            {
+                "type": "expression_profix", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "$", 
+                "class": "T"
+            }
+        ]
+    ], 
+    "assignment_expression": [
+        [
+            {
+                "type": "IDENTIFIER", 
+                "class": "T", 
+                "name": "identifier"
+            }, 
+            {
+                "type": "assignment_operator", 
+                "class": "NT"
+            }, 
+            {
+                "type": "expression", 
+                "class": "NT"
+            }
+        ]
+    ], 
+    "external_declaration": [
+        [
+            {
+                "type": "function_implement", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "declaration", 
+                "class": "NT"
+            }
+        ]
+    ], 
+    "type_specifier": [
+        [
+            {
+                "type": "int", 
+                "class": "T", 
+                "name": "int"
+            }
+        ]
+    ], 
+    "compound_statement": [
+        [
+            {
+                "type": "{", 
+                "class": "T", 
+                "name": "seperator"
+            }, 
+            {
+                "type": "statement_list", 
+                "class": "NT"
+            }, 
+            {
+                "type": "}", 
+                "class": "T", 
+                "name": "seperator"
+            }
+        ]
+    ], 
+    "assignment_expression_list": [
+        [
+            {
+                "type": "assignment_expression", 
+                "class": "NT"
+            }, 
+            {
+                "type": "assignment_expression_profix", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "$", 
+                "class": "T"
+            }
+        ]
+    ], 
+    "selection_statement": [
+        [
+            {
+                "type": "if", 
+                "class": "T", 
+                "name": "if"
+            }, 
+            {
+                "type": "(", 
+                "class": "T", 
+                "name": "seperator"
+            }, 
+            {
+                "type": "expression", 
+                "class": "NT"
+            }, 
+            {
+                "type": ")", 
+                "class": "T", 
+                "name": "seperator"
+            }, 
+            {
+                "type": "statement", 
+                "class": "NT"
+            }, 
+            {
+                "type": "else", 
+                "class": "T", 
+                "name": "else"
+            }, 
+            {
+                "type": "statement", 
+                "class": "NT"
+            }
+        ]
+    ], 
+    "start": [
+        [
+            {
+                "type": "external_declaration", 
+                "class": "NT"
+            }, 
+            {
+                "type": "start", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "$", 
+                "class": "T"
+            }
+        ]
+    ], 
+    "statement": [
+        [
+            {
+                "type": "expression_statement", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "jump_statement", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "selection_statement", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "iteration_statement", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "compound_statement", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "declaration", 
+                "class": "NT"
+            }
+        ]
+    ], 
+    "constant_expression": [
+        [
+            {
+                "type": "primary_expression", 
+                "class": "NT"
+            }, 
+            {
+                "type": "arithmetic_expression", 
+                "class": "NT"
+            }
+        ]
+    ], 
+    "arithmetic_expression": [
+        [
+            {
+                "type": "operator", 
+                "class": "NT"
+            }, 
+            {
+                "type": "primary_expression", 
+                "class": "NT"
+            }, 
+            {
+                "type": "arithmetic_expression", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "$", 
+                "class": "T"
+            }
+        ]
+    ], 
+    "declaration_init": [
+        [
+            {
+                "type": "IDENTIFIER", 
+                "class": "T", 
+                "name": "identifier"
+            }, 
+            {
+                "type": "declaration_assign", 
+                "class": "NT"
+            }
+        ]
+    ], 
+    "function_declaration_suffix": [
+        [
+            {
+                "type": ",", 
+                "class": "T", 
+                "name": "seperator"
+            }, 
+            {
+                "type": "function_declaration", 
+                "class": "NT"
+            }, 
+            {
+                "type": "function_declaration_suffix", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "$", 
+                "class": "T"
+            }
+        ]
+    ], 
+    "function_declaration_list": [
+        [
+            {
+                "type": "function_declaration", 
+                "class": "NT"
+            }, 
+            {
+                "type": "function_declaration_suffix", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "$", 
+                "class": "T"
+            }
+        ]
+    ], 
+    "assignment_expression_profix": [
+        [
+            {
+                "type": ",", 
+                "class": "T", 
+                "name": "seperator"
+            }, 
+            {
+                "type": "assignment_expression", 
+                "class": "NT"
+            }, 
+            {
+                "type": "assignment_expression_profix", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "$", 
+                "class": "T"
+            }
+        ]
+    ], 
+    "declaration": [
+        [
+            {
+                "type": "type_specifier", 
+                "class": "NT"
+            }, 
+            {
+                "type": "declaration_init", 
+                "class": "NT"
+            }, 
+            {
+                "type": "declaration_init_list", 
+                "class": "NT"
+            }, 
+            {
+                "type": ";", 
+                "class": "T", 
+                "name": "seperator"
+            }
+        ]
+    ], 
+    "declaration_assign": [
+        [
+            {
+                "type": "=", 
+                "class": "T", 
+                "name": "operator"
+            }, 
+            {
+                "type": "expression", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "$", 
+                "class": "T"
+            }
+        ]
+    ], 
+    "declaration_init_list": [
+        [
+            {
+                "type": ",", 
+                "class": "T", 
+                "name": "seperator"
+            }, 
+            {
+                "type": "declaration_init", 
+                "class": "NT"
+            }, 
+            {
+                "type": "declaration_init_list", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "$", 
+                "class": "T"
+            }
+        ]
+    ], 
+    "jump_statement": [
+        [
+            {
+                "type": "continue", 
+                "class": "T", 
+                "name": "continue"
+            }, 
+            {
+                "type": ";", 
+                "class": "T", 
+                "name": "seperator"
+            }
+        ], 
+        [
+            {
+                "type": "break", 
+                "class": "T", 
+                "name": "break"
+            }, 
+            {
+                "type": ";", 
+                "class": "T", 
+                "name": "seperator"
+            }
+        ], 
+        [
+            {
+                "type": "return", 
+                "class": "T", 
+                "name": "return"
+            }, 
+            {
+                "type": "expression", 
+                "class": "NT"
+            }, 
+            {
+                "type": ";", 
+                "class": "T", 
+                "name": "seperator"
+            }
+        ]
+    ], 
+    "function_definition": [
+        [
+            {
+                "type": "function", 
+                "class": "T", 
+                "name": "function"
+            }, 
+            {
+                "type": "type_specifier", 
+                "class": "NT"
+            }, 
+            {
+                "type": "IDENTIFIER", 
+                "class": "T", 
+                "name": "identifier"
+            }, 
+            {
+                "type": "(", 
+                "class": "T", 
+                "name": "seperator"
+            }, 
+            {
+                "type": "function_declaration_list", 
+                "class": "NT"
+            }, 
+            {
+                "type": ")", 
+                "class": "T", 
+                "name": "seperator"
+            }
+        ]
+    ], 
+    "function_declaration": [
+        [
+            {
+                "type": "type_specifier", 
+                "class": "NT"
+            }, 
+            {
+                "type": "IDENTIFIER", 
+                "class": "T", 
+                "name": "identifier"
+            }
+        ]
+    ], 
+    "expression_list": [
+        [
+            {
+                "type": "expression", 
+                "class": "NT"
+            }, 
+            {
+                "type": "expression_profix", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "$", 
+                "class": "T"
+            }
+        ]
+    ], 
+    "assignment_operator": [
+        [
+            {
+                "type": "=", 
+                "class": "T", 
+                "name": "operator"
+            }
+        ], 
+        [
+            {
+                "type": "+", 
+                "class": "T", 
+                "name": "operator"
+            }, 
+            {
+                "type": "=", 
+                "class": "T", 
+                "name": "operator"
+            }
+        ], 
+        [
+            {
+                "type": "-", 
+                "class": "T", 
+                "name": "operator"
+            }, 
+            {
+                "type": "=", 
+                "class": "T", 
+                "name": "operator"
+            }
+        ], 
+        [
+            {
+                "type": "*", 
+                "class": "T", 
+                "name": "operator"
+            }, 
+            {
+                "type": "=", 
+                "class": "T", 
+                "name": "operator"
+            }
+        ], 
+        [
+            {
+                "type": "/", 
+                "class": "T", 
+                "name": "operator"
+            }, 
+            {
+                "type": "=", 
+                "class": "T", 
+                "name": "operator"
+            }
+        ], 
+        [
+            {
+                "type": "%", 
+                "class": "T", 
+                "name": "operator"
+            }, 
+            {
+                "type": "=", 
+                "class": "T", 
+                "name": "operator"
+            }
+        ]
+    ], 
+    "statement_list": [
+        [
+            {
+                "type": "statement", 
+                "class": "NT"
+            }, 
+            {
+                "type": "statement_list", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "$", 
+                "class": "T"
+            }
+        ]
+    ], 
+    "function_expression": [
+        [
+            {
+                "type": "function", 
+                "class": "T", 
+                "name": "function"
+            }, 
+            {
+                "type": "IDENTIFIER", 
+                "class": "T", 
+                "name": "identifier"
+            }, 
+            {
+                "type": "(", 
+                "class": "T", 
+                "name": "seperator"
+            }, 
+            {
+                "type": "expression_list", 
+                "class": "NT"
+            }, 
+            {
+                "type": ")", 
+                "class": "T", 
+                "name": "seperator"
+            }
+        ]
+    ], 
+    "expression": [
+        [
+            {
+                "type": "constant_expression", 
+                "class": "NT"
+            }
+        ], 
+        [
+            {
+                "type": "function_expression", 
+                "class": "NT"
+            }
+        ]
+    ], 
+    "primary_expression": [
+        [
+            {
+                "type": "IDENTIFIER", 
+                "class": "T", 
+                "name": "identifier"
+            }
+        ], 
+        [
+            {
+                "type": "number", 
+                "class": "T", 
+                "name": "number"
+            }
+        ], 
+        [
+            {
+                "type": "(", 
+                "class": "T", 
+                "name": "seperator"
+            }, 
+            {
+                "type": "expression", 
+                "class": "NT"
+            }, 
+            {
+                "type": ")", 
+                "class": "T", 
+                "name": "seperator"
+            }
+        ]
+    ]
+}

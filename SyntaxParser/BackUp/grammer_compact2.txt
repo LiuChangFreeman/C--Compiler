@@ -1,0 +1,154 @@
+S->●fd
+pe->id
+pe->char
+pe->int
+pe->float
+pe->string
+pe->( e )
+pet->pe
+pet->pet [ e ]
+pet->pet ( )
+pet->pet ( ael )
+pet->pet ++
+pet->pet --
+ael->aea
+ael->ael , aea
+ue->pet
+ue->++ ue
+ue->-- ue
+ue->uo ue
+uo->&
+uo->*
+uo->+
+uo->-
+uo->~
+uo->!
+me->ue
+me->me * ue
+me->me / ue
+me->me % ue
+ae->me
+ae->ae + me
+ae->ae - me
+se->ae
+se->se << ae
+se->se >> ae
+re->se
+re->re < se
+re->re > se
+re->re <= se
+re->re >= se
+ee->re
+ee->ee == re
+ee->ee != re
+aet->ee
+aet->aet & ee
+eoe->aet
+eoe->eoe ^ aet
+ioe->eoe
+ioe->ioe | eoe
+lae->ioe
+lae->lae && ioe
+loe->lae
+loe->loe || lae
+ce->loe
+ce->loe ? e : ce
+aea->ce
+aea->ue ao aea
+ao->=
+ao->*=
+ao->/=
+ao->%=
+ao->+=
+ao->-=
+ao-><<=
+ao->>>=
+ao->&=
+ao->^=
+ao->|=
+e->aea
+e->e , aea
+d->ds ;
+d->ds idl ;
+ds->ts
+ds->ts ds
+idl->id
+idl->idl , id
+id->dt
+id->dt = i
+ts->void
+ts->char
+ts->int
+ts->float
+ts->string
+sql->ts sql
+sql->ts
+dt->id
+dt->( dt )
+dt->dt [ ce ]
+dt->dt [ ]
+dt->dt ( pl )
+dt->dt ( il )
+dt->dt ( )
+pl->pd
+pl->pl , pd
+pd->ds dt
+pd->ds ad
+pd->ds
+il->id
+il->il , id
+tn->sql
+tn->sql ad
+ad->( ad )
+ad->[ ]
+ad->[ ce ]
+ad->ad [ ]
+ad->ad [ ce ]
+ad->( )
+ad->( pl )
+ad->ad ( )
+ad->ad ( pl )
+i->aea
+i->{ ilt }
+i->{ ilt , }
+ilt->i
+ilt->ilt , i
+s->ls
+s->cs
+s->es
+s->ss
+s->is
+s->js
+ls->id : s
+ls->case ce : s
+ls->default : s
+cs->{ }
+cs->{ sl }
+cs->{ dl }
+cs->{ dl sl }
+dl->d
+dl->dl d
+sl->s
+sl->sl s
+es->;
+es->e ;
+ss->if ( e ) s
+ss->if ( e ) s else s
+ss->switch ( e ) s
+is->while ( e ) s
+is->do s while ( e ) ;
+is->for ( es es ) s
+is->for ( es es e ) s
+js->goto id ;
+js->continue ;
+js->break ;
+js->return ;
+js->return e ;
+tu->ed
+tu->tu ed
+ed->fd
+ed->d
+fd->ds dt dl cs
+fd->ds dt cs
+fd->dt dl cs
+fd->dt cs
