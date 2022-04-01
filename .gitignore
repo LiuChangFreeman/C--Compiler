@@ -1,6 +1,6 @@
-/编译器/编译器/bin/*
-/编译器/编译器/obj/*
-
+Compiler/bin/
+Compiler/obj/
+Compiler/bundle/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

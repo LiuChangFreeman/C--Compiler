@@ -1,0 +1,66 @@
+﻿<Window x:Class="Compiler.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:WinUI="using:CommunityToolkit.WinUI.UI.Controls"
+>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="700"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Margin="10" Text="C-- LR(1) compiler written by Python script and WinUI"/>
+        <Grid Grid.Row="1"  Grid.ColumnSpan="2" Margin="0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="Grammer" Width="160" Height="40" HorizontalAlignment="Center" Click="Grammer_Click">查看文法</Button>
+            <Button x:Name="Lexcial" Grid.Column="1" Width="160" Height="40" HorizontalAlignment="Center" Click="Lexcial_Click">词法分析</Button>
+            <Button x:Name="Syntactic" Grid.Column="2" Width="160" Height="40" HorizontalAlignment="Center" Click="Syntactic_Click">建立LR(1)分析表</Button>
+            <Button x:Name="Semantic" Grid.Column="3" Width="160" Height="40" HorizontalAlignment="Center" Click="Semantic_Click">语法+语义分析</Button>
+            <Button x:Name="Mips" Grid.Column="4" Width="160" Height="40" HorizontalAlignment="Center" Click="Mips_Click">生成Mips汇编</Button>
+            <HyperlinkButton
+                Grid.Column="5"
+                Content="获取源代码" 
+                NavigateUri="https://github.com/LiuChangFreeman/C--Compiler" 
+            />
+        </Grid>
+        <ProgressBar x:Name="Progress"  Grid.Row="2" Grid.ColumnSpan="2" Width="800" Visibility="Collapsed" Margin="5" VerticalAlignment="Top" HorizontalAlignment="Center" IsIndeterminate="True" Value="50"/>
+        <WebView2 x:Name="MainWebView"  Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <WinUI:DataGrid
+            x:Name="DataGrid"
+            Visibility="Collapsed"
+            AutoGenerateColumns="False"
+            CanUserSortColumns="False"
+            SelectionMode="Single"
+            IsReadOnly="True"
+            RowDetailsVisibilityMode="Collapsed"
+            Grid.Row="3"
+            Grid.Column="1"
+            Width="375"
+            Height="770"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            BorderThickness="1"
+            Margin="10"
+            BorderBrush="Black"
+        >
+            <WinUI:DataGrid.Columns>
+                <WinUI:DataGridTextColumn Header="类型" Binding="{Binding type}"/>
+                <WinUI:DataGridTextColumn Header="值" Binding="{Binding value}"/>
+                <WinUI:DataGridTextColumn Header="行号" Binding="{Binding row}"/>
+                <WinUI:DataGridTextColumn Header="列号" Binding="{Binding colum}"/>
+            </WinUI:DataGrid.Columns>
+        </WinUI:DataGrid>
+    </Grid>
+</Window>

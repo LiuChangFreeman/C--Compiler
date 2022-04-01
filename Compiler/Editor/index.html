@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+</head>
+<body>
+<div id="container" style="width: 450px; height: 550px; border: 1px solid grey; transform: scale(1.4) translate(80px, 80px) "></div>
+<script src="./vs/loader.js" ></script>
+<script>
+	require.config({ 
+        paths: { 
+            'vs': 'vs' 
+        },
+        'vs/nls': {
+            availableLanguages: {
+                '*': 'zh-cn'
+            }
+		}
+    });
+	require(['vs/editor/editor.main'], function() {
+		var editor = monaco.editor.create(document.getElementById('container'), {
+			value: '',
+			language: 'cpp',
+			theme: "vs-light"
+		});
+        var msg={
+            type:"init_code",value:null
+        }
+		chrome.webview.postMessage(JSON.stringify(msg))
+		chrome.webview.addEventListener('message', event => {
+			const data = JSON.parse(event.data);
+			console.log(data,data.type);
+            if(data.type==="init_code"){
+                editor.setValue(data.value);
+            }else if(data.type==="get_code"){
+                msg={
+                    type:"return_code",value:editor.getValue()
+                }
+                chrome.webview.postMessage(JSON.stringify(msg));
+            }
+		});
+	});
+
+</script>
+</body>
+</html>
