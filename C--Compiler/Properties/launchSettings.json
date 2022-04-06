@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "C--Compiler (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "C--Compiler (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <AppxShowAllApps>True</AppxShowAllApps>
+    <Source>C:\Users\liuch\source\repos\C--Compiler\Assets\StoreLogo.scale-400.png</Source>
+    <SmallTileSource>C:\Users\liuch\source\repos\C--Compiler\Assets\StoreLogo.scale-400.png</SmallTileSource>
+    <MediumTileSource>C:\Users\liuch\source\repos\C--Compiler\Assets\StoreLogo.scale-400.png</MediumTileSource>
+    <WideTileSource>C:\Users\liuch\source\repos\C--Compiler\Assets\StoreLogo.scale-400.png</WideTileSource>
+    <LargeTileSource>C:\Users\liuch\source\repos\C--Compiler\Assets\StoreLogo.scale-400.png</LargeTileSource>
+    <AppIconSource>C:\Users\liuch\source\repos\C--Compiler\Assets\StoreLogo.scale-400.png</AppIconSource>
+    <SplashScreenSource>C:\Users\liuch\source\repos\C--Compiler\Assets\StoreLogo.scale-400.png</SplashScreenSource>
+    <PackageLogoSource>C:\Users\liuch\source\repos\C--Compiler\Assets\StoreLogo.scale-400.png</PackageLogoSource>
+    <UapAppxPackageBuildMode>StoreAndSideload</UapAppxPackageBuildMode>
+    <AppxBuildConfigurationSelection>x64</AppxBuildConfigurationSelection>
+    <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
+    <ActiveDebugProfile>C--Compiler (Package)</ActiveDebugProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Update="App.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+</Project>
